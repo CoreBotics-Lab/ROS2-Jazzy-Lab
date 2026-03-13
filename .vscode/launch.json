@@ -1,0 +1,50 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug ROS 2 Node",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "/root/ros2_ws/install/${input:package_name}/lib/${input:package_name}/${input:node_name}",
+            "args": [],
+            "stopAtEntry": true,
+            "cwd": "/root/ros2_ws",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            // ADD THIS SECTION:
+            "sourceFileMap": {
+                "/root/ros2_ws": "${workspaceFolder}"
+            },
+            "miDebuggerPath": "/usr/bin/gdb"
+            
+        }
+    ],
+    "inputs": [
+        {
+            "id": "package_name",
+            "type": "promptString",
+            "description": "Enter package name (e.g., ros2_fundamentals_examples)",
+            "default": "topics"
+        },
+        {
+            "id": "node_name",
+            // "type": "promptString",
+            "type": "pickString",
+            "description": "Enter executable name (e.g., minimal_publisher)",
+            "options": [
+            "minimal_publisher",
+            "minimal_subscriber",
+            "twist_subscriber"
+            ],
+            "default": "minimal_publisher"
+        }
+    ]
+}

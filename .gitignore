@@ -1,0 +1,7 @@
+# Remove ROS2 build artifacts
+build/
+install/
+log/
+
+# VS Code C++ Extension cache (SQLite databases)
+.vscode/*.db*
