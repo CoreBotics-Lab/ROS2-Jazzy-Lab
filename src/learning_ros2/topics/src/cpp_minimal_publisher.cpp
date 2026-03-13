@@ -22,7 +22,7 @@ class Counter_publisher_node_class : public rclcpp::Node{
         String::SharedPtr msg;
 
         void callback_timer(){
-            msg->data = "Counter" + std::to_string(this->cnt_);
+            msg->data = "Counter: " + std::to_string(this->cnt_);
             this->publisher_->publish(*msg);
             RCLCPP_INFO(this->get_logger(), "%s", this->msg->data.c_str());
             this->cnt_++;
