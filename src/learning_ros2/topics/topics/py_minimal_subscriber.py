@@ -4,11 +4,14 @@ from rclpy.node import Node
 from rclpy.logging import get_logger
 from ros2_interfaces.msg import String
 
+from rclpy.qos import qos_profile_sensor_data
+
 class Counter_subscriber_node_class(Node):
     def __init__(self) -> None:
         super().__init__("counter_subscriber")
         self.get_logger().info(f"{self.get_name()} has been started!")
-        self.create_subscription(String, "/counter", self.callback_subscriber, 10)
+        # self.create_subscription(String, "/counter", self.callback_subscriber, 10)
+        self.create_subscription(String, "/counter", self.callback_subscriber, qos_profile_sensor_data) # Optimized for speed over reliability
 
     def callback_subscriber(self, msg: String):
         self.get_logger().info(f"{msg.data}")

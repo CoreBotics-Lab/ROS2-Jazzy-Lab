@@ -8,10 +8,15 @@ class Counter_subscriber_node_class : public rclcpp::Node{
     public:
         Counter_subscriber_node_class() : Node("counter_subscriber"), cnt_(0){
             RCLCPP_INFO(this->get_logger(), "%s has been started", this->get_name());
-            subscriber_ = this->create_subscription<String>("/counter", 10,
-                    [this](const String::SharedPtr msg) -> void{this->callback_subscriber(msg);}
-            );
+            // subscriber_ = this->create_subscription<String>("/counter", 10,
+            //         [this](const String::SharedPtr msg) -> void{this->callback_subscriber(msg);}
+            // );
 
+            subscriber_ = this->create_subscription<String>(
+                "/counter", 
+                rclcpp::SensorDataQoS(), // Optimized for speed over reliability
+                [this](const String::SharedPtr msg) { this->callback_subscriber(msg); }
+            );
             }
 
     private:

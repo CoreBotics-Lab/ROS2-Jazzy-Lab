@@ -8,7 +8,12 @@ class Counter_publisher_node_class : public rclcpp::Node{
     public:
         Counter_publisher_node_class() : Node("counter_publisher"), cnt_(0){
             RCLCPP_INFO(this->get_logger(), "%s has been started", this->get_name());
-            publisher_ = this->create_publisher<String>("/counter", 10);
+            // publisher_ = this->create_publisher<String>("/counter", 10);
+            publisher_ = this->create_publisher<String>(
+                "/counter", 
+                rclcpp::SensorDataQoS() // Optimized for speed over reliability
+            );
+            
             timer_ = this->create_timer(500ms,
                     [this]() -> void{this->callback_timer();}
             );
