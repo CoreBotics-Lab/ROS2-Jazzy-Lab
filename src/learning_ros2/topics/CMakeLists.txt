@@ -14,6 +14,23 @@ find_package(rclpy REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(ros2_interfaces REQUIRED)
 
+
+# ________________________________PYTHON____________________________________________
+
+#This installs your scripts so they are available to 'ros2 run'
+install(PROGRAMS
+  topics/py_minimal_publisher.py
+  DESTINATION lib/${PROJECT_NAME}
+)
+# This tells ROS 2 that your folder contains a Python module
+ament_python_install_package(${PROJECT_NAME})
+
+# ________________________________PYTHON____________________________________________
+
+
+
+
+
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   # the following line skips the linter which checks for copyrights
