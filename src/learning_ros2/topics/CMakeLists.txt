@@ -20,6 +20,7 @@ find_package(ros2_interfaces REQUIRED)
 #This installs your scripts so they are available to 'ros2 run'
 install(PROGRAMS
   topics/py_minimal_publisher.py
+  topics/py_minimal_subscriber.py
   DESTINATION lib/${PROJECT_NAME}
 )
 # This tells ROS 2 that your folder contains a Python module
