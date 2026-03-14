@@ -13,13 +13,14 @@ class Counter_publisher_node_class(Node):
         self.cnt_ = 0
         # self.publisher_ = self.create_publisher(String, "/counter", 10)
         self.publisher_ = self.create_publisher(String, "/counter", qos_profile_sensor_data) # Optimized for speed over reliability
+        self.msg_ = String()
         self.timer_ = self.create_timer(0.5, self.callback_timer)   #publishes every 0.5s
 
     def callback_timer(self):
-        msg = String()
-        msg.data = f"Counter: {self.cnt_}"
-        self.publisher_.publish(msg)
-        self.get_logger().info(msg.data)
+        # Re-use the pre-allocated message object
+        self.msg_.data = f"Counter: {self.cnt_}"
+        self.publisher_.publish(self.msg_)
+        self.get_logger().info(self.msg_.data)
         self.cnt_ += 1
 
 def main(args=None) -> None:
