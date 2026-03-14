@@ -100,3 +100,18 @@ QoS is a negotiation. The Subscriber "requests" a level of service, and the Publ
 | **Best Effort** | **Reliable** | ❌ **Fails** (Sub demands more than Pub gives) |
 
 > **Tip:** If your nodes are running but `ros2 topic echo` shows nothing, always check for a **Reliability** mismatch first!
+
+## 🛠️ Topic Debugging & Utilities
+* **Check Frequency:** `ros2 topic hz /topic_name`
+* **Check Bandwidth:** `ros2 topic bw /topic_name`
+* **Remapping (Terminal):** `ros2 run pkg node --ros-args -r /old:=/new`
+* **Remapping (Launch):** Done via the `remappings` argument in a Launch file.
+
+## 📊 Performance Monitoring
+* **Frequency (Hz):** How many times per second data is sent. 
+    * *Rule:* High frequency = Better reactivity, higher CPU usage.
+    * *Command:* `ros2 topic hz <topic>`
+* **Bandwidth (BW):** How much total data is being pushed through the network.
+    * *Rule:* High bandwidth = More network stress (crucial for Cameras/LIDAR).
+    * *Command:* `ros2 topic bw <topic>`
+
