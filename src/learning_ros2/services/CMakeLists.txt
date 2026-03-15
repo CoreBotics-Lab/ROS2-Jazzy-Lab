@@ -28,6 +28,23 @@ ament_python_install_package(${PROJECT_NAME})
 
 # ________________________________PYTHON____________________________________________
 
+# ________________________________CPP________________________________________________
+
+add_executable(cpp_minimal_server src/cpp_minimal_server.cpp)
+
+ament_target_dependencies(cpp_minimal_server
+  rclcpp
+  ros2_interfaces
+)
+
+install(TARGETS
+  cpp_minimal_server
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+
+# ________________________________CPP________________________________________________
+
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
