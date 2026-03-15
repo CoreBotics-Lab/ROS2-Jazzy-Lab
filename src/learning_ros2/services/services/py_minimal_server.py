@@ -14,11 +14,11 @@ class Greeting_server_node_class(Node):
         try:
             self.get_logger().info(f'Incoming request: "{request.greetings}"')
             # This is where the actual work would happen. We simulate an error.
-            a = 10/0
+            # a = 10/0
             response.response_greetings = f'Hello from {self.get_name()}'
             response.success = True
             self.get_logger().info(f'Sending response: "{response.response_greetings}"')
-            
+
         except Exception as e:
             self.get_logger().error(f"An error occurred in the service callback: {e}")
             # Populate the response with an error message instead of crashing.

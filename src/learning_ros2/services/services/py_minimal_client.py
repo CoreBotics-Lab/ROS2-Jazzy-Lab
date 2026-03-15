@@ -30,7 +30,10 @@ class Greeting_client_node_class(Node):
                 self.get_logger().info(f'Received response: "{response.response_greetings}"')
             else:
                 self.get_logger().error(f'Service call failed: {response.response_greetings}')
-                
+            self.timer_.cancel()
+            self.destroy_node()
+            rclpy.shutdown()
+
         except Exception as e:
             self.get_logger().error(f'Service call failed: {e}')
 
