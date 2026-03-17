@@ -21,6 +21,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "srv/Greetings.srv"
   "srv/Trigger.srv"
   "srv/ResetCounter.srv"
+  "srv/String.srv"
 ) 
 ament_export_dependencies(rosidl_default_runtime)
 
