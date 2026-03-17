@@ -115,3 +115,21 @@ QoS is a negotiation. The Subscriber "requests" a level of service, and the Publ
     * *Rule:* High bandwidth = More network stress (crucial for Cameras/LIDAR).
     * *Command:* `ros2 topic bw <topic>`
 
+---
+
+# 🤝 ROS 2 Services: Request/Response Mechanism
+
+The core concept of ROS 2 Services is a synchronous request/response communication pattern. This means:
+
+*   **The Client Sends a Request:** The client node initiates the communication by sending a `Request` message to a specific service. It then typically waits for a response.
+*   **The Server Receives the Request:** The server node, which has advertised the service, receives this `Request` message.
+*   **The Server Processes and Sends a Response:** The server performs some computation or action based on the `Request`. Once it's done, it constructs a `Response` message and sends it back to the client.
+*   **The Client Receives the Response:** The client, which has been waiting, receives the `Response` message and can then continue its execution.
+
+This synchronous nature is key. Unlike topics, where data flows continuously and asynchronously, a service call is a one-time interaction where the client expects an immediate reply before proceeding with its next service call. This makes services ideal for tasks like triggering an action, querying a specific piece of information, or performing a calculation where the result is needed right away.
+
+Think of it like making a phone call:
+*   **Client:** You dial a number (send a request).
+*   **Server:** The person on the other end answers (receives the request).
+*   **Server:** They listen to your question and formulate an answer (process and send a response).
+*   **Client:** You hear their answer (receive the response).
