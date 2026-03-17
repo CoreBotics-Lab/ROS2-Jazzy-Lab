@@ -9,6 +9,7 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(ament_cmake_python REQUIRED)
 find_package(rclpy REQUIRED)
+find_package(rclcpp REQUIRED)
 find_package(ros2_interfaces REQUIRED)
 
 
@@ -26,6 +27,22 @@ ament_python_install_package(${PROJECT_NAME})
 # ________________________________PYTHON____________________________________________
 
 
+# ________________________________CPP________________________________________________
+
+add_executable(cpp__server src/server.cpp)
+
+ament_target_dependencies(cpp__server
+  rclcpp
+  ros2_interfaces
+)
+
+install(TARGETS
+  cpp__server
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+
+# ________________________________CPP________________________________________________
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
