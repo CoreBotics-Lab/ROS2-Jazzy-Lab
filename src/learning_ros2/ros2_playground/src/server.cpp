@@ -98,12 +98,22 @@ class Counter_server_node_class : public rclcpp::Node{
         void incDec_callback(const StringSrv::Request::SharedPtr request,
                         StringSrv::Response::SharedPtr response){
             try{
-
+                // Correctly check for multiple possible string values
                 if(request->data == "inc" || request->data == "increment"){
                     this->inc_dec_val = 1;
+                    response->message = "Counter direction set to increment.";
+                    RCLCPP_INFO(this->get_logger(), "Direction set to increment.");
                 }
                 else if(request->data == "dec" || request->data == "decrement"){
                     this->inc_dec_val = -1;
+                    response->message = "Counter direction set to decrement.";
+                    RCLCPP_INFO(this->get_logger(), "Direction set to decrement.");
+                }
+                else {
+                    response->message = "Invalid operation: '" + request->data + "'. Please use 'inc' or 'dec'.";
+                    RCLCPP_WARN(this->get_logger(), "Invalid operation received: %s", request->data.c_str());
+                    response->success = false;
+                    return; // Exit early on invalid input
                 }
                 
                 response->success = true;
