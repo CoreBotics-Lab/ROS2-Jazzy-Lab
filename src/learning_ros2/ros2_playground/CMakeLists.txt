@@ -30,14 +30,21 @@ ament_python_install_package(${PROJECT_NAME})
 # ________________________________CPP________________________________________________
 
 add_executable(cpp__server src/server.cpp)
+add_executable(resetCounterClient src/resetCnt_client.cpp)
 
 ament_target_dependencies(cpp__server
   rclcpp
   ros2_interfaces
 )
 
+ament_target_dependencies(resetCounterClient
+  rclcpp
+  ros2_interfaces
+)
+
 install(TARGETS
   cpp__server
+  resetCounterClient
   DESTINATION lib/${PROJECT_NAME}
 )
 
