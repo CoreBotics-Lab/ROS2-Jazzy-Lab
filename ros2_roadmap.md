@@ -45,6 +45,7 @@
 - [ ] **Localization:** Implementing `AMCL` or `Robot Localization` (EKF).
 - [ ] **ros2_control:** Writing Hardware Interfaces for physical motors.
 - [ ] **Behavior Trees:** Managing high-level robot logic with `BehaviorTree.CPP`.
+- [ ] **Lifecycle Nodes:** State management (Unconfigured -> Inactive -> Active).
 
 ---
 
@@ -60,7 +61,6 @@
 ---
 
 ## 🏗️ LEVEL DEV: ARCHITECT (Production & Optimization)
-- [ ] **Lifecycle Nodes:** State management (Unconfigured -> Inactive -> Active).
 - [ ] **Zenoh Middleware:** Replacing/augmenting DDS with high-performance Zenoh.
 - [ ] **DDS/QoS Tuning:** Optimizing "Quality of Service" for unreliable wireless links.
 - [ ] **Real-Time Linux:** Working with `PREEMPT_RT` kernels for 1kHz+ control loops.
