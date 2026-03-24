@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import sys
 import rclpy
 from rclpy.action import ActionClient
 from rclpy.logging import get_logger
@@ -74,8 +75,8 @@ def main(args=None):
         log.info("Starting a ROS2 Node...")
         action_client = CounterActionClient()
 
-        # Send a goal to count to 5
-        action_client.send_goal(5)
+        # Send a goal using the value from the first command-line argument.
+        action_client.send_goal(int(sys.argv[1]))
 
         # Use a custom spin loop to wait for the action to complete.
         # This gives the main thread control over the application lifecycle.
