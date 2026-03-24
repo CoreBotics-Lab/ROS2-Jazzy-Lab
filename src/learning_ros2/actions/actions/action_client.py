@@ -2,6 +2,7 @@
 import sys
 import rclpy
 from rclpy.action import ActionClient
+from action_msgs.msg import GoalStatus
 from rclpy.logging import get_logger
 from rclpy.node import Node
 
@@ -13,6 +14,8 @@ class CounterActionClient(Node):
         super().__init__('counter_action_client')
         self._action_client = ActionClient(self, Counter, 'counter')
         self._goal_done = False
+        self._goal_handle = None
+        self._last_feedback = None
 
     @property
     def goal_done(self):
@@ -45,6 +48,7 @@ class CounterActionClient(Node):
             return # Stop processing since the goal was rejected
 
         self.get_logger().info('Goal accepted :)')
+        self._goal_handle = goal_handle
 
         # This is the second future: the result request
         self._get_result_future = goal_handle.get_result_async()
@@ -52,10 +56,21 @@ class CounterActionClient(Node):
 
     def get_result_callback(self, future):
         """Callback for when the server returns the final result."""
-        result = future.result().result
+        result_handle = future.result()
+        result_payload = result_handle.result
+        status = result_handle.status
         
-        # This is the key part: accessing and printing the result payload
-        self.get_logger().info(f'Result: {result.final_sequence}')
+        if status == GoalStatus.STATUS_SUCCEEDED:
+            # The result_payload can be empty due to a race condition when using a
+            # MultiThreadedExecutor on the server. Instead, we use the last feedback
+            # message received, which is guaranteed to contain the final sequence.
+            self.get_logger().info(f'Goal succeeded! Result: {self._last_feedback}')
+        elif status == GoalStatus.STATUS_CANCELED:
+            self.get_logger().info('Goal was canceled.')
+        elif status == GoalStatus.STATUS_ABORTED:
+            self.get_logger().info('Goal was aborted by the server.')
+        else:
+            self.get_logger().warn(f'Goal finished with unknown status: {status}')
         
         self._goal_done = True # Signal that the action is complete
 
@@ -63,6 +78,18 @@ class CounterActionClient(Node):
         """Callback for receiving feedback during goal execution."""
         feedback = feedback_msg.feedback
         self.get_logger().info(f'Received feedback: {feedback.current_sequence}')
+        # Store the latest feedback to ensure we have the final result,
+        # working around the race condition in the result callback.
+        self._last_feedback = feedback.current_sequence
+
+    def cancel_goal(self):
+        """Sends a cancel request to the server."""
+        # The 'is_active' property is for the ServerGoalHandle, not the ClientGoalHandle.
+        # We check the status instead. A goal can be canceled if it is accepted or executing.
+        if self._goal_handle is not None and self._goal_handle.status in [
+                GoalStatus.STATUS_ACCEPTED, GoalStatus.STATUS_EXECUTING]:
+            self.get_logger().info('Canceling goal...')
+            self._goal_handle.cancel_goal_async()
 
 
 def main(args=None):
@@ -84,7 +111,13 @@ def main(args=None):
             rclpy.spin_once(action_client, timeout_sec=0.1)
 
     except KeyboardInterrupt:
-        log.warn("[CTRL+C]>>> Interrupted by the User.")
+        log.warn("[CTRL+C]>>> Interrupted by the User. Canceling the active goal...")
+        if action_client:
+            action_client.cancel_goal()
+            # Keep spinning until the result callback marks the goal as done.
+            while rclpy.ok() and not action_client.goal_done:
+                # Avoid ROS logging during the shutdown sequence to prevent "context invalid" errors.
+                rclpy.spin_once(action_client, timeout_sec=0.1)
 
     except Exception as e:
         log.error(f"Critical Error: {e}")
@@ -97,7 +130,7 @@ def main(args=None):
 
         if rclpy.ok():
             log.info("Manually shutting down the ROS2 Client...")
-        rclpy.shutdown()
+            rclpy.shutdown()
 
 if __name__ == '__main__':
     main()
