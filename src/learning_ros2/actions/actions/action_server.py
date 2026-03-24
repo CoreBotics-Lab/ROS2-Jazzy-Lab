@@ -31,7 +31,8 @@ class CounterActionServer(Node):
                 goal_handle.canceled()
                 self.get_logger().info('Goal canceled')
                 return Counter.Result() # Exit immediately.
-
+            
+            sequence.append(i)
             feedback_msg.current_sequence = sequence
             goal_handle.publish_feedback(feedback_msg)
             
