@@ -17,6 +17,7 @@ find_package(ros2_interfaces REQUIRED)
 #This installs your scripts so they are available to 'ros2 run'
 install(PROGRAMS
   actions/action_server.py
+  actions/action_client.py
   
   DESTINATION lib/${PROJECT_NAME}
 )
