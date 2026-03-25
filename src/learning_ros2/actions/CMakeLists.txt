@@ -10,6 +10,7 @@ find_package(ament_cmake REQUIRED)
 find_package(ament_cmake_python REQUIRED)
 find_package(rclpy REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(rclcpp_action REQUIRED)
 find_package(ros2_interfaces REQUIRED)
 
 # ________________________________PYTHON____________________________________________
@@ -26,6 +27,21 @@ ament_python_install_package(${PROJECT_NAME})
 
 # ________________________________PYTHON____________________________________________
 
+# ________________________________CPP________________________________________________
+
+add_executable(action_server src/action_server.cpp)
+
+ament_target_dependencies(action_server
+  rclcpp
+  rclcpp_action
+  ros2_interfaces
+)
+
+install(TARGETS
+  action_server
+  DESTINATION lib/${PROJECT_NAME}
+)
+# ________________________________CPP________________________________________________
 
 
 
