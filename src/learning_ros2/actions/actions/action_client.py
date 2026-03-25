@@ -88,7 +88,9 @@ class CounterActionClient(Node):
         # We check the status instead. A goal can be canceled if it is accepted or executing.
         if self._goal_handle is not None and self._goal_handle.status in [
                 GoalStatus.STATUS_ACCEPTED, GoalStatus.STATUS_EXECUTING]:
-            self.get_logger().info('Canceling goal...')
+            # This log call is removed to prevent a race condition during shutdown.
+            # When Ctrl+C is pressed, this can race with rclpy.shutdown(), causing a
+            # 'context invalid' error. The log in the KeyboardInterrupt handler is sufficient.
             self._goal_handle.cancel_goal_async()
 
 
