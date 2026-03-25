@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import rclpy
-import time
 from rclpy.action import ActionServer
+from rclpy.action.server import ServerGoalHandle
 from rclpy.action import CancelResponse, GoalResponse
 from rclpy.node import Node
 from rclpy.executors import MultiThreadedExecutor
@@ -16,55 +16,56 @@ class CounterActionServer(Node):
             self,
             Counter,
             'counter',
+            execute_callback=self.execute_callback,
             goal_callback=self.goal_callback,
-            cancel_callback=self.cancel_callback,
-            execute_callback=self.execute_callback)
+            cancel_callback=self.cancel_callback)
 
     def goal_callback(self, goal_request):
         """Accept or reject a client request to begin an action."""
         self.get_logger().info(f'Received goal request to count to {goal_request.target_number}')
-        # For this example, we will accept all goals.
+
+        # Add validation: Reject goals that are logically invalid.
+        if goal_request.target_number < 0:
+            self.get_logger().warn('Rejecting goal: target_number cannot be negative.')
+            return GoalResponse.REJECT
+
         return GoalResponse.ACCEPT
 
     def cancel_callback(self, goal_handle):
-        """
-        Accept or reject a client request to cancel an action.
-        This callback is the gatekeeper for cancellation. Returning ACCEPT allows
-        the 'is_cancel_requested' flag to be set in the execute_callback.
-        """
-        self.get_logger().info('Received cancel request, accepting.')
+        """Accept or reject a client request to cancel an action."""
+        self.get_logger().info('Received cancel request')
         return CancelResponse.ACCEPT
 
-    def execute_callback(self, goal_handle):
+    def execute_callback(self, goal_handle: ServerGoalHandle):
         """Executes the action goal by counting up to the target number."""
         self.get_logger().info('Executing goal...')
 
         goal_number = goal_handle.request.target_number
         feedback_msg = Counter.Feedback()
-        sequence = [] 
+        sequence = [] # This list will be used for both feedback and the final result.
 
-        # Create a rate object to control the loop frequency (5 Hz = 1 / 0.2s)
+        # Use a rate object for precise loop timing.
         rate = self.create_rate(5) # 5 Hz
 
         for i in range(goal_number + 1):
+            # The Cooperative Cancellation Model: Check for a cancel request on each iteration.
             if goal_handle.is_cancel_requested:
                 goal_handle.canceled()
                 self.get_logger().info('Goal canceled')
                 return Counter.Result() # Exit immediately.
             
+            # Build and publish the feedback message.
             sequence.append(i)
             feedback_msg.current_sequence = sequence
             goal_handle.publish_feedback(feedback_msg)
             
             self.get_logger().info(f'Feedback: {feedback_msg.current_sequence}')
-            # Use the rate object to sleep for the correct duration to maintain the frequency
             rate.sleep()
 
-        # You must explicitly set the final state of the goal before returning.
-        # If you simply return, the framework will assume the goal was aborted,
-        # as shown by the "Goal state not set" warning.
+        # Once the loop completes, explicitly mark the goal as succeeded.
         goal_handle.succeed()
 
+        # Then, create and return the final result message.
         result = Counter.Result()
         result.final_sequence = sequence
         self.get_logger().info(f'Returning result: {result.final_sequence}')
@@ -80,14 +81,14 @@ def main(args=None):
         log.info("Starting a ROS2 Node...")
         node_instance = CounterActionServer()
 
-        # A MultiThreadedExecutor is required for a responsive, cancellable action server.
-        # This allows the server to process cancel requests even if the execute_callback is blocked.
+        # A MultiThreadedExecutor is required for a responsive action server.
+        # It allows one thread to be blocked by rate.sleep() in the execute_callback,
+        # while another free thread can immediately handle an incoming cancellation request.
         executor = MultiThreadedExecutor()
         executor.add_node(node_instance)
         executor.spin()
     except KeyboardInterrupt:
         log.warn("[CTRL+C]>>> Interrupted by the User.")
-
     except Exception as e:
         log.error(f"Critical Error: {e}")
 
@@ -100,7 +101,6 @@ def main(args=None):
         if rclpy.ok():
             log.info("Manually shutting down the ROS2 Client...")
             rclpy.shutdown()
-
 
 if __name__ == '__main__':
     main()
