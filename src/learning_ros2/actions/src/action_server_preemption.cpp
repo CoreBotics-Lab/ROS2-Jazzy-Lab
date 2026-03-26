@@ -2,7 +2,6 @@
 #include "rclcpp_action/rclcpp_action.hpp"
 #include "ros2_interfaces/action/counter.hpp"
 #include <thread>
-#include <sstream>
 #include <mutex>
 
 using Executors = rclcpp::executors::MultiThreadedExecutor;

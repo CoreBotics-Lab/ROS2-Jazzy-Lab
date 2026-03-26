@@ -2,7 +2,6 @@
 #include "rclcpp_action/rclcpp_action.hpp"
 #include "ros2_interfaces/action/counter.hpp"
 #include <thread>
-#include <sstream>
 
 using Executors = rclcpp::executors::MultiThreadedExecutor;
 using CounterAction = ros2_interfaces::action::Counter;
