@@ -30,6 +30,7 @@ ament_python_install_package(${PROJECT_NAME})
 # ________________________________CPP________________________________________________
 
 add_executable(action_server src/action_server.cpp)
+add_executable(action_server_preemption src/action_server_preemption.cpp)
 
 ament_target_dependencies(action_server
   rclcpp
@@ -37,8 +38,15 @@ ament_target_dependencies(action_server
   ros2_interfaces
 )
 
+ament_target_dependencies(action_server_preemption
+  rclcpp
+  rclcpp_action
+  ros2_interfaces
+)
+
 install(TARGETS
   action_server
+  action_server_preemption
   DESTINATION lib/${PROJECT_NAME}
 )
 # ________________________________CPP________________________________________________
