@@ -10,7 +10,10 @@ find_package(ament_cmake REQUIRED)
 find_package(ament_cmake_python REQUIRED)
 find_package(rclpy REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(rclcpp_action REQUIRED)
 find_package(ros2_interfaces REQUIRED)
+find_package(turtlesim REQUIRED)
+find_package(geometry_msgs REQUIRED)
 
 
 # ________________________________PYTHON____________________________________________
@@ -32,6 +35,7 @@ ament_python_install_package(${PROJECT_NAME})
 add_executable(cpp__server src/server.cpp)
 add_executable(resetCounterClient src/resetCnt_client.cpp)
 add_executable(setZeroClient src/setZero_client.cpp)
+add_executable(turtleGoToGoalTopic src/turtle_go_to_goal_topics.cpp)
 
 ament_target_dependencies(cpp__server
   rclcpp
@@ -48,10 +52,19 @@ ament_target_dependencies(setZeroClient
   ros2_interfaces
 )
 
+ament_target_dependencies(turtleGoToGoalTopic
+  rclcpp
+  ros2_interfaces
+  geometry_msgs
+  turtlesim
+)
+
 install(TARGETS
   cpp__server
   resetCounterClient
   setZeroClient
+  turtleGoToGoalTopic
+
   DESTINATION lib/${PROJECT_NAME}
 )
 
