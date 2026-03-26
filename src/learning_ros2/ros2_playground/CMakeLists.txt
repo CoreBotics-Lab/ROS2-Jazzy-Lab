@@ -32,22 +32,22 @@ ament_python_install_package(${PROJECT_NAME})
 
 # ________________________________CPP________________________________________________
 
-add_executable(cpp__server src/server.cpp)
-add_executable(resetCounterClient src/resetCnt_client.cpp)
-add_executable(setZeroClient src/setZero_client.cpp)
-add_executable(turtleGoToGoalTopic src/turtle_go_to_goal_topics.cpp)
+add_executable(serviceServer src/serviceServer.cpp)
+add_executable(resetCounterServiceClient src/resetCnt_serviceClient.cpp)
+add_executable(setZeroServiceClient src/setZero_serviceClient.cpp)
+add_executable(turtleGoToGoalTopic src/turtleGoToGoalTopics.cpp)
 
-ament_target_dependencies(cpp__server
+ament_target_dependencies(serviceServer
   rclcpp
   ros2_interfaces
 )
 
-ament_target_dependencies(resetCounterClient
+ament_target_dependencies(resetCounterServiceClient
   rclcpp
   ros2_interfaces
 )
 
-ament_target_dependencies(setZeroClient
+ament_target_dependencies(setZeroServiceClient
   rclcpp
   ros2_interfaces
 )
@@ -60,9 +60,9 @@ ament_target_dependencies(turtleGoToGoalTopic
 )
 
 install(TARGETS
-  cpp__server
-  resetCounterClient
-  setZeroClient
+  serviceServer
+  resetCounterServiceClient
+  setZeroServiceClient
   turtleGoToGoalTopic
 
   DESTINATION lib/${PROJECT_NAME}
