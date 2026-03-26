@@ -213,3 +213,52 @@ The Cooperative Cancellation model has a major dependency on how your node proce
 *   On the next iteration of the loop, when the first thread wakes up from its sleep, it will see the flag is `True` and terminate correctly.
 
 > **Note:** If your node hosts an Action or a Service that might have a long-running or blocking callback, always use a `MultiThreadedExecutor` to ensure the node remains responsive.
+
+---
+
+# 🔒 Concurrency and Timing in C++ Action Servers
+
+When building action servers, especially in C++, two advanced topics are critical for robust performance: managing concurrent access to shared data and maintaining precise loop frequencies.
+
+## 1. Concurrency Control: `std::mutex` and `std::lock_guard`
+
+In a preemptive action server, multiple threads might try to access the same variable (e.g., `active_goal_handle_`) at the same time, leading to a **race condition**. To prevent this, we use a mutex.
+
+*   **`std::mutex` (Mutual Exclusion):** A `std::mutex` is a lock. Think of it as a key to a room that can only hold one person. A thread must acquire the key (lock the mutex) before it can enter the "critical section" where shared data is accessed.
+
+*   **`std::lock_guard` (The Modern C++ Way):** Manually calling `lock()` and `unlock()` on a mutex is risky; if an error occurs, you might forget to unlock it, causing a deadlock. `std::lock_guard` solves this using the RAII (Resource Acquisition Is Initialization) principle.
+
+    *   **How it works:**
+        1.  When you create a `std::lock_guard` object, it automatically locks the associated mutex.
+        2.  When the `lock_guard` object goes out of scope (at the closing brace `}`), its destructor is automatically called, which **guarantees the mutex is released**.
+
+    *   **Usage in the Preemptive Server:**
+        ```cpp
+        {
+            // The lock is acquired here, blocking other executor threads
+            std::lock_guard<std::mutex> lock(active_goal_mutex_);
+
+            // This is the "critical section". It is now safe to modify
+            // the shared active_goal_handle_.
+            if (active_goal_handle_ && active_goal_handle_->is_active()) {
+                active_goal_handle_->abort(...);
+            }
+            active_goal_handle_ = goal_handle;
+
+        } // The lock is automatically released here
+        ```
+
+## 2. Loop Timing: `rclcpp::Rate` vs. `std::this_thread::sleep_for`
+
+In robotics, maintaining a consistent loop frequency is crucial for control and stability. While a simple sleep seems sufficient, `rclcpp::Rate` is a far superior tool.
+
+*   **`std::this_thread::sleep_for(std::chrono::milliseconds(200))`**
+    *   **Behavior:** Pauses the thread for a *fixed* duration (e.g., 200ms).
+    *   **The Problem:** It does not account for the time your code takes to run. If your loop code takes 30ms and you sleep for 200ms, the total cycle time is 230ms, making your frequency inconsistent.
+
+*   **`rclcpp::Rate rate(5.0); rate.sleep();`**
+    *   **Behavior:** A "smart" sleep that aims to maintain a target frequency (e.g., 5 Hz, which is a 200ms cycle).
+    *   **How it Works:** `rate.sleep()` calculates how much time has passed since its last call. It then sleeps for only the *remaining* time needed to complete the 200ms cycle. If your code took 30ms, `rate.sleep()` will only pause for approximately 170ms.
+    *   **Why it's better:** This compensates for the execution time of your code, resulting in a much more stable and predictable loop frequency. This is essential for publishing feedback at a consistent rate or for running control algorithms like PIDs.
+
+> **Rule of Thumb:** For any periodic task in ROS 2 (publishing, control loops, etc.), always prefer `rclcpp::Rate` (C++) or `rclpy.Rate` (Python) over a generic `sleep`.
