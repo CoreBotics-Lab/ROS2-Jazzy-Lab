@@ -63,8 +63,8 @@ class GoToGoalTurtle : public rclcpp::Node{
 
         void callback_sub_pose(const Pose::SharedPtr msg){
             this->msg_pose = msg;
-            RCLCPP_INFO(this->get_logger(), "Msg Pose --> x: %.3f\t y: %.3f\t theta: %.3f",
-                    msg_pose->x, msg_pose->y, msg_pose->theta);
+            // RCLCPP_INFO(this->get_logger(), "Msg Pose --> x: %.3f\t y: %.3f\t theta: %.3f",
+            //         msg_pose->x, msg_pose->y, msg_pose->theta);
 
             //go_to_goal_logic(msg_pose);
 
