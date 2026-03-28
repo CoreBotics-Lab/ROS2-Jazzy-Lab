@@ -1,149 +1,154 @@
-<mxfile host="65bd71144e">
-    <diagram id="cpp-publisher-flowchart" name="C++ ROS 2 Publisher Flow">
-        <mxGraphModel dx="2712" dy="484" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
-            <root>
-                <mxCell id="0"/>
-                <mxCell id="1" parent="0"/>
-                <mxCell id="cpp-pub-group-main" value="Main Execution" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;" parent="1" vertex="1">
-                    <mxGeometry x="40" y="20" width="180" height="30" as="geometry"/>
-                </mxCell>
-                <mxCell id="cpp-pub-group-init" value="Node Initialization (Constructor)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;" parent="1" vertex="1">
-                    <mxGeometry x="430" y="20" width="240" height="30" as="geometry"/>
-                </mxCell>
-                <mxCell id="cpp-pub-group-callback" value="Timer Callback (callback_timer)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;" parent="1" vertex="1">
-                    <mxGeometry x="800" y="20" width="260" height="30" as="geometry"/>
-                </mxCell>
-                <mxCell id="cpp-pub-main-start" value="Start" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
-                    <mxGeometry x="80" y="80" width="100" height="60" as="geometry"/>
-                </mxCell>
-                <mxCell id="cpp-pub-main-arrow-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="cpp-pub-main-start" target="cpp-pub-main-main" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
-                </mxCell>
-                <mxCell id="cpp-pub-main-main" value="main()" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
-                    <mxGeometry x="60" y="180" width="140" height="60" as="geometry"/>
-                </mxCell>
-                <mxCell id="cpp-pub-main-arrow-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="cpp-pub-main-main" target="cpp-pub-main-init" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
-                </mxCell>
-                <mxCell id="cpp-pub-main-init" value="rclcpp::init" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
-                    <mxGeometry x="60" y="280" width="140" height="60" as="geometry"/>
-                </mxCell>
-                <mxCell id="cpp-pub-main-arrow-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="cpp-pub-main-init" target="cpp-pub-main-node" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
-                </mxCell>
-                <mxCell id="cpp-pub-main-node" value="std::make_shared&lt;br&gt;&lt;Counter_..._class&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
-                    <mxGeometry x="40" y="380" width="180" height="60" as="geometry"/>
-                </mxCell>
-                <mxCell id="cpp-pub-main-arrow-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="cpp-pub-main-node" target="cpp-pub-main-spin" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
-                </mxCell>
-                <mxCell id="cpp-pub-main-spin" value="rclcpp::spin(node)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
-                    <mxGeometry x="60" y="480" width="140" height="60" as="geometry"/>
-                </mxCell>
-                <mxCell id="cpp-pub-main-arrow-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="cpp-pub-main-spin" target="cpp-pub-main-check" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
-                </mxCell>
-                <mxCell id="cpp-pub-main-check" value="User Interrupt?&lt;br&gt;(Ctrl+C)" style="rhombus;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
-                    <mxGeometry x="40" y="580" width="180" height="80" as="geometry"/>
-                </mxCell>
-                <mxCell id="cpp-pub-main-arrow-6" value="No (Spinning)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;" parent="1" source="cpp-pub-main-check" target="cpp-pub-main-spin" edge="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <Array as="points">
-                            <mxPoint x="10" y="620"/>
-                            <mxPoint x="10" y="510"/>
-                        </Array>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="cpp-pub-main-arrow-7" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="cpp-pub-main-check" target="cpp-pub-main-shutdown" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
-                </mxCell>
-                <mxCell id="cpp-pub-main-shutdown" value="rclcpp::shutdown()" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
-                    <mxGeometry x="60" y="700" width="140" height="60" as="geometry"/>
-                </mxCell>
-                <mxCell id="cpp-pub-main-arrow-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="cpp-pub-main-shutdown" target="cpp-pub-main-end" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
-                </mxCell>
-                <mxCell id="cpp-pub-main-end" value="End" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
-                    <mxGeometry x="80" y="800" width="100" height="60" as="geometry"/>
-                </mxCell>
-                <mxCell id="cpp-pub-init-start" value="Start Constructor" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
-                    <mxGeometry x="490" y="80" width="120" height="60" as="geometry"/>
-                </mxCell>
-                <mxCell id="cpp-pub-init-arrow-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="cpp-pub-init-start" target="cpp-pub-init-node" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
-                </mxCell>
-                <mxCell id="cpp-pub-init-node" value="Init Node Name &amp;amp;&lt;br&gt;Set cnt_=0" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
-                    <mxGeometry x="480" y="180" width="140" height="60" as="geometry"/>
-                </mxCell>
-                <mxCell id="cpp-pub-init-arrow-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="cpp-pub-init-node" target="cpp-pub-init-pub" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
-                </mxCell>
-                <mxCell id="cpp-pub-init-pub" value="create_publisher&lt;String&gt;&lt;br&gt;QoS: SensorData" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
-                    <mxGeometry x="470" y="280" width="160" height="60" as="geometry"/>
-                </mxCell>
-                <mxCell id="cpp-pub-init-arrow-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="cpp-pub-init-pub" target="cpp-pub-init-msg" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
-                </mxCell>
-                <mxCell id="cpp-pub-init-msg" value="Pre-allocate Memory&lt;br&gt;msg=make_shared&lt;String&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
-                    <mxGeometry x="460" y="380" width="180" height="60" as="geometry"/>
-                </mxCell>
-                <mxCell id="cpp-pub-init-arrow-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="cpp-pub-init-msg" target="cpp-pub-init-timer" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
-                </mxCell>
-                <mxCell id="cpp-pub-init-timer" value="create_timer (500ms)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
-                    <mxGeometry x="480" y="480" width="140" height="60" as="geometry"/>
-                </mxCell>
-                <mxCell id="cpp-pub-init-arrow-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="cpp-pub-init-timer" target="cpp-pub-init-end" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
-                </mxCell>
-                <mxCell id="cpp-pub-init-end" value="End Constructor" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
-                    <mxGeometry x="490" y="580" width="120" height="60" as="geometry"/>
-                </mxCell>
-                <mxCell id="cpp-pub-call-start" value="Start Callback" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
-                    <mxGeometry x="870" y="80" width="120" height="60" as="geometry"/>
-                </mxCell>
-                <mxCell id="cpp-pub-call-arrow-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="cpp-pub-call-start" target="cpp-pub-call-update" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
-                </mxCell>
-                <mxCell id="cpp-pub-call-update" value="msg-&gt;data = &quot;Counter: &quot;&lt;br&gt;+ to_string(cnt_)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
-                    <mxGeometry x="850" y="180" width="160" height="60" as="geometry"/>
-                </mxCell>
-                <mxCell id="cpp-pub-call-arrow-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="cpp-pub-call-update" target="cpp-pub-call-pub" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
-                </mxCell>
-                <mxCell id="cpp-pub-call-pub" value="publisher_-&gt;publish(*msg)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
-                    <mxGeometry x="850" y="280" width="160" height="60" as="geometry"/>
-                </mxCell>
-                <mxCell id="cpp-pub-call-arrow-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="cpp-pub-call-pub" target="cpp-pub-call-log" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
-                </mxCell>
-                <mxCell id="cpp-pub-call-log" value="RCLCPP_INFO(msg-&gt;data)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
-                    <mxGeometry x="850" y="380" width="160" height="60" as="geometry"/>
-                </mxCell>
-                <mxCell id="cpp-pub-call-arrow-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="cpp-pub-call-log" target="cpp-pub-call-inc" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
-                </mxCell>
-                <mxCell id="cpp-pub-call-inc" value="cnt_++" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
-                    <mxGeometry x="870" y="480" width="120" height="60" as="geometry"/>
-                </mxCell>
-                <mxCell id="cpp-pub-call-arrow-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="cpp-pub-call-inc" target="cpp-pub-call-end" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
-                </mxCell>
-                <mxCell id="cpp-pub-call-end" value="End Callback" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
-                    <mxGeometry x="870" y="580" width="120" height="60" as="geometry"/>
-                </mxCell>
-                <mxCell id="cpp-pub-trigger-1" value="Instantiates" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;endArrow=classic;endFill=1;" parent="1" source="cpp-pub-main-node" target="cpp-pub-init-start" edge="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <Array as="points">
-                            <mxPoint x="360" y="410"/>
-                            <mxPoint x="360" y="110"/>
-                        </Array>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="cpp-pub-trigger-2" value="every 500ms" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;endArrow=classic;endFill=1;" parent="1" source="cpp-pub-init-timer" target="cpp-pub-call-start" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
-                </mxCell>
-            </root>
-        </mxGraphModel>
-    </diagram>
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64; rv:149.0) Gecko/20100101 Firefox/149.0" version="29.6.6">
+  <diagram id="cpp-publisher-flowchart" name="C++ ROS 2 Publisher Flow">
+    <mxGraphModel dx="2759" dy="881" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="cpp-pub-group-main" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;" value="Main Execution" vertex="1">
+          <mxGeometry height="30" width="180" x="40" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="cpp-pub-group-init" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;" value="Node Initialization (Constructor)" vertex="1">
+          <mxGeometry height="30" width="240" x="430" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="cpp-pub-group-callback" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;" value="Timer Callback (callback_timer)" vertex="1">
+          <mxGeometry height="30" width="260" x="800" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="cpp-pub-main-start" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="Start" vertex="1">
+          <mxGeometry height="60" width="100" x="80" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="cpp-pub-main-arrow-1" edge="1" parent="1" source="cpp-pub-main-start" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="cpp-pub-main-main">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cpp-pub-main-main" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="main()" vertex="1">
+          <mxGeometry height="60" width="140" x="60" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="cpp-pub-main-arrow-2" edge="1" parent="1" source="cpp-pub-main-main" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="cpp-pub-main-init">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cpp-pub-main-init" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="rclcpp::init" vertex="1">
+          <mxGeometry height="60" width="140" x="60" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="cpp-pub-main-arrow-3" edge="1" parent="1" source="cpp-pub-main-init" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="cpp-pub-main-node">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cpp-pub-main-node" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="std::make_shared&lt;br&gt;&lt;Counter_..._class&gt;" vertex="1">
+          <mxGeometry height="60" width="180" x="40" y="380" as="geometry" />
+        </mxCell>
+        <mxCell id="cpp-pub-main-arrow-4" edge="1" parent="1" source="cpp-pub-main-node" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="cpp-pub-main-spin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cpp-pub-main-spin" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="rclcpp::spin(node)" vertex="1">
+          <mxGeometry height="60" width="140" x="60" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="cpp-pub-main-arrow-5" edge="1" parent="1" source="cpp-pub-main-spin" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="cpp-pub-main-check">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cpp-pub-main-check" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" value="User Interrupt?&lt;br&gt;(Ctrl+C)" vertex="1">
+          <mxGeometry height="80" width="180" x="40" y="580" as="geometry" />
+        </mxCell>
+        <mxCell id="cpp-pub-main-arrow-6" edge="1" parent="1" source="cpp-pub-main-check" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;" target="cpp-pub-main-spin" value="No (Spinning)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="10" y="620" />
+              <mxPoint x="10" y="510" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="cpp-pub-main-arrow-7" edge="1" parent="1" source="cpp-pub-main-check" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="cpp-pub-main-shutdown" value="Yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cpp-pub-main-shutdown" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="rclcpp::shutdown()" vertex="1">
+          <mxGeometry height="60" width="140" x="60" y="700" as="geometry" />
+        </mxCell>
+        <mxCell id="cpp-pub-main-arrow-8" edge="1" parent="1" source="cpp-pub-main-shutdown" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="cpp-pub-main-end">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cpp-pub-main-end" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="End" vertex="1">
+          <mxGeometry height="60" width="100" x="80" y="800" as="geometry" />
+        </mxCell>
+        <mxCell id="cpp-pub-init-start" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="Start Constructor" vertex="1">
+          <mxGeometry height="60" width="120" x="490" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="cpp-pub-init-arrow-1" edge="1" parent="1" source="cpp-pub-init-start" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="cpp-pub-init-node">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cpp-pub-init-node" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Init Node Name &amp;amp;&lt;br&gt;Set cnt_=0" vertex="1">
+          <mxGeometry height="60" width="140" x="480" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="cpp-pub-init-arrow-2" edge="1" parent="1" source="cpp-pub-init-node" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="cpp-pub-init-pub">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cpp-pub-init-pub" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="create_publisher&lt;String&gt;&lt;br&gt;QoS: SensorData" vertex="1">
+          <mxGeometry height="60" width="160" x="470" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="cpp-pub-init-arrow-3" edge="1" parent="1" source="cpp-pub-init-pub" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="cpp-pub-init-msg">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cpp-pub-init-msg" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" value="Pre-allocate Memory&lt;br&gt;msg=make_shared&lt;String&gt;" vertex="1">
+          <mxGeometry height="60" width="180" x="460" y="380" as="geometry" />
+        </mxCell>
+        <mxCell id="cpp-pub-init-arrow-4" edge="1" parent="1" source="cpp-pub-init-msg" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="cpp-pub-init-timer">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cpp-pub-init-timer" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="create_timer (500ms)" vertex="1">
+          <mxGeometry height="60" width="140" x="480" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="cpp-pub-init-arrow-5" edge="1" parent="1" source="cpp-pub-init-timer" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="cpp-pub-init-end">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cpp-pub-init-end" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="End Constructor" vertex="1">
+          <mxGeometry height="60" width="120" x="490" y="580" as="geometry" />
+        </mxCell>
+        <mxCell id="cpp-pub-call-start" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="Start Callback" vertex="1">
+          <mxGeometry height="60" width="120" x="870" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="cpp-pub-call-arrow-1" edge="1" parent="1" source="cpp-pub-call-start" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="cpp-pub-call-update">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cpp-pub-call-update" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" value="msg-&gt;data = &quot;Counter: &quot;&lt;br&gt;+ to_string(cnt_)" vertex="1">
+          <mxGeometry height="60" width="160" x="850" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="cpp-pub-call-arrow-2" edge="1" parent="1" source="cpp-pub-call-update" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="cpp-pub-call-pub">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cpp-pub-call-pub" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="publisher_-&gt;publish(*msg)" vertex="1">
+          <mxGeometry height="60" width="160" x="850" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="cpp-pub-call-arrow-3" edge="1" parent="1" source="cpp-pub-call-pub" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="cpp-pub-call-log">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cpp-pub-call-log" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="RCLCPP_INFO(msg-&gt;data)" vertex="1">
+          <mxGeometry height="60" width="160" x="850" y="380" as="geometry" />
+        </mxCell>
+        <mxCell id="cpp-pub-call-arrow-4" edge="1" parent="1" source="cpp-pub-call-log" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="cpp-pub-call-inc">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cpp-pub-call-inc" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="cnt_++" vertex="1">
+          <mxGeometry height="60" width="120" x="870" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="cpp-pub-call-arrow-5" edge="1" parent="1" source="cpp-pub-call-inc" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="cpp-pub-call-end">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cpp-pub-call-end" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="End Callback" vertex="1">
+          <mxGeometry height="60" width="120" x="870" y="580" as="geometry" />
+        </mxCell>
+        <mxCell id="cpp-pub-trigger-1" edge="1" parent="1" source="cpp-pub-main-node" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;endArrow=classic;endFill=1;" target="cpp-pub-init-start" value="Instantiates">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="360" y="410" />
+              <mxPoint x="360" y="110" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="cpp-pub-trigger-2" edge="1" parent="1" source="cpp-pub-init-timer" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;endArrow=classic;endFill=1;" target="cpp-pub-call-start" value="every 500ms">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="770" y="510" />
+              <mxPoint x="770" y="110" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
 </mxfile>
