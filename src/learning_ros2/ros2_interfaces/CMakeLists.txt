@@ -24,6 +24,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "srv/String.srv"
 
   "action/Counter.action"
+  "action/GoToGoal.action"
 ) 
 ament_export_dependencies(rosidl_default_runtime)
 

@@ -1,0 +1,13 @@
+# Goal - The target pose for the robot to navigate to.
+float64 x
+float64 y
+float64 theta
+---
+# Result - The final outcome of the navigation task.
+bool success
+string message
+---
+# Feedback - Real-time progress during navigation.
+float64 current_x
+float64 current_y
+float64 distance_remaining
