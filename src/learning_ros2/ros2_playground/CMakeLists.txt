@@ -21,6 +21,7 @@ find_package(geometry_msgs REQUIRED)
 #This installs your scripts so they are available to 'ros2 run'
 install(PROGRAMS
   ros2_playground/pub_cnt_reset_server.py
+  ros2_playground/turtle_go_to_goal_action_client.py
   
   DESTINATION lib/${PROJECT_NAME}
 )
