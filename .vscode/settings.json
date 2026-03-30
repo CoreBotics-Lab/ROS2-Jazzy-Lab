@@ -4,7 +4,8 @@
         "/opt/ros/jazzy/lib/python3.12/site-packages",
     ],
     "python.analysis.extraPaths": [
-        "/opt/ros/jazzy/lib/python3.12/site-packages",
+         "/opt/ros/jazzy/lib/python3.12/site-packages",
+        "/root/ros2_ws/install/ros2_interfaces/lib/python3.12/site-packages"
     ],
     "cmake.ignoreCMakeListsMissing": true,
     "python.REPL.enableREPLSmartSend": false
