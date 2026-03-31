@@ -11,6 +11,16 @@ find_package(ament_cmake REQUIRED)
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
 
+# --- ADD THIS LINE ---
+# This copies your local launch/ directory to the installed 
+# share/your_package_name/launch directory
+install(DIRECTORY launch/
+  DESTINATION share/${PROJECT_NAME}/launch
+)
+# ---------------------
+
+
+
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   # the following line skips the linter which checks for copyrights
