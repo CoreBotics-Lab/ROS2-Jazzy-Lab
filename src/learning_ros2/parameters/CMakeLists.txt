@@ -20,6 +20,7 @@ find_package(rclpy REQUIRED)
 install(PROGRAMS
   parameters/py_parameters_polling.py
   parameters/py_parameters_event_driven.py
+  parameters/py_parameters_from_config.py
   DESTINATION lib/${PROJECT_NAME}
 )
 # This tells ROS 2 that your folder contains a Python module

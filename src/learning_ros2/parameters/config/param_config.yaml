@@ -1,0 +1,6 @@
+# /root/ros2_ws/src/learning_ros2/parameters/config/param_config.yaml
+parameter_from_config_node:
+  ros__parameters:
+    robot_mode: "standby"
+    max_velocity: 2.5
+    publish_rate_ms: 100
