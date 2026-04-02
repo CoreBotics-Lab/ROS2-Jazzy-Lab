@@ -336,3 +336,14 @@ def parameter_callback(self, params: list[Parameter]):
     # If all checks pass...
     return SetParametersResult(successful=True) # Accept the change(s)
 ```
+--- 
+
+## 💡 Deep Dive: 500ms (Literals) vs. std::chrono::milliseconds(variable) 
+When working with timers and time in modern C++ (like rclcpp::create_timer), you need to pass a std::chrono::duration object, not just a raw integer. 
+* Literals (500ms): Using the using namespace std::chrono_literals; directive allows you to use suffixes like ms directly on numbers. The compiler sees 500ms and automatically creates a duration object behind the scenes.
+* Variables (current_rate_ms_): If you receive a value from a parameter (e.g., 500) and store it in a variable, that variable just holds the integer 500. It does not automatically get an ms suffix appended to it. In C++, you cannot attach a literal suffix to a variable name (you can't write current_rate_ms_ms because the compiler treats that as a completely different, non-existent variable name).
+* The Solution: To convert that raw integer variable into a time duration, you must explicitly construct it: std::chrono::milliseconds(current_rate_ms_).
+> **Rule of Thumb:**
+>*   **Literals (`500ms`):** The `using namespace std::chrono_literals;` statement allows you to use suffixes like `ms` directly on numbers. The compiler sees `500ms` and automatically creates a duration object behind the scenes.
+>*   **Variables (`current_rate_ms_`):** If you receive a value from a parameter (e.g., `500`) and store it in a variable, that variable just holds the integer `500`. It does *not* automatically get an `ms` suffix appended to it. In C++, you cannot attach a literal suffix to a variable name (you can't write `current_rate_ms_ms` because the compiler treats that as a completely different, non-existent variable name).
+>*   **The Solution:** To convert that raw integer variable into a time duration, you must explicitly construct it: `std::chrono::milliseconds(current_rate_ms_)`.
