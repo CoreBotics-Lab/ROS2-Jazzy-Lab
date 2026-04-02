@@ -16,9 +16,10 @@ class ParameterPollingNode_Class(Node):
         self.declare_parameter('publish_rate_ms', 500)
         
         # 2. Create a timer that will poll the parameters
-        rate_ms = self.get_parameter('publish_rate_ms').get_parameter_value().integer_value
-        self.timer = self.create_timer(rate_ms / 1000.0, self.timer_callback)
-        self.get_logger().info(f"Node started. Polling parameters every {rate_ms} ms.")
+        # We store the initial rate to detect changes later.
+        self.current_rate_ms = self.get_parameter('publish_rate_ms').get_parameter_value().integer_value
+        self.timer = self.create_timer(self.current_rate_ms / 1000.0, self.timer_callback)
+        self.get_logger().info(f"Node started. Polling parameters every {self.current_rate_ms} ms.")
 
     def timer_callback(self):
         """
@@ -26,7 +27,17 @@ class ParameterPollingNode_Class(Node):
         If a parameter is changed externally, this loop will pick up the
         new value on its next iteration.
         """
-        # Poll the current values of the parameters in every loop
+        # Poll the rate parameter first to see if we need to update the timer itself
+        new_rate_ms = self.get_parameter('publish_rate_ms').get_parameter_value().integer_value
+        if new_rate_ms != self.current_rate_ms:
+            self.get_logger().info(f"Polling rate changed to {new_rate_ms}ms. Recreating timer.")
+            self.timer.cancel()
+            self.current_rate_ms = new_rate_ms
+            self.timer = self.create_timer(self.current_rate_ms / 1000.0, self.timer_callback)
+            # Return immediately to avoid running the rest of the callback with a stale timer
+            return
+
+        # Poll the other parameters for their values
         current_mode = self.get_parameter('robot_mode').get_parameter_value().string_value
         current_velocity = self.get_parameter('max_velocity').get_parameter_value().double_value
         
