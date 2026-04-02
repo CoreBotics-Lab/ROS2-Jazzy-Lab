@@ -262,3 +262,77 @@ In robotics, maintaining a consistent loop frequency is crucial for control and 
     *   **Why it's better:** This compensates for the execution time of your code, resulting in a much more stable and predictable loop frequency. This is essential for publishing feedback at a consistent rate or for running control algorithms like PIDs.
 
 > **Rule of Thumb:** For any periodic task in ROS 2 (publishing, control loops, etc.), always prefer `rclcpp::Rate` (C++) or `rclpy.Rate` (Python) over a generic `sleep`.
+
+---
+
+# 📜 ROS 2 Parameters: Architectural Patterns
+
+Handling parameters correctly is fundamental to creating scalable, maintainable, and safe robotic systems. The choice of pattern reflects a trade-off between simplicity and robustness.
+
+## 1. Core Patterns & Philosophy
+
+| Pattern | How it Works | Pros | Cons | Best Use Case |
+| :--- | :--- | :--- | :--- | :--- |
+| **Polling** | Continuously read the parameter value inside a timed loop (`timer_callback`). | Simple to implement; logic is self-contained in one place. | Inefficient for high-frequency loops; wastes CPU cycles checking for changes that haven't happened. | Low-frequency tasks, simple nodes where readability is key. |
+| **Event-Driven** | Use `add_on_set_parameters_callback` to react instantly when a parameter is changed externally. | **Highly efficient** and responsive. Separates configuration from execution logic. | Requires managing a separate callback and caching variables (logic is split between `__init__` and `parameter_callback`). | **The default choice for high-performance nodes.** Essential for mission-critical systems. |
+| **Load from Config** | Declare parameters without defaults, forcing them to be loaded from a YAML file at startup. | Enforces **Separation of Concerns** (code vs. data). Enables easy tuning and fleet management. | Requires more setup (YAML file, launch file or terminal args). | **Production systems.** Any robot that requires tuning (e.g., PID constants) or has different configurations. |
+
+## 2. The "Fail-Fast" Philosophy (A Professional's Approach)
+
+For mission-critical robotics, it is safer for a node to **crash loudly and immediately** than to start in an unknown or incorrect state.
+
+> *"If I don't give an initial config, I don't want the robot to behave like a monkey, just don't start and throw an error. It'll be easier for me to debug."*
+
+This is the **fail-fast principle**. By designing a node to require an external configuration file, you prevent dangerous situations where a robot might operate with untested, hardcoded default values. The crash is not a bug; it is a **safety feature** that makes the system's dependencies explicit and impossible to ignore.
+
+## 3. Key Implementation Techniques
+
+### Forcing Parameters to be Loaded from a File
+
+To create a node that depends on a configuration file, declare parameters with `dynamic_typing=True` and no default value. Then, validate them.
+
+```python
+# 1. Declare the dependency
+self.declare_parameter('robot_mode', descriptor=ParameterDescriptor(dynamic_typing=True))
+
+# 2. Retrieve the value (will be `None` if not set externally)
+mode = self.get_parameter('robot_mode').value
+
+# 3. Validate and fail-fast
+if mode is None:
+    # Raising an exception stops the node from starting in an invalid state.
+    raise RuntimeError("A required parameter was not set! Please load a config file.")
+```
+
+### YAML Configuration File Structure
+
+The node name must be used as a top-level key to namespace the parameters. This allows a single file to configure multiple nodes.
+
+```yaml
+# config/my_robot_config.yaml
+
+my_robot_controller_node:
+  ros__parameters:
+    kp: 1.2
+    ki: 0.4
+
+my_robot_planner_node:
+  ros__parameters:
+    max_velocity: 2.5
+```
+
+### Validating and Rejecting Changes (Event-Driven)
+
+The parameter callback is your gatekeeper. You can inspect a requested change and reject it by returning `successful=False`.
+
+```python
+def parameter_callback(self, params: list[Parameter]):
+    for param in params:
+        if param.name == 'max_velocity':
+            if param.value < 0.0:
+                self.get_logger().warn("Cannot set a negative max_velocity!")
+                return SetParametersResult(successful=False) # Reject the change
+    
+    # If all checks pass...
+    return SetParametersResult(successful=True) # Accept the change(s)
+```
