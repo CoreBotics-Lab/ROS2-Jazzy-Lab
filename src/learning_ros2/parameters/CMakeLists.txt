@@ -19,6 +19,7 @@ find_package(rclpy REQUIRED)
 #This installs your scripts so they are available to 'ros2 run'
 install(PROGRAMS
   parameters/py_parameters_polling.py
+  parameters/py_parameters_event_driven.py
   DESTINATION lib/${PROJECT_NAME}
 )
 # This tells ROS 2 that your folder contains a Python module
