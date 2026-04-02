@@ -28,6 +28,30 @@ ament_python_install_package(${PROJECT_NAME})
 
 # ________________________________PYTHON____________________________________________
 
+# ________________________________CPP________________________________________________
+#     START, LINK and INSTALL
+
+#  Create the Executable
+# Format: add_executable(target_name source_file)
+#Step 1: Create the Executable
+add_executable(cpp_parameters_polling src/cpp_parameters_polling.cpp)
+
+# Step 2: Link the Libraries
+# This tells the compiler where the "shared memory" and "string" code is
+ament_target_dependencies(cpp_parameters_polling
+  rclcpp
+)
+
+# Step 3:. Installation logic
+# Without this, 'ros2 run' will say the package is found but the node is missing
+install(TARGETS
+  cpp_parameters_polling
+
+  DESTINATION lib/${PROJECT_NAME})
+
+
+# ________________________________CPP________________________________________________
+
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   # the following line skips the linter which checks for copyrights
