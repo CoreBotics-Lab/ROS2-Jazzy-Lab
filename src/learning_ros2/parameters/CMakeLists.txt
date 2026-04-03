@@ -35,10 +35,14 @@ ament_python_install_package(${PROJECT_NAME})
 # Format: add_executable(target_name source_file)
 #Step 1: Create the Executable
 add_executable(cpp_parameters_polling src/cpp_parameters_polling.cpp)
-
+add_executable(cpp_parameters_event_driven src/cpp_parameters_event_driven.cpp)
 # Step 2: Link the Libraries
 # This tells the compiler where the "shared memory" and "string" code is
 ament_target_dependencies(cpp_parameters_polling
+  rclcpp
+)
+
+ament_target_dependencies(cpp_parameters_event_driven
   rclcpp
 )
 
@@ -46,6 +50,7 @@ ament_target_dependencies(cpp_parameters_polling
 # Without this, 'ros2 run' will say the package is found but the node is missing
 install(TARGETS
   cpp_parameters_polling
+  cpp_parameters_event_driven
 
   DESTINATION lib/${PROJECT_NAME})
 
