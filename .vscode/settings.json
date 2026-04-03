@@ -1,7 +1,8 @@
 {
     "C_Cpp.intelliSenseEngine": "disabled",
     "clangd.arguments": [
-        "--compile-commands-dir=${workspaceFolder}/build"
+        "--compile-commands-dir=${workspaceFolder}/build",
+        "--header-insertion=never"
     ],
     "ROS2.distro": "jazzy",
     "cmake.ignoreCMakeListsMissing": true,
