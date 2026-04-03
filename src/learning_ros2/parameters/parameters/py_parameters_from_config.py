@@ -2,9 +2,7 @@
 import rclpy
 from rclpy.node import Node
 from rclpy.logging import get_logger
-from rclpy.exceptions import ParameterUninitializedException
 from rcl_interfaces.msg import ParameterDescriptor
-from rclpy.parameter import Parameter
 
 class ParameterFromConfigNode(Node):
     """
