@@ -1,12 +1,16 @@
 {
+    "C_Cpp.intelliSenseEngine": "disabled",
+    "clangd.arguments": [
+        "--compile-commands-dir=${workspaceFolder}/build"
+    ],
     "ROS2.distro": "jazzy",
+    "cmake.ignoreCMakeListsMissing": true,
+    "python.REPL.enableREPLSmartSend": false,
     "python.autoComplete.extraPaths": [
-        "/opt/ros/jazzy/lib/python3.12/site-packages",
+        "/opt/ros/jazzy/lib/python3.12/site-packages"
     ],
     "python.analysis.extraPaths": [
-         "/opt/ros/jazzy/lib/python3.12/site-packages",
-        "/root/ros2_ws/install/ros2_interfaces/lib/python3.12/site-packages"
-    ],
-    "cmake.ignoreCMakeListsMissing": true,
-    "python.REPL.enableREPLSmartSend": false
+        "/root/ros2_ws/install/ros2_interfaces/lib/python3.12/site-packages",
+        "/opt/ros/jazzy/lib/python3.12/site-packages"
+    ]
 }
