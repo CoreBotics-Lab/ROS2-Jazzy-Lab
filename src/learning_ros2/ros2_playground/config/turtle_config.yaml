@@ -1,0 +1,5 @@
+set_background_parameters_node:
+  ros__parameters:
+    background_r: 100
+    background_g: 150
+    background_b: 50

@@ -39,6 +39,7 @@ add_executable(setZeroServiceClient src/setZero_serviceClient.cpp)
 add_executable(turtleGoToGoalTopic src/turtleGoToGoalTopics.cpp)
 add_executable(turtleGoToGoalActionServer src/turtleGoToGoalActionServer.cpp)
 add_executable(turtleGoToGoalActionClient src/turtleGoToGoalActionClient.cpp)
+add_executable(turtleBackgroundParameters src/turtleBackgroundParameters.cpp)
 
 ament_target_dependencies(serviceServer
   rclcpp
@@ -77,6 +78,11 @@ ament_target_dependencies(turtleGoToGoalActionClient
   action_msgs
 )
 
+ament_target_dependencies(turtleBackgroundParameters
+  rclcpp
+  ros2_interfaces
+)
+
 install(TARGETS
   serviceServer
   resetCounterServiceClient
@@ -84,6 +90,8 @@ install(TARGETS
   turtleGoToGoalTopic
   turtleGoToGoalActionServer
   turtleGoToGoalActionClient
+  turtleBackgroundParameters
+
   DESTINATION lib/${PROJECT_NAME}
 )
 
