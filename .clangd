@@ -1,9 +1,7 @@
 Diagnostics:
   UnusedIncludes: None
   ClangTidy:
-    Add: [bugprone-*, modernize-*, performance-*]
-    # We remove this specific check because it forces an ugly function syntax
-    Remove: [modernize-use-trailing-return-type]
+    Add: [bugprone-*, performance-*]
 
 InlayHints:
   DeducedTypes: Yes
