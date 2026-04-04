@@ -80,7 +80,6 @@ ament_target_dependencies(turtleGoToGoalActionClient
 
 ament_target_dependencies(turtleBackgroundParameters
   rclcpp
-  ros2_interfaces
 )
 
 install(TARGETS
