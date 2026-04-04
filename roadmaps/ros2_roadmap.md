@@ -21,7 +21,7 @@
 - [x] **Services (Req/Res):** Synchronous immediate tasks (e.g., Toggle a LED).
 - [x] **Actions (Goal/Feedback/Result):** Long-running, cancelable tasks (The "Big 4": Goal, Feedback, Result, and Cancellation).
 - [ ] **Launch System:** Using Python to automate starting multiple nodes at once.
-- [ ] **Parameters:** Handling node configurations and YAML parameter files.
+- [x] **Parameters:** Handling node configurations and YAML parameter files.
 - [ ] **ROS 2 CLI:** Deep expertise in `ros2 node`, `topic`, `service`, `action`, and `param`.
 - [ ] **Debugging Tools:** Using `ros2 doctor` and `rqt` to inspect and troubleshoot the system.
 - [ ] **Composition:** Using Component Nodes for efficient intra-process communication.
