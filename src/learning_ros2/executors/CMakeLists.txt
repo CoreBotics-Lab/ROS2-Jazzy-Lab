@@ -15,6 +15,7 @@ find_package(rclpy REQUIRED)
 #This installs your scripts so they are available to 'ros2 run'
 install(PROGRAMS
   executors/py_single_threaded_executor.py
+  executors/py_multi_threaded_executor.py
   
   DESTINATION lib/${PROJECT_NAME}
 )
