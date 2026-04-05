@@ -8,9 +8,20 @@ endif()
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(ament_cmake_python REQUIRED)
-# uncomment the following section in order to fill in
-# further dependencies manually.
-# find_package(<dependency> REQUIRED)
+find_package(rclpy REQUIRED)
+
+# ________________________________PYTHON____________________________________________
+
+#This installs your scripts so they are available to 'ros2 run'
+install(PROGRAMS
+  executors/py_single_threaded_executor.py
+  
+  DESTINATION lib/${PROJECT_NAME}
+)
+# This tells ROS 2 that your folder contains a Python module
+ament_python_install_package(${PROJECT_NAME})
+
+# ________________________________PYTHON____________________________________________
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
