@@ -17,6 +17,7 @@ install(PROGRAMS
   executors/py_single_threaded_executor.py
   executors/py_multi_threaded_executor.py
   executors/py_multi_threaded_groups.py
+  executors/py_reentrant_group.py
   
   DESTINATION lib/${PROJECT_NAME}
 )
