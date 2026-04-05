@@ -65,3 +65,41 @@ You might be tempted to spawn an OS thread for every single task. **Don't.**
 ### 🛠️ Architectural Trick: Multiple Mutually Exclusive Groups
 Instead of using the dangerous `Reentrant` group for multi-threading, create **multiple** `MutuallyExclusive` groups in a single node! 
 Assign your Fast Topic to Group A, and your Slow Service to Group B. The `MultiThreadedExecutor` will process them simultaneously on different threads safely, without the risk of memory corruption.
+
+#### Why not use one Reentrant Group for everything? (The Multi-Threaded Dilemma)
+*(Note: This scenario assumes you are using a **MultiThreadedExecutor**. If you use a SingleThreadedExecutor, Reentrant groups degrade to MutuallyExclusive behavior anyway because there is only one clerk!)*
+
+When you switch to a Multi-Threaded Executor, your first instinct might be: *"Great! I'll just put all my callbacks into a single `Reentrant` group so they don't block each other."* 
+While this *does* allow your Fast Timer and Slow Timer to run at the same time, it introduces a massive architectural danger: **Self-Overlap**.
+
+A `Reentrant` group allows *any* callback inside it to run concurrently with *any* other callback, **including itself**. If your Fast Timer takes too long to execute, the Executor will spawn a second thread to run the exact same Fast Timer callback simultaneously, leading to Race Conditions and a crashed node. 
+
+By placing them in **separate `MutuallyExclusive` groups**, we achieve safe multi-threading: Timer A can run concurrently with Timer B, but Timer A is strictly forbidden from ever overlapping with *itself*.
+
+**The Office Analogy:**
+Imagine the Executor is an Office Manager, the CPU threads are Clerks, and the Callbacks are Tasks.
+
+**Scenario 1: One `Reentrant` Group (The Danger Zone)**
+You tell the manager: *"Any clerk can work on these tasks at any time, with absolutely no restrictions."*
+1. The Slow Timer (2.0s) triggers. Clerk A starts the 3-second sleep.
+2. The Fast Timer (0.5s) triggers. Clerk B handles it. *(Concurrency achieved!)*
+3. **The Crash:** What if the Fast Timer takes 1.0s to run? It triggers *again* while Clerk B is still working. Because it is Reentrant, the manager hands the exact same Fast Timer callback to Clerk C. Now, two clerks are running the *exact same function* simultaneously. If they modify the same shared variable (`this->counter++`), they write to the exact same memory at the same time. This is a **Data Race** and causes a fatal **Segmentation Fault** in C++.
+
+**Scenario 2: Multiple `MutuallyExclusive` Groups (The Pro-Tip)**
+You put the Fast Timer in Group A, and the Slow Timer in Group B. You tell the manager: *"Only one clerk can work on a Group at a time."*
+1. The Slow Timer triggers. Clerk A starts the sleep (Group B is now locked).
+2. The Fast Timer triggers. Because Group A is free, the manager gives it to Clerk B. *(Concurrency achieved!)*
+3. **The Safety:** The Fast Timer triggers *again* while Clerk B is still working. Because Group A is `MutuallyExclusive`, the manager says, *"Wait, Clerk B is already working on a Group A task. No one else can touch Group A right now."* The task is safely queued on the bench until Clerk B finishes.
+
+#### When SHOULD I actually use a `Reentrant` Group?
+You should only use `Reentrant` groups when you explicitly *need* overlapping execution and are prepared to manage memory safety using `std::mutex` locks.
+
+**1. Service Calls Inside a Callback (Intra-Node Deadlock)**
+Imagine your node has a Timer (Task A) that sends a Service Request and stops to wait for the result. However, the incoming Service Response is handled by a hidden callback (Task B) *inside the exact same node*.
+*   **If `MutuallyExclusive`:** Task A locks the group while it waits. When Task B (the response) arrives, the Manager refuses to let it run because the group is locked. Task A waits forever for Task B, and Task B is blocked by Task A. **The node is deadlocked.**
+*   **If `Reentrant`:** You tell the Manager, *"It's okay to let Task B run while Task A is waiting inside this group."* The deadlock is instantly fixed!
+
+**2. Processing a Firehose of Data (Single Callback, Multiple Threads)**
+Suppose you have **ONE** subscriber listening to a 60fps 4K camera stream. Because it is only one subscriber, it can only belong to ONE callback group.
+*   **If `MutuallyExclusive`:** Only one clerk can process an image at a time. If processing takes 0.05s, you can only process 20 frames per second. You will fatally lag behind the 60fps stream!
+*   **If `Reentrant`:** The Manager can assign Clerk 1 to process Frame 1, Clerk 2 to Frame 2, and Clerk 3 to Frame 3—**all at the exact same time, using the exact same subscriber callback.** *(Note: You must use `std::mutex` here to ensure the clerks don't overwrite each other's memory!)*
