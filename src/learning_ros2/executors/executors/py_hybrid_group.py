@@ -50,7 +50,7 @@ class HybridDemoNode(Node):
         with self.mutex:
             self.counter += 1
             current_count = self.counter
-            self.get_logger().info(f"    -> [TIMER 3] Safely incremented counter to: {current_count}")
+            self.get_logger().info(f"[{thread_name}] Safely incremented counter to: {current_count}")
             
         # The 2.0s Sleep (Non-Critical Section)
         time.sleep(2.0) 
