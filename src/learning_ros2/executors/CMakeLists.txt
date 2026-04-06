@@ -38,6 +38,7 @@ add_executable(cpp_single_threaded_executor src/cpp_single_threaded_executor.cpp
 add_executable(cpp_multi_threaded_executor src/cpp_multi_threaded_executor.cpp)
 add_executable(cpp_multi_threaded_groups src/cpp_multi_threaded_groups.cpp)
 add_executable(cpp_reentrant_group src/cpp_reentrant_group.cpp)
+add_executable(cpp_hybrid_group src/cpp_hybrid_group.cpp)
 
 # Step 2: Link the Libraries
 # This tells the compiler where the "shared memory" and "string" code is
@@ -57,6 +58,9 @@ ament_target_dependencies(cpp_reentrant_group
   rclcpp
 )
 
+ament_target_dependencies(cpp_hybrid_group
+  rclcpp
+)
 # Step 3:. Installation logic
 # Without this, 'ros2 run' will say the package is found but the node is missing
 install(TARGETS
@@ -64,7 +68,8 @@ install(TARGETS
   cpp_multi_threaded_executor
   cpp_multi_threaded_groups
   cpp_reentrant_group
-
+  cpp_hybrid_group
+  
   DESTINATION lib/${PROJECT_NAME})
 
 # ________________________________CPP________________________________________________
