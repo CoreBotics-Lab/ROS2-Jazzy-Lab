@@ -36,6 +36,8 @@ ament_python_install_package(${PROJECT_NAME})
 #Step 1: Create the Executable
 add_executable(cpp_single_threaded_executor src/cpp_single_threaded_executor.cpp)
 add_executable(cpp_multi_threaded_executor src/cpp_multi_threaded_executor.cpp)
+add_executable(cpp_multi_threaded_groups src/cpp_multi_threaded_groups.cpp)
+
 # Step 2: Link the Libraries
 # This tells the compiler where the "shared memory" and "string" code is
 ament_target_dependencies(cpp_single_threaded_executor
@@ -46,11 +48,16 @@ ament_target_dependencies(cpp_multi_threaded_executor
   rclcpp
 )
 
+ament_target_dependencies(cpp_multi_threaded_groups
+  rclcpp
+)
+
 # Step 3:. Installation logic
 # Without this, 'ros2 run' will say the package is found but the node is missing
 install(TARGETS
   cpp_single_threaded_executor
   cpp_multi_threaded_executor
+  cpp_multi_threaded_groups
 
   DESTINATION lib/${PROJECT_NAME})
 
