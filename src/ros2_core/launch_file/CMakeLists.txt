@@ -14,8 +14,8 @@ find_package(ament_cmake REQUIRED)
 # --- ADD THIS LINE ---
 # This copies your local launch/ directory to the installed 
 # share/your_package_name/launch directory
-install(DIRECTORY launch/
-  DESTINATION share/${PROJECT_NAME}/launch
+install(DIRECTORY launch
+  DESTINATION share/${PROJECT_NAME}
 )
 # ---------------------
 
