@@ -1,0 +1,101 @@
+<?xml version="1.0" ?>
+<!-- Generated using onshape-to-robot -->
+<!-- Onshape document_id: efcccd1dc7a5e6be06e0f157 -->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <link name="base_footprint" />
+  <joint name="base_joint" type="fixed">
+        <parent link="base_footprint"/>
+        <child link="base_link"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Link base_link -->
+  <link name="base_link">
+    <inertial>
+      <origin xyz="0.000176309 -0 0.0164214" rpy="0 0 0"/>
+      <mass value="0.122666"/>
+      <inertia ixx="0.000124393" ixy="0" ixz="-1.33825e-06" iyy="0.000124263" iyz="0" izz="0.000107738"/>
+    </inertial>
+    <!-- Part base_link -->
+    <visual>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://core_description/meshes/motor_testbench/base_link.stl"/>
+      </geometry>
+      <material name="base_link_material">
+        <color rgba="0.764706 0.545098 0.803922 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://core_description/meshes/motor_testbench/base_link.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Link rotor_link -->
+  <link name="rotor_link">
+    <inertial>
+      <origin xyz="0 1.56573e-05 -0.00253419" rpy="0 0 0"/>
+      <mass value="0.0244975"/>
+      <inertia ixx="9.41402e-06" ixy="0" ixz="-0" iyy="9.60298e-06" iyz="-8.76e-10" izz="1.89172e-05"/>
+    </inertial>
+    <!-- Part rotor_link -->
+    <visual>
+      <origin xyz="-0 -0.101362 -0.0191322" rpy="-1.5708 -1.5708 0"/>
+      <geometry>
+        <mesh filename="package://core_description/meshes/motor_testbench/rotor_link.stl"/>
+      </geometry>
+      <material name="rotor_link_material">
+        <color rgba="0.341176 0.776471 0.741176 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0 -0.101362 -0.0191322" rpy="-1.5708 -1.5708 0"/>
+      <geometry>
+        <mesh filename="package://core_description/meshes/motor_testbench/rotor_link.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Link pointer_link -->
+  <link name="pointer_link">
+    <inertial>
+      <origin xyz="6.1146e-08 0.00251913 -0.000485276" rpy="0 0 0"/>
+      <mass value="0.000749199"/>
+      <inertia ixx="4.35876e-07" ixy="0" ixz="0" iyy="5.82e-09" iyz="-1.6e-11" izz="4.41574e-07"/>
+    </inertial>
+    <!-- Part pointer_link -->
+    <visual>
+      <origin xyz="-0 0.101362 0.0186322" rpy="1.5708 1.5708 0"/>
+      <geometry>
+        <mesh filename="package://core_description/meshes/motor_testbench/pointer_link.stl"/>
+      </geometry>
+      <material name="pointer_link_material">
+        <color rgba="1 0.756863 0.054902 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0 0.101362 0.0186322" rpy="1.5708 1.5708 0"/>
+      <geometry>
+        <mesh filename="package://core_description/meshes/motor_testbench/pointer_link.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Joint from rotor_link to pointer_link -->
+  <joint name="pointer_joint" type="fixed">
+    <origin xyz="0 0 -0.0005" rpy="3.14159 -0 0"/>
+    <parent link="rotor_link"/>
+    <child link="pointer_link"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10"/>
+  </joint>
+  <!-- Joint from base_link to rotor_link -->
+  <joint name="rotor_joint" type="revolute">
+    <origin xyz="0.0191322 0 0.101362" rpy="1.5708 -0 1.5708"/>
+    <parent link="base_link"/>
+    <child link="rotor_link"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10" lower="-3.141592653589793" upper="3.141592653589793"/>
+  </joint>
+</robot>

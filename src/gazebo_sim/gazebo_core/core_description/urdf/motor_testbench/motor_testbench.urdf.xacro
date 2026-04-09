@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<robot name="motor_testbench" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:include filename="$(find core_description)/urdf/motor_testbench/modules/motor_testbench.xacro" />
+
+</robot>
