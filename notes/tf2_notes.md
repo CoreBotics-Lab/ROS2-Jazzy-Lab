@@ -31,7 +31,7 @@
 ## 🟡 LEVEL 2: Broadcasting (Being the Source of Truth)
 **Focus:** Writing nodes that publish transform data to the rest of the ROS 2 system.
 
-- [ ] **Static Transforms (`/tf_static`)**
+- [x] **Static Transforms (`/tf_static`)**
     - **Concept:** For relationships that **never change** (e.g., a camera bolted to a robot's chassis).
     - **Tool:** `tf2_ros::StaticTransformBroadcaster` (C++) / `StaticTransformBroadcaster` (Python).
     - **Mechanism:** Publishes **once** to the latched `/tf_static` topic.
