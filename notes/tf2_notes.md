@@ -9,16 +9,16 @@
 ## 🟢 LEVEL 1: The Fundamentals (What IS a Transform?)
 **Focus:** Understanding the core theory before writing a single line of code.
 
-- [ ] **What is a Coordinate Frame?**
+- [x] **What is a Coordinate Frame?**
     - **Goal:** Understand that a "frame" is just a point of view (e.g., `base_link`, `camera_link`, `world`).
 
-- [ ] **What is a Transform?**
+- [x] **What is a Transform?**
     - **Goal:** Realize a transform is simply the answer to the question: "What is the position and orientation of a child frame relative to its parent frame?" It's just a translation (x, y, z) and a rotation (quaternion).
 
-- [ ] **The TF2 Tree Structure**
+- [x] **The TF2 Tree Structure**
     - **Goal:** Internalize that all frames must be connected in a single tree. There can be no "islands" and no circular loops. Every frame has exactly one parent.
 
-- [ ] **Core Debugging Tools**
+- [x] **Core Debugging Tools**
     - **Goal:** Learn to use the essential CLI tools to inspect the TF2 tree.
     - **Practice:**
         - Run `ros2 run turtlesim turtlesim_node`.
