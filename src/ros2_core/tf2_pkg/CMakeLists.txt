@@ -41,6 +41,7 @@ ament_python_install_package(${PROJECT_NAME})
 # Format: add_executable(target_name source_file)
 #Step 1: Create the Executable
 add_executable(static_tf_broadcaster src/static_tf_broadcaster.cpp)
+add_executable(dynamic_tf_broadcaster src/dynamic_tf_broadcaster.cpp)
 
 # Step 2: Link the Libraries
 # This tells the compiler where the "shared memory" and "string" code is
@@ -50,12 +51,20 @@ ament_target_dependencies(static_tf_broadcaster
   geometry_msgs
   tf2
 )
+ament_target_dependencies(dynamic_tf_broadcaster
+  rclcpp
+  tf2_ros
+  geometry_msgs
+  tf2
+)
+
 
 # Step 3:. Installation logic
 # Without this, 'ros2 run' will say the package is found but the node is missing
 install(TARGETS
   static_tf_broadcaster
-
+  dynamic_tf_broadcaster
+  
   DESTINATION lib/${PROJECT_NAME})
 
 
