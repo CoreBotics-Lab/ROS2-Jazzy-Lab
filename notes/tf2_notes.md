@@ -37,7 +37,7 @@
     - **Mechanism:** Publishes **once** to the latched `/tf_static` topic.
     - **Practice:** Write both a Python and a C++ node that publishes a single, fixed transform from `world` to `my_static_frame`.
 
-- [ ] **Dynamic Transforms (`/tf`)**
+- [x] **Dynamic Transforms (`/tf`)**
     - **Concept:** For relationships that **change over time** (e.g., a robot moving through the world).
     - **Tool:** `tf2_ros::TransformBroadcaster` (C++) / `TransformBroadcaster` (Python).
     - **Mechanism:** Publishes **repeatedly** inside a timer loop to the `/tf` topic.
