@@ -15,7 +15,11 @@ find_package(tf2_ros REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(tf2 REQUIRED)
 
-
+install(
+  DIRECTORY launch urdf rviz
+  DESTINATION share/${PROJECT_NAME}
+ )
+ 
 # ________________________________PYTHON____________________________________________
 
 #This installs your scripts so they are available to 'ros2 run'

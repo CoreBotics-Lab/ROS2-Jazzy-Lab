@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<robot name="dynamic_box" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- Define a bright color for our cuboid so it's easy to see in RViz -->
+  <material name="orange">
+    <color rgba="1.0 0.5 0.0 1.0"/>
+  </material>
+
+  <link name="my_dynamic_frame">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.4 0.4 0.4"/>
+      </geometry>
+      <material name="orange"/>
+    </visual>
+  </link>
+</robot>
