@@ -21,7 +21,8 @@ find_package(tf2 REQUIRED)
 #This installs your scripts so they are available to 'ros2 run'
 install(PROGRAMS
   tf2_pkg/static_tf_broadcaster.py
-
+  tf2_pkg/dynamic_tf_broadcaster.py
+  
   DESTINATION lib/${PROJECT_NAME}
 )
 # This tells ROS 2 that your folder contains a Python module
