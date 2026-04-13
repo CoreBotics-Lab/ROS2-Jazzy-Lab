@@ -48,15 +48,15 @@
 ## 🟠 LEVEL 3: Listening (Asking Spatial Questions)
 **Focus:** Writing nodes that consume transform data to understand spatial relationships.
 
-- [ ] **The TF2 Buffer and Listener**
+- [x] **The TF2 Buffer and Listener**
     - **Goal:** Understand that the `tf2_ros::Buffer` is the cache that stores all known transforms, and the `tf2_ros::TransformListener` is the object that fills the buffer.
     - **Jazzy Note:** In modern ROS 2, the Buffer explicitly requires a clock (e.g., `this->get_clock()`) to manage the history of transforms accurately.
 
-- [ ] **Looking Up Transforms**
+- [x] **Looking Up Transforms**
     - **Concept:** Using `buffer.lookup_transform()` to ask the core question: "What is the transform from frame A (target) to frame B (source)?"
     - **Practice:** Write a Python and C++ "listener" node that, on a timer, looks up the transform between `world` and `my_dynamic_frame` and prints the X/Y coordinates.
 
-- [ ] **Handling Exceptions**
+- [x] **Handling Exceptions**
     - **Goal:** Learn that `lookup_transform` will fail if the frames aren't ready or if they are disconnected. You **must** wrap your lookups in a `try/catch` block (`tf2_ros::TransformException`).
 
 ---
