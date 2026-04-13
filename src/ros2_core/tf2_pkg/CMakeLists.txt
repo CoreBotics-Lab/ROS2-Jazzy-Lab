@@ -43,6 +43,7 @@ ament_python_install_package(${PROJECT_NAME})
 #Step 1: Create the Executable
 add_executable(static_tf_broadcaster src/static_tf_broadcaster.cpp)
 add_executable(dynamic_tf_broadcaster src/dynamic_tf_broadcaster.cpp)
+add_executable(tf2_listener src/tf2_listener.cpp)
 
 # Step 2: Link the Libraries
 # This tells the compiler where the "shared memory" and "string" code is
@@ -58,6 +59,12 @@ ament_target_dependencies(dynamic_tf_broadcaster
   geometry_msgs
   tf2
 )
+ament_target_dependencies(tf2_listener
+  rclcpp
+  tf2_ros
+  geometry_msgs
+  tf2
+)
 
 
 # Step 3:. Installation logic
@@ -65,6 +72,7 @@ ament_target_dependencies(dynamic_tf_broadcaster
 install(TARGETS
   static_tf_broadcaster
   dynamic_tf_broadcaster
+  tf2_listener
   
   DESTINATION lib/${PROJECT_NAME})
 
