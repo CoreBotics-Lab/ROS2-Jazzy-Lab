@@ -127,3 +127,16 @@ TF2 maintains a history of all transforms, but it enforces very strict architect
 The library is intentionally split into two distinct parts:
 *   **`tf2` (The Math Engine):** A pure C++ library. It handles the heavy lifting—matrix multiplications, quaternions, vector math, and maintaining the tree cache. It knows **nothing** about ROS, Nodes, or Topics.
 *   **`tf2_ros` (The Communicator):** The ROS 2 wrapper. It takes the pure math from `tf2` and connects it to the ROS network by creating the Publishers for `/tf` and the Subscribers to fill the Buffer. 
+
+## 6. Listening to Transforms (The Buffer & Listener)
+To consume transform data, we do not subscribe to `/tf` directly. Instead, we use two special objects:
+1.  **The Listener (`TransformListener`):** The "delivery guy." It is a background network worker that automatically subscribes to `/tf` and `/tf_static` and pours the incoming data into the Buffer.
+2.  **The Buffer (`Buffer`):** The "math engine." It is a memory cache that stores up to 10 seconds of the entire transform tree's history.
+
+### Why is the Buffer so powerful?
+*   **Tree Traversal:** If the network publishes `world` -> `base_link` and `base_link` -> `gripper`, the direct transform `world` -> `gripper` is never actually published over the network. When you call `lookup_transform('world', 'gripper')`, the Buffer traverses the graph and calculates the combined matrix math for you automatically!
+*   **Time-Traveling (Interpolation):** Because the Buffer stores a 10-second history, it can answer questions like *"Where was the gripper exactly 1.45 seconds ago?"* by mathematically interpolating between the data at 1.40s and 1.50s.
+
+### The "Time(0)" Magic Trick
+When calling `lookup_transform`, passing an empty `Time()` object (which evaluates to `0`) is a special command. It tells the Buffer: *"Don't worry about exact network latency delays. Just give me the most recently received transform you have."*
+*   **Pro-Tip:** Always explicitly pass `ClockType.ROS_TIME` to your `Time` objects in Python, or use `create_timer` (not `create_wall_timer`) in C++. This guarantees your Listener will stay perfectly synchronized with simulated Gazebo time when `use_sim_time:=true`!
