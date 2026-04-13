@@ -26,6 +26,7 @@ install(
 install(PROGRAMS
   tf2_pkg/static_tf_broadcaster.py
   tf2_pkg/dynamic_tf_broadcaster.py
+  tf2_pkg/tf2_listener.py
   
   DESTINATION lib/${PROJECT_NAME}
 )
