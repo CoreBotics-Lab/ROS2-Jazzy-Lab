@@ -14,38 +14,40 @@ class StaticTFBroadcasterNode : public rclcpp::Node
             RCLCPP_INFO(this->get_logger(), "%s has been started!", this->get_name());
             tf_static_broadcaster_ = std::make_unique<tf2_ros::StaticTransformBroadcaster>(this);
 
+            // Pre-allocate the message memory
+            t_ = std::make_shared<geometry_msgs::msg::TransformStamped>();
+
             this->publish_static_transform();
             
         }
     private:
         std::unique_ptr<tf2_ros::StaticTransformBroadcaster> tf_static_broadcaster_;
+        geometry_msgs::msg::TransformStamped::SharedPtr t_;
 
         void publish_static_transform()
         {
-            geometry_msgs::msg::TransformStamped t;
-
             // Set the header information
-            t.header.stamp = this->get_clock()->now();
-            t.header.frame_id = "world"; // Parent frame
-            t.child_frame_id = "my_static_frame"; // Child frame
+            t_->header.stamp = this->get_clock()->now();
+            t_->header.frame_id = "world"; // Parent frame
+            t_->child_frame_id = "my_static_frame"; // Child frame
 
             // Define the translation (position) of the child frame relative to the parent
-            t.transform.translation.x = 1.0;
-            t.transform.translation.y = 2.0;
-            t.transform.translation.z = 0.5;
+            t_->transform.translation.x = 1.0;
+            t_->transform.translation.y = 2.0;
+            t_->transform.translation.z = 0.5;
 
             // Use tf2::Quaternion to easily set Roll, Pitch, Yaw
             tf2::Quaternion q;
             q.setRPY(M_PI/2, 0, 0); // 90 degrees (pi/2) roll, 0 pitch, 0 yaw
             
-            t.transform.rotation.x = q.x();
-            t.transform.rotation.y = q.y();
-            t.transform.rotation.z = q.z();
-            t.transform.rotation.w = q.w();
+            t_->transform.rotation.x = q.x();
+            t_->transform.rotation.y = q.y();
+            t_->transform.rotation.z = q.z();
+            t_->transform.rotation.w = q.w();
 
 
             // Broadcast the static transform
-            tf_static_broadcaster_->sendTransform(t);
+            tf_static_broadcaster_->sendTransform(*t_);
         }
 };
 

@@ -21,6 +21,9 @@ class TF2ListenerNode : public rclcpp::Node
             // We pass a reference to the buffer so the listener can feed incoming data into it.
             tf_listener_ = std::make_shared<tf2_ros::TransformListener>(*tf_buffer_);
 
+            // Pre-allocate the message memory
+            t_ = std::make_shared<geometry_msgs::msg::TransformStamped>();
+
             // 3. Create a timer to query the buffer every 1 second (1.0 Hz)
             timer_ = this->create_timer(
                 1000ms,
@@ -31,6 +34,7 @@ class TF2ListenerNode : public rclcpp::Node
     private:
         std::unique_ptr<tf2_ros::Buffer> tf_buffer_;
         std::shared_ptr<tf2_ros::TransformListener> tf_listener_;
+        geometry_msgs::msg::TransformStamped::SharedPtr t_;
         rclcpp::TimerBase::SharedPtr timer_;
 
         void timer_callback()
@@ -41,16 +45,16 @@ class TF2ListenerNode : public rclcpp::Node
             try {
                 // 4. Query the Buffer
                 // tf2::TimePointZero is the C++ equivalent of asking for the "newest available transform"
-                geometry_msgs::msg::TransformStamped t = tf_buffer_->lookupTransform(
+                *t_ = tf_buffer_->lookupTransform(
                     target_frame,
                     source_frame,
                     tf2::TimePointZero
                 );
 
                 // Extract the coordinates and print them!
-                double x = t.transform.translation.x;
-                double y = t.transform.translation.y;
-                double z = t.transform.translation.z;
+                double x = t_->transform.translation.x;
+                double y = t_->transform.translation.y;
+                double z = t_->transform.translation.z;
 
                 RCLCPP_INFO(this->get_logger(), "Dynamic Frame Location -> X: %.2f, Y: %.2f, Z: %.2f", x, y, z);
             }

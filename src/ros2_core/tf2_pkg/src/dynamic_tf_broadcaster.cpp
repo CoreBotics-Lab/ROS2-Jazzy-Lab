@@ -15,6 +15,9 @@ class DynamicTFBroadcasterNode : public rclcpp::Node
             
             // 1. Initialize the dynamic broadcaster
             tf_broadcaster_ = std::make_unique<tf2_ros::TransformBroadcaster>(this);
+
+            // Pre-allocate the message memory
+            t_ = std::make_shared<geometry_msgs::msg::TransformStamped>();
             
             // 2. Create a timer to periodically publish the transform (approx 30 Hz)
             double timer_period = 1.0 / 30.0; // 30 Hz
@@ -26,37 +29,37 @@ class DynamicTFBroadcasterNode : public rclcpp::Node
         }
     private:
         std::unique_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster_;
+        geometry_msgs::msg::TransformStamped::SharedPtr t_;
         rclcpp::TimerBase::SharedPtr timer_;
 
         void timer_callback()
         {
-            geometry_msgs::msg::TransformStamped t;
             rclcpp::Time now = this->get_clock()->now();
 
             // Set the header information
-            t.header.stamp = now;
-            t.header.frame_id = "world";
-            t.child_frame_id = "my_dynamic_frame";
+            t_->header.stamp = now;
+            t_->header.frame_id = "world";
+            t_->child_frame_id = "my_dynamic_frame";
 
             // Get current time in seconds for our math functions
             double time_now = now.seconds();
 
             // Define the dynamic translation (oscillating in a 2-meter circle)
-            t.transform.translation.x = 2.0 * std::sin(time_now);
-            t.transform.translation.y = 2.0 * std::cos(time_now);
-            t.transform.translation.z = 0.5;
+            t_->transform.translation.x = 2.0 * std::sin(time_now);
+            t_->transform.translation.y = 2.0 * std::cos(time_now);
+            t_->transform.translation.z = 0.5;
 
             // Define the dynamic rotation (spinning around the Z axis)
             tf2::Quaternion q;
             q.setRPY(0.0, 0.0, time_now); // yaw increases over time
             
-            t.transform.rotation.x = q.x();
-            t.transform.rotation.y = q.y();
-            t.transform.rotation.z = q.z();
-            t.transform.rotation.w = q.w();
+            t_->transform.rotation.x = q.x();
+            t_->transform.rotation.y = q.y();
+            t_->transform.rotation.z = q.z();
+            t_->transform.rotation.w = q.w();
 
             // Broadcast the dynamic transform
-            tf_broadcaster_->sendTransform(t);
+            tf_broadcaster_->sendTransform(*t_);
         }
 };
 

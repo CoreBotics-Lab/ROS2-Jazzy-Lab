@@ -24,6 +24,11 @@ public:
         tf_buffer_ = std::make_unique<tf2_ros::Buffer>(this->get_clock());
         tf_listener_ = std::make_shared<tf2_ros::TransformListener>(*tf_buffer_);
 
+        // Allocate memory buckets exactly once!
+        sensor_data_ = std::make_shared<geometry_msgs::msg::PoseStamped>();
+        world_pose_ = std::make_shared<geometry_msgs::msg::PoseStamped>();
+        marker_ = std::make_shared<visualization_msgs::msg::Marker>();
+
         // 2. Create the Publisher for the RViz marker
         marker_pub_ = this->create_publisher<visualization_msgs::msg::Marker>("detected_object", 10);
         
@@ -38,30 +43,28 @@ private:
     void timer_callback()
     {
         // --- Simulating Sensor Data ---
-        auto sensor_data = std::make_shared<geometry_msgs::msg::PoseStamped>();
-        sensor_data->header.frame_id = "my_dynamic_frame";
+        sensor_data_->header.frame_id = "my_dynamic_frame";
         // Using Time(0) to request the most recent available transform
-        sensor_data->header.stamp = rclcpp::Time(0); 
+        sensor_data_->header.stamp = rclcpp::Time(0); 
         
-        sensor_data->pose.position.x = 1.0;
-        sensor_data->pose.position.y = 0.0;
-        sensor_data->pose.position.z = 0.0;
-        sensor_data->pose.orientation.w = 1.0;
+        sensor_data_->pose.position.x = 1.0;
+        sensor_data_->pose.position.y = 0.0;
+        sensor_data_->pose.position.z = 0.0;
+        sensor_data_->pose.orientation.w = 1.0;
 
         try
         {
             // --- Core Transformation ---
             // Ask the buffer to transform our data into the 'world' frame
-            auto world_pose = std::make_shared<geometry_msgs::msg::PoseStamped>();
-            *world_pose = tf_buffer_->transform(*sensor_data, "world");
+            *world_pose_ = tf_buffer_->transform(*sensor_data_, "world");
 
             RCLCPP_INFO(this->get_logger(), "Object in World Frame -> X: %.2f, Y: %.2f, Z: %.2f",
-                        world_pose->pose.position.x,
-                        world_pose->pose.position.y,
-                        world_pose->pose.position.z);
+                        world_pose_->pose.position.x,
+                        world_pose_->pose.position.y,
+                        world_pose_->pose.position.z);
 
             // --- RViz Visualization ---
-            publish_marker(world_pose->pose);
+            publish_marker(world_pose_->pose);
         }
         catch (const tf2::TransformException & ex)
         {
@@ -71,26 +74,28 @@ private:
 
     void publish_marker(const geometry_msgs::msg::Pose & pose)
     {
-        auto marker = std::make_shared<visualization_msgs::msg::Marker>();
-        marker->header.frame_id = "world";
-        marker->header.stamp = this->get_clock()->now();
-        marker->ns = "sensor_data";
-        marker->id = 0;
-        marker->type = visualization_msgs::msg::Marker::SPHERE;
-        marker->action = visualization_msgs::msg::Marker::ADD;
-        marker->pose = pose;
+        marker_->header.frame_id = "world";
+        marker_->header.stamp = this->get_clock()->now();
+        marker_->ns = "sensor_data";
+        marker_->id = 0;
+        marker_->type = visualization_msgs::msg::Marker::SPHERE;
+        marker_->action = visualization_msgs::msg::Marker::ADD;
+        marker_->pose = pose;
         
-        marker->scale.x = 0.2;
-        marker->scale.y = 0.2;
-        marker->scale.z = 0.2;
-        marker->color.r = 1.0f;
-        marker->color.a = 1.0f;
+        marker_->scale.x = 0.2;
+        marker_->scale.y = 0.2;
+        marker_->scale.z = 0.2;
+        marker_->color.r = 1.0f;
+        marker_->color.a = 1.0f;
         
-        marker_pub_->publish(*marker);
+        marker_pub_->publish(*marker_);
     }
 
     std::unique_ptr<tf2_ros::Buffer> tf_buffer_;
     std::shared_ptr<tf2_ros::TransformListener> tf_listener_;
+    geometry_msgs::msg::PoseStamped::SharedPtr sensor_data_;
+    geometry_msgs::msg::PoseStamped::SharedPtr world_pose_;
+    visualization_msgs::msg::Marker::SharedPtr marker_;
     rclcpp::Publisher<visualization_msgs::msg::Marker>::SharedPtr marker_pub_;
     rclcpp::TimerBase::SharedPtr timer_;
 };
