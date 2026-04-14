@@ -271,7 +271,7 @@ class MainWindow(QMainWindow):
         if event.isAutoRepeat():
             return
         key = event.key()
-        if key in (Qt.Key.Key_W, Qt.Key.Key_A, Qt.Key.Key_S, Qt.Key.Key_D):
+        if key in (Qt.Key.Key_W, Qt.Key.Key_A, Qt.Key.Key_S, Qt.Key.Key_D, Qt.Key.Key_Space):
             self.keys_pressed.add(key)
             self.update_joystick_from_keys()
         else:
@@ -281,7 +281,7 @@ class MainWindow(QMainWindow):
         if event.isAutoRepeat():
             return
         key = event.key()
-        if key in (Qt.Key.Key_W, Qt.Key.Key_A, Qt.Key.Key_S, Qt.Key.Key_D):
+        if key in (Qt.Key.Key_W, Qt.Key.Key_A, Qt.Key.Key_S, Qt.Key.Key_D, Qt.Key.Key_Space):
             self.keys_pressed.discard(key)
             self.update_joystick_from_keys()
         else:
@@ -289,15 +289,18 @@ class MainWindow(QMainWindow):
 
     def update_joystick_from_keys(self):
         x, y = 0.0, 0.0
-        if Qt.Key.Key_W in self.keys_pressed: y += 1.0
-        if Qt.Key.Key_S in self.keys_pressed: y -= 1.0
-        if Qt.Key.Key_A in self.keys_pressed: x -= 1.0
-        if Qt.Key.Key_D in self.keys_pressed: x += 1.0
+        
+        # Spacebar acts as an Emergency Stop (Priority)
+        if Qt.Key.Key_Space not in self.keys_pressed:
+            if Qt.Key.Key_W in self.keys_pressed: y += 1.0
+            if Qt.Key.Key_S in self.keys_pressed: y -= 1.0
+            if Qt.Key.Key_A in self.keys_pressed: x -= 1.0
+            if Qt.Key.Key_D in self.keys_pressed: x += 1.0
 
-        # Normalize the vector so diagonal movement doesn't exceed the max radius
-        magnitude = math.sqrt(x**2 + y**2)
-        if magnitude > 0.0:
-            x, y = x / magnitude, y / magnitude
+            # Normalize the vector so diagonal movement doesn't exceed the max radius
+            magnitude = math.sqrt(x**2 + y**2)
+            if magnitude > 0.0:
+                x, y = x / magnitude, y / magnitude
 
         self.joystick.set_normalized_position(x, y)
 
