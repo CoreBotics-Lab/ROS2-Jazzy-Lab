@@ -10,6 +10,10 @@ Features:
 - Dynamic Speed Limits: Adjust maximum linear and angular speeds on the fly via UI spinboxes or ROS 2 parameters.
 - Event-Driven Parameters: Full two-way synchronization between the GUI and the ROS 2 Parameter Server.
 - Adjustable Publish Rate: Change the 'publish_rate_hz' parameter at runtime to adjust the cmd_vel publish frequency.
+- Settings Panel: Auto-hiding configuration menu for advanced driving modes.
+- Omnidirectional Mode: Map left/right joystick inputs to Linear Y (strafing) instead of Angular Z.
+- Axis Inversion: Instantly invert Linear or Angular outputs for testing mismatched motor wiring.
+- Always on Top: Pin the joystick window above your simulator and terminals.
 
 Controls: w↑ s↓ a← d→ wd↗ ds↘ sa↙ aw↖  (space: stop)
 """
@@ -23,7 +27,7 @@ from geometry_msgs.msg import Twist
 from rclpy.parameter import Parameter
 from rcl_interfaces.msg import SetParametersResult
 
-from PyQt6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QWidget, QLabel, QLineEdit, QPushButton, QDoubleSpinBox
+from PyQt6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QWidget, QLabel, QLineEdit, QPushButton, QDoubleSpinBox, QCheckBox, QFrame, QSizePolicy
 from PyQt6.QtCore import Qt, pyqtSignal, QPointF, QTimer, QEvent
 from PyQt6.QtGui import QPainter, QColor, QPen, QBrush
 
@@ -41,6 +45,7 @@ class JoystickWidget(QWidget):
         self.puck_pos = QPointF(125, 125)
         self.center = QPointF(125, 125)
         self.pressed = False
+        self.e_stop_active = False
 
     def paintEvent(self, event):  # type: ignore
         painter = QPainter(self)
@@ -53,7 +58,10 @@ class JoystickWidget(QWidget):
         
         # Draw the draggable puck
         painter.setPen(QPen(QColor(20, 20, 20), 2))
-        painter.setBrush(QBrush(QColor(50, 150, 255)))
+        if self.e_stop_active:
+            painter.setBrush(QBrush(QColor(255, 50, 50)))  # Bright Red for E-Stop!
+        else:
+            painter.setBrush(QBrush(QColor(50, 150, 255))) # Default Blue
         painter.drawEllipse(self.puck_pos, 25, 25)
 
     def resizeEvent(self, event):  # type: ignore
@@ -105,6 +113,11 @@ class JoystickWidget(QWidget):
         self.puck_pos = QPointF(self.center.x() + dx, self.center.y() + dy)
         self.update()
         self.joystickMoved.emit(norm_x, norm_y)
+        
+    def set_e_stop(self, active):
+        if self.e_stop_active != active:
+            self.e_stop_active = active
+            self.update()
 
 class JoyNode(Node):
     def __init__(self):
@@ -118,12 +131,24 @@ class JoyNode(Node):
         self.publisher_ = self.create_publisher(Twist, self.topic_name, 10)
         self.twist_msg = Twist()
         
+        # Advanced Driving Toggles
+        self.omni_mode = False
+        self.invert_linear = False
+        self.invert_angular = False
+        
         # Adjust these to set the max speeds of your robot!
         self.declare_parameter('max_linear', 2.0)
         self.max_linear = float(self.get_parameter('max_linear').value)  # type: ignore
         
         self.declare_parameter('max_angular', 2.0)
         self.max_angular = float(self.get_parameter('max_angular').value)  # type: ignore
+        
+        # Speed Profiles
+        self.declare_parameter('turtle_mode_speed', 0.5)
+        self.turtle_mode_speed = float(self.get_parameter('turtle_mode_speed').value)  # type: ignore
+        
+        self.declare_parameter('rabbit_mode_speed', 3.0)
+        self.rabbit_mode_speed = float(self.get_parameter('rabbit_mode_speed').value)  # type: ignore
         
         # Frequency for publishing twist messages
         self.declare_parameter('publish_rate_hz', 10.0)
@@ -160,6 +185,10 @@ class JoyNode(Node):
                     self.timer.cancel()
                     self.timer = self.create_timer(1.0 / self.publish_rate_hz, self.publish_twist)
                     self.get_logger().info(f"Publish rate changed dynamically to: {self.publish_rate_hz} Hz")
+            elif param.name == 'turtle_mode_speed' and param.type_ == Parameter.Type.DOUBLE:
+                self.turtle_mode_speed = param.value
+            elif param.name == 'rabbit_mode_speed' and param.type_ == Parameter.Type.DOUBLE:
+                self.rabbit_mode_speed = param.value
         return SetParametersResult(successful=True)
 
     def change_topic(self, new_topic):
@@ -173,9 +202,17 @@ class JoyNode(Node):
 
     def update_twist(self, norm_x, norm_y):
         # norm_y (up/down) controls Linear X (forward/backward)
-        # norm_x (left/right) controls Angular Z. Left is positive rotation, so we invert X.
-        self.twist_msg.linear.x = norm_y * self.max_linear
-        self.twist_msg.angular.z = -norm_x * self.max_angular
+        # norm_x (left/right) controls Angular Z (or Linear Y in Omni mode)
+        linear_mult = -1.0 if self.invert_linear else 1.0
+        angular_mult = -1.0 if self.invert_angular else 1.0
+        
+        if self.omni_mode:
+            self.twist_msg.linear.x = norm_y * self.max_linear * linear_mult
+            self.twist_msg.linear.y = -norm_x * self.max_linear * linear_mult
+            self.twist_msg.angular.z = 0.0
+        else:
+            self.twist_msg.linear.x = norm_y * self.max_linear * linear_mult
+            self.twist_msg.angular.z = -norm_x * self.max_angular * angular_mult
 
     def publish_twist(self):
         self.publisher_.publish(self.twist_msg)
@@ -186,13 +223,16 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.node = node
         self.setWindowTitle("ROS 2 PyQt6 Joystick")
-        self.resize(300, 400)
+        
+        # Set window to be always on top by default!
+        self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint, True)
         
         # Enable keyboard focus for WASD controls
         self.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
 
         main_widget = QWidget()
-        layout = QVBoxLayout()
+        layout = QVBoxLayout(main_widget)
+        layout.setContentsMargins(5, 5, 5, 5)
 
         # --- Topic Input Row ---
         topic_layout = QHBoxLayout()
@@ -204,7 +244,37 @@ class MainWindow(QMainWindow):
         topic_layout.addWidget(topic_label)
         topic_layout.addWidget(self.topic_input)
         topic_layout.addWidget(update_btn)
+        
+        self.settings_btn = QPushButton("⚙️ Settings")
+        self.settings_btn.setFocusPolicy(Qt.FocusPolicy.NoFocus)
+        self.settings_btn.clicked.connect(self.toggle_settings)
+        topic_layout.addWidget(self.settings_btn)
         layout.addLayout(topic_layout)
+        
+        # --- Auto-Hiding Settings Panel (Detached Window) ---
+        self.settings_panel = QFrame(self, Qt.WindowType.Tool | Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnTopHint)
+        self.settings_panel.setStyleSheet("QFrame { border: 1px solid #ccc; border-radius: 4px; background-color: #f9f9f9; }")
+        settings_layout = QVBoxLayout()
+        settings_layout.setContentsMargins(4, 4, 4, 4)
+        
+        self.omni_cb = QCheckBox("Omni")
+        self.inv_lin_cb = QCheckBox("Inv Lin")
+        self.inv_ang_cb = QCheckBox("Inv Ang")
+        self.ontop_cb = QCheckBox("Always on Top")
+        self.ontop_cb.setChecked(True)
+        
+        for cb in [self.omni_cb, self.inv_lin_cb, self.inv_ang_cb, self.ontop_cb]:
+            cb.clicked.connect(self.on_settings_interacted)
+            settings_layout.addWidget(cb)
+        settings_layout.addStretch() # Push checkboxes to the top
+            
+        self.omni_cb.clicked.connect(self.on_omni_changed)
+        self.inv_lin_cb.clicked.connect(self.on_inv_lin_changed)
+        self.inv_ang_cb.clicked.connect(self.on_inv_ang_changed)
+        self.ontop_cb.clicked.connect(self.on_ontop_changed)
+        
+        self.settings_panel.setLayout(settings_layout)
+        self.settings_panel.setVisible(False)
         
         # --- Speed Limits Row ---
         speed_layout = QHBoxLayout()
@@ -231,6 +301,18 @@ class MainWindow(QMainWindow):
         speed_layout.addWidget(self.linear_input)
         speed_layout.addWidget(angular_label)
         speed_layout.addWidget(self.angular_input)
+        
+        self.turtle_btn = QPushButton("🐢")
+        self.turtle_btn.setFocusPolicy(Qt.FocusPolicy.NoFocus)
+        self.turtle_btn.setStyleSheet("font-size: 20px; padding: 4px;")
+        self.turtle_btn.clicked.connect(self.set_turtle_mode)
+        self.rabbit_btn = QPushButton("🐇")
+        self.rabbit_btn.setFocusPolicy(Qt.FocusPolicy.NoFocus)
+        self.rabbit_btn.setStyleSheet("font-size: 20px; padding: 4px;")
+        self.rabbit_btn.clicked.connect(self.set_rabbit_mode)
+        
+        speed_layout.addWidget(self.turtle_btn)
+        speed_layout.addWidget(self.rabbit_btn)
         layout.addLayout(speed_layout)
 
         self.label = QLabel("Linear X: 0.00 | Angular Z: 0.00")
@@ -246,8 +328,7 @@ class MainWindow(QMainWindow):
         controls_label.setAlignment(Qt.AlignmentFlag.AlignLeft)
         controls_label.setStyleSheet("color: gray; font-size: 11px;")
         layout.addWidget(controls_label)
-
-        main_widget.setLayout(layout)
+        
         self.setCentralWidget(main_widget)
 
         # Connect the node's GUI update callbacks
@@ -268,7 +349,17 @@ class MainWindow(QMainWindow):
         # Ensure the main window has focus initially, not the text input boxes
         self.setFocus()
 
+        # Settings Auto-Hide Timer
+        self.settings_timer = QTimer()
+        self.settings_timer.setSingleShot(True)
+        self.settings_timer.timeout.connect(self.hide_settings)
+
     def on_joystick_moved(self, x, y):
+        if Qt.Key.Key_Space in self.keys_pressed:
+            x, y = 0.0, 0.0
+            self.joystick.blockSignals(True)
+            self.joystick.set_normalized_position(0.0, 0.0)
+            self.joystick.blockSignals(False)
         self.current_x = x
         self.current_y = y
         self.node.update_twist(x, y)
@@ -311,6 +402,58 @@ class MainWindow(QMainWindow):
     def update_angular_input(self, new_val):
         self.angular_input.setValue(new_val)
         self.on_joystick_moved(self.current_x, self.current_y)
+        
+    def toggle_settings(self):
+        if self.settings_panel.isVisible():
+            self.hide_settings()
+        else:
+            geo = self.geometry()
+            self.settings_panel.move(geo.right() + 5, geo.top())
+            self.settings_panel.show()
+            self.settings_timer.start(3000)
+            self.setFocus()
+            
+    def hide_settings(self):
+        if not self.settings_panel.isVisible():
+            return
+            
+        self.settings_panel.hide()
+        self.settings_timer.stop()
+        self.setFocus()
+        
+    def on_settings_interacted(self):
+        self.settings_timer.start(3000)
+        self.setFocus()
+        
+    def on_omni_changed(self):
+        self.node.omni_mode = self.omni_cb.isChecked()
+        self.on_joystick_moved(self.current_x, self.current_y)
+        
+    def on_inv_lin_changed(self):
+        self.node.invert_linear = self.inv_lin_cb.isChecked()
+        self.on_joystick_moved(self.current_x, self.current_y)
+        
+    def on_inv_ang_changed(self):
+        self.node.invert_angular = self.inv_ang_cb.isChecked()
+        self.on_joystick_moved(self.current_x, self.current_y)
+        
+    def on_ontop_changed(self):
+        self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint, self.ontop_cb.isChecked())
+        self.show() # Window flags require a re-show to take effect
+        
+        self.settings_panel.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint, self.ontop_cb.isChecked())
+        if self.settings_panel.isVisible():
+            self.settings_panel.show()
+            
+        self.setFocus()
+        
+    def set_turtle_mode(self):
+        self.node.set_parameters([Parameter('max_linear', Parameter.Type.DOUBLE, self.node.turtle_mode_speed), Parameter('max_angular', Parameter.Type.DOUBLE, self.node.turtle_mode_speed)])
+        self.setFocus()
+        
+    def set_rabbit_mode(self):
+        self.node.set_parameters([Parameter('max_linear', Parameter.Type.DOUBLE, self.node.rabbit_mode_speed), Parameter('max_angular', Parameter.Type.DOUBLE, self.node.rabbit_mode_speed)])
+        self.setFocus()
 
     def keyPressEvent(self, event):  # type: ignore
         # Ignore auto-repeat events (when you hold a key down)
@@ -337,7 +480,10 @@ class MainWindow(QMainWindow):
         x, y = 0.0, 0.0
         
         # Spacebar acts as an Emergency Stop (Priority)
-        if Qt.Key.Key_Space not in self.keys_pressed:
+        if Qt.Key.Key_Space in self.keys_pressed:
+            self.joystick.set_e_stop(True)
+        else:
+            self.joystick.set_e_stop(False)
             if Qt.Key.Key_W in self.keys_pressed: y += 1.0
             if Qt.Key.Key_S in self.keys_pressed: y -= 1.0
             if Qt.Key.Key_A in self.keys_pressed: x -= 1.0
@@ -349,6 +495,17 @@ class MainWindow(QMainWindow):
                 x, y = x / magnitude, y / magnitude
 
         self.joystick.set_normalized_position(x, y)
+        
+    def mousePressEvent(self, event):  # type: ignore
+        if self.settings_panel.isVisible():
+            self.hide_settings()
+        super().mousePressEvent(event)
+
+    def moveEvent(self, event):  # type: ignore
+        super().moveEvent(event)
+        if self.settings_panel.isVisible():
+            geo = self.geometry()
+            self.settings_panel.move(geo.right() + 5, geo.top())
 
 def main(args=None) -> None:
     log = get_logger("System")
