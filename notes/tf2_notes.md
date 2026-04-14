@@ -64,10 +64,10 @@
 ## 🔴 LEVEL 4: Transforming Data (The Real-World Application)
 **Focus:** Using TF2 to convert data from one frame of reference to another. This is the ultimate goal of TF2.
 
-- [ ] **The Core Scenario**
+- [x] **The Core Scenario**
     - **Goal:** A camera detects an object at `(x,y,z)` *relative to the camera's lens*. To navigate to it, the robot needs to know where that object is *relative to its wheels (`base_link`)*.
 
-- [ ] **Transforming Stamped Data Types (The Magic Header Gotcha)**
+- [x] **Transforming Stamped Data Types (The Magic Header Gotcha)**
     - **Concept:** Using the `buffer.transform()` method to convert a `PoseStamped`, `PointStamped`, or `Vector3Stamped` from one frame to another.
     - **Jazzy Note:** You **must** include the specific geometry translation header (`#include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>` in C++, or `import tf2_geometry_msgs` in Python) for the `.transform()` method to actually work on those specific message types.
     - **Practice:**
