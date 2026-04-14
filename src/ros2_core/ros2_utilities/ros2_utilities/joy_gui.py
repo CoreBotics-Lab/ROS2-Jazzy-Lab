@@ -270,6 +270,9 @@ class MainWindow(QMainWindow):
         # Make the ROS 2 Parameter Server the Single Source of Truth!
         self.node.set_parameters([Parameter('topic_name', Parameter.Type.STRING, new_topic)])
         
+        # Return keyboard focus to the main window so WASD and Spacebar E-Stop work immediately
+        self.setFocus()
+        
     def update_topic_input(self, new_topic):
         self.topic_input.setText(new_topic)
         
