@@ -22,7 +22,8 @@ find_package(geometry_msgs REQUIRED)
 install(PROGRAMS
   ros2_playground/pub_cnt_reset_server.py
   ros2_playground/turtle_go_to_goal_action_client.py
-  
+  ros2_playground/turtle_follower.py
+
   DESTINATION lib/${PROJECT_NAME}
 )
 # This tells ROS 2 that your folder contains a Python module
