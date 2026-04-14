@@ -24,7 +24,7 @@ from rclpy.parameter import Parameter
 from rcl_interfaces.msg import SetParametersResult
 
 from PyQt6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QWidget, QLabel, QLineEdit, QPushButton, QDoubleSpinBox
-from PyQt6.QtCore import Qt, pyqtSignal, QPointF, QTimer
+from PyQt6.QtCore import Qt, pyqtSignal, QPointF, QTimer, QEvent
 from PyQt6.QtGui import QPainter, QColor, QPen, QBrush
 
 class JoystickWidget(QWidget):
@@ -199,6 +199,7 @@ class MainWindow(QMainWindow):
         topic_label = QLabel("Topic:")
         self.topic_input = QLineEdit(self.node.topic_name)
         update_btn = QPushButton("Update")
+        update_btn.setFocusPolicy(Qt.FocusPolicy.NoFocus)
         update_btn.clicked.connect(self.on_topic_update)
         topic_layout.addWidget(topic_label)
         topic_layout.addWidget(self.topic_input)
@@ -213,6 +214,8 @@ class MainWindow(QMainWindow):
         self.linear_input.setRange(0.0, 20.0)
         self.linear_input.setSingleStep(0.1)
         self.linear_input.setValue(self.node.max_linear)
+        self.linear_input.setKeyboardTracking(False)
+        self.linear_input.installEventFilter(self)
         self.linear_input.valueChanged.connect(self.on_speed_update)
         
         angular_label = QLabel("Max Angular:")
@@ -220,6 +223,8 @@ class MainWindow(QMainWindow):
         self.angular_input.setRange(0.0, 20.0)
         self.angular_input.setSingleStep(0.1)
         self.angular_input.setValue(self.node.max_angular)
+        self.angular_input.setKeyboardTracking(False)
+        self.angular_input.installEventFilter(self)
         self.angular_input.valueChanged.connect(self.on_speed_update)
         
         speed_layout.addWidget(linear_label)
@@ -257,11 +262,15 @@ class MainWindow(QMainWindow):
         
         # Track currently pressed keys for WASD movement
         self.keys_pressed = set()
+        self.current_x = 0.0
+        self.current_y = 0.0
         
         # Ensure the main window has focus initially, not the text input boxes
         self.setFocus()
 
     def on_joystick_moved(self, x, y):
+        self.current_x = x
+        self.current_y = y
         self.node.update_twist(x, y)
         self.label.setText(f"Linear X: {self.node.twist_msg.linear.x:.2f} | Angular Z: {self.node.twist_msg.angular.z:.2f}")
         
@@ -276,6 +285,18 @@ class MainWindow(QMainWindow):
     def update_topic_input(self, new_topic):
         self.topic_input.setText(new_topic)
         
+    def eventFilter(self, source, event):  # type: ignore
+        # Intercept WASD and Spacebar from the spinboxes so you can drive while changing speeds!
+        if event.type() == QEvent.Type.KeyPress:
+            if event.key() in (Qt.Key.Key_W, Qt.Key.Key_A, Qt.Key.Key_S, Qt.Key.Key_D, Qt.Key.Key_Space):
+                self.keyPressEvent(event)
+                return True
+        elif event.type() == QEvent.Type.KeyRelease:
+            if event.key() in (Qt.Key.Key_W, Qt.Key.Key_A, Qt.Key.Key_S, Qt.Key.Key_D, Qt.Key.Key_Space):
+                self.keyReleaseEvent(event)
+                return True
+        return super().eventFilter(source, event)
+
     def on_speed_update(self):
         # Update the ROS 2 Parameter Server instead of the variables directly
         self.node.set_parameters([
@@ -285,9 +306,11 @@ class MainWindow(QMainWindow):
         
     def update_linear_input(self, new_val):
         self.linear_input.setValue(new_val)
+        self.on_joystick_moved(self.current_x, self.current_y)
         
     def update_angular_input(self, new_val):
         self.angular_input.setValue(new_val)
+        self.on_joystick_moved(self.current_x, self.current_y)
 
     def keyPressEvent(self, event):  # type: ignore
         # Ignore auto-repeat events (when you hold a key down)
