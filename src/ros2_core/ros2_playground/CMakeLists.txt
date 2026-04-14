@@ -15,7 +15,10 @@ find_package(ros2_interfaces REQUIRED)
 find_package(turtlesim REQUIRED)
 find_package(geometry_msgs REQUIRED)
 
-
+install(
+  DIRECTORY launch config
+  DESTINATION share/${PROJECT_NAME}
+ )
 # ________________________________PYTHON____________________________________________
 
 #This installs your scripts so they are available to 'ros2 run'
