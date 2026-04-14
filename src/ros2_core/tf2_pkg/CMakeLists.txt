@@ -14,6 +14,8 @@ find_package(rclpy REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(tf2 REQUIRED)
+find_package(tf2_geometry_msgs REQUIRED)
+find_package(visualization_msgs REQUIRED)
 
 install(
   DIRECTORY launch urdf rviz
@@ -45,6 +47,7 @@ ament_python_install_package(${PROJECT_NAME})
 add_executable(static_tf_broadcaster src/static_tf_broadcaster.cpp)
 add_executable(dynamic_tf_broadcaster src/dynamic_tf_broadcaster.cpp)
 add_executable(tf2_listener src/tf2_listener.cpp)
+add_executable(tf2_data_transformer src/tf2_data_transformer.cpp)
 
 # Step 2: Link the Libraries
 # This tells the compiler where the "shared memory" and "string" code is
@@ -66,6 +69,14 @@ ament_target_dependencies(tf2_listener
   geometry_msgs
   tf2
 )
+ament_target_dependencies(tf2_data_transformer
+  rclcpp
+  tf2_ros
+  geometry_msgs
+  tf2
+  tf2_geometry_msgs
+  visualization_msgs
+)
 
 
 # Step 3:. Installation logic
@@ -74,6 +85,7 @@ install(TARGETS
   static_tf_broadcaster
   dynamic_tf_broadcaster
   tf2_listener
+  tf2_data_transformer
   
   DESTINATION lib/${PROJECT_NAME})
 
