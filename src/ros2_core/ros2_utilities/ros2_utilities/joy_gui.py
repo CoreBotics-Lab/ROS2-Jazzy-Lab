@@ -11,7 +11,6 @@ Features:
 - Event-Driven Parameters: Full two-way synchronization between the GUI and the ROS 2 Parameter Server.
 - Adjustable Publish Rate: Change the 'publish_rate_hz' parameter at runtime to adjust the cmd_vel publish frequency.
 - Settings Panel: Auto-hiding configuration menu for advanced driving modes.
-- Omnidirectional Mode: Map left/right joystick inputs to Linear Y (strafing) instead of Angular Z.
 - Axis Inversion: Instantly invert Linear or Angular outputs for testing mismatched motor wiring.
 - Always on Top: Pin the joystick window above your simulator and terminals.
 
@@ -132,7 +131,6 @@ class JoyNode(Node):
         self.twist_msg = Twist()
         
         # Advanced Driving Toggles
-        self.omni_mode = False
         self.invert_linear = False
         self.invert_angular = False
         
@@ -202,17 +200,12 @@ class JoyNode(Node):
 
     def update_twist(self, norm_x, norm_y):
         # norm_y (up/down) controls Linear X (forward/backward)
-        # norm_x (left/right) controls Angular Z (or Linear Y in Omni mode)
+        # norm_x (left/right) controls Angular Z. Left is positive rotation, so we invert X.
         linear_mult = -1.0 if self.invert_linear else 1.0
         angular_mult = -1.0 if self.invert_angular else 1.0
         
-        if self.omni_mode:
-            self.twist_msg.linear.x = norm_y * self.max_linear * linear_mult
-            self.twist_msg.linear.y = -norm_x * self.max_linear * linear_mult
-            self.twist_msg.angular.z = 0.0
-        else:
-            self.twist_msg.linear.x = norm_y * self.max_linear * linear_mult
-            self.twist_msg.angular.z = -norm_x * self.max_angular * angular_mult
+        self.twist_msg.linear.x = norm_y * self.max_linear * linear_mult
+        self.twist_msg.angular.z = -norm_x * self.max_angular * angular_mult
 
     def publish_twist(self):
         self.publisher_.publish(self.twist_msg)
@@ -257,18 +250,16 @@ class MainWindow(QMainWindow):
         settings_layout = QVBoxLayout()
         settings_layout.setContentsMargins(4, 4, 4, 4)
         
-        self.omni_cb = QCheckBox("Omni")
         self.inv_lin_cb = QCheckBox("Inv Lin")
         self.inv_ang_cb = QCheckBox("Inv Ang")
         self.ontop_cb = QCheckBox("Always on Top")
         self.ontop_cb.setChecked(True)
         
-        for cb in [self.omni_cb, self.inv_lin_cb, self.inv_ang_cb, self.ontop_cb]:
+        for cb in [self.inv_lin_cb, self.inv_ang_cb, self.ontop_cb]:
             cb.clicked.connect(self.on_settings_interacted)
             settings_layout.addWidget(cb)
         settings_layout.addStretch() # Push checkboxes to the top
             
-        self.omni_cb.clicked.connect(self.on_omni_changed)
         self.inv_lin_cb.clicked.connect(self.on_inv_lin_changed)
         self.inv_ang_cb.clicked.connect(self.on_inv_ang_changed)
         self.ontop_cb.clicked.connect(self.on_ontop_changed)
@@ -324,7 +315,7 @@ class MainWindow(QMainWindow):
         layout.addWidget(self.joystick)
 
         # --- Controls Hint ---
-        controls_label = QLabel("Keyboard controls: w↑ s↓ a← d→ wd↗ ds↘ sa↙ aw↖  (space: stop)")
+        controls_label = QLabel("Controls: w↑ s↓ a← d→ wd↗ ds↘ sa↙ aw↖  (space: stop)")
         controls_label.setAlignment(Qt.AlignmentFlag.AlignLeft)
         controls_label.setStyleSheet("color: gray; font-size: 11px;")
         layout.addWidget(controls_label)
@@ -424,10 +415,6 @@ class MainWindow(QMainWindow):
     def on_settings_interacted(self):
         self.settings_timer.start(3000)
         self.setFocus()
-        
-    def on_omni_changed(self):
-        self.node.omni_mode = self.omni_cb.isChecked()
-        self.on_joystick_moved(self.current_x, self.current_y)
         
     def on_inv_lin_changed(self):
         self.node.invert_linear = self.inv_lin_cb.isChecked()
