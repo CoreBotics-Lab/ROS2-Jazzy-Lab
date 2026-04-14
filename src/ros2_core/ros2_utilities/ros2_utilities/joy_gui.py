@@ -1,4 +1,18 @@
 #!/usr/bin/env python3
+"""
+ROS 2 Virtual Joystick GUI (PyQt6)
+
+Features:
+- Mouse Teleoperation: Click and drag the blue puck to control linear and angular velocity.
+- Keyboard Teleoperation (WASD): Use W, A, S, D for directional control. Automatically normalizes diagonal inputs.
+- Emergency Stop (Spacebar): Instantly halts the robot (0.0 velocity) and overrides all other inputs.
+- Dynamic Topic Re-mapping: Change the target topic (e.g., 'turtle1/cmd_vel') at runtime via the UI or ROS 2 parameters.
+- Dynamic Speed Limits: Adjust maximum linear and angular speeds on the fly via UI spinboxes or ROS 2 parameters.
+- Event-Driven Parameters: Full two-way synchronization between the GUI and the ROS 2 Parameter Server.
+- Adjustable Publish Rate: Change the 'publish_rate_hz' parameter at runtime to adjust the cmd_vel publish frequency.
+
+Controls: w↑ s↓ a← d→ wd↗ ds↘ sa↙ aw↖  (space: stop)
+"""
 import sys
 import math
 import signal
@@ -221,6 +235,12 @@ class MainWindow(QMainWindow):
         self.joystick = JoystickWidget()
         self.joystick.joystickMoved.connect(self.on_joystick_moved)
         layout.addWidget(self.joystick)
+
+        # --- Controls Hint ---
+        controls_label = QLabel("Keyboard controls: w↑ s↓ a← d→ wd↗ ds↘ sa↙ aw↖  (space: stop)")
+        controls_label.setAlignment(Qt.AlignmentFlag.AlignLeft)
+        controls_label.setStyleSheet("color: gray; font-size: 11px;")
+        layout.addWidget(controls_label)
 
         main_widget.setLayout(layout)
         self.setCentralWidget(main_widget)
