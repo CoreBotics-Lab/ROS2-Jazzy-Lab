@@ -14,6 +14,7 @@ find_package(rclcpp_action REQUIRED)
 find_package(ros2_interfaces REQUIRED)
 find_package(turtlesim REQUIRED)
 find_package(geometry_msgs REQUIRED)
+find_package(tf2_ros REQUIRED)
 
 install(
   DIRECTORY launch config
@@ -44,6 +45,7 @@ add_executable(turtleGoToGoalTopic src/turtleGoToGoalTopics.cpp)
 add_executable(turtleGoToGoalActionServer src/turtleGoToGoalActionServer.cpp)
 add_executable(turtleGoToGoalActionClient src/turtleGoToGoalActionClient.cpp)
 add_executable(turtleBackgroundParameters src/turtleBackgroundParameters.cpp)
+add_executable(turtle_follower_cpp src/turtle_follower_cpp.cpp)
 
 ament_target_dependencies(serviceServer
   rclcpp
@@ -86,6 +88,13 @@ ament_target_dependencies(turtleBackgroundParameters
   rclcpp
 )
 
+ament_target_dependencies(turtle_follower_cpp
+  rclcpp
+  geometry_msgs
+  turtlesim
+  tf2_ros
+)
+
 install(TARGETS
   serviceServer
   resetCounterServiceClient
@@ -94,6 +103,7 @@ install(TARGETS
   turtleGoToGoalActionServer
   turtleGoToGoalActionClient
   turtleBackgroundParameters
+  turtle_follower_cpp
 
   DESTINATION lib/${PROJECT_NAME}
 )
