@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <gazebo reference="disc_link">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <!-- Modern Gazebo Sim ROS 2 Control Plugin -->
+  <gazebo>
+    <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+      <!-- This points to a YAML file we haven't created yet! -->
+      <parameters>$(find core_description)/config/motor_testbench_controllers.yaml</parameters>
+    </plugin>
+  </gazebo>
+
+</robot>
