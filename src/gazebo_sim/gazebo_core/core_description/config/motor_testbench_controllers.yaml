@@ -8,12 +8,20 @@ controller_manager:
     position_controller:
       type: position_controllers/JointGroupPositionController
 
+    velocity_controller:
+      type: velocity_controllers/JointGroupVelocityController
+
 joint_state_broadcaster:
   ros__parameters:
     use_urdf_to_filter: true # Automatically finds state interfaces in the URDF
     # frame_id: "base_footprint"  # Uncomment and change if your root link is named differently
 
 position_controller:
+  ros__parameters:
+    joints:
+      - rotor_joint
+
+velocity_controller:
   ros__parameters:
     joints:
       - rotor_joint
