@@ -16,7 +16,7 @@ def generate_launch_description():
                           description='rviz config file')
     robot_model_arg = DeclareLaunchArgument('urdf_model', default_value='motor_testbench.urdf.xacro',
                           description= 'The robot urdf.xacro file to spawn in rviz')
-    use_joint_state_publisher_gui_arg = DeclareLaunchArgument('jst_gui', default_value='true',
+    use_joint_state_publisher_gui_arg = DeclareLaunchArgument('jsp_gui', default_value='true',
                           description='Whether to start Joint State Publisher GUI')
 
     # =========================== Paths ==========================
@@ -45,7 +45,7 @@ def generate_launch_description():
         package='joint_state_publisher_gui',
         executable='joint_state_publisher_gui',
         output='screen',
-        condition=IfCondition(LaunchConfiguration('jst_gui'))
+        condition=IfCondition(LaunchConfiguration('jsp_gui'))
     )
 
     rviz_node = Node(
