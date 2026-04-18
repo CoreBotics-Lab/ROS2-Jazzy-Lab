@@ -22,6 +22,7 @@ The `<ros2_control>` tag inside your URDF is where you declare your robot's "har
       <param name="min">-1.57</param>
       <param name="max">1.57</param>
     </command_interface>
+    <command_interface name="velocity"/>
     <state_interface name="position"/>
     <state_interface name="velocity"/>
   </joint>
@@ -53,11 +54,19 @@ controller_manager:
     position_controller:
       type: position_controllers/JointGroupPositionController
 
+    velocity_controller:
+      type: velocity_controllers/JointGroupVelocityController
+
 joint_state_broadcaster:
   ros__parameters:
     use_urdf_to_filter: true
 
 position_controller:
+  ros__parameters:
+    joints:
+      - rotor_joint
+
+velocity_controller:
   ros__parameters:
     joints:
       - rotor_joint
@@ -69,6 +78,7 @@ position_controller:
     *   It subscribes to a command topic (by default, `/position_controller/commands`).
     *   It claims the `<command_interface name="position">` for the joints listed under its `joints` parameter (in this case, `rotor_joint`).
     *   On every update loop, it calculates the effort needed to move the joint toward the desired position and writes that value to the hardware via the command interface.
+*   **`velocity_controller`**: Identical in structure to the position controller, but it uses the `velocity_controllers/JointGroupVelocityController` type. It claims the `<command_interface name="velocity">` and allows you to control the speed of the joint directly.
 
 ---
 
@@ -93,7 +103,7 @@ This process requires **six** separate terminals. In each new terminal, you must
 
 ### Terminal 1: Start Gazebo
 
-Start the modern Gazebo (Gazebo Sim) server and client. We must first export the resource and plugin paths so Gazebo can find our 3D meshes and the `gz_ros2_control` library.
+Start the modern Gazebo (Gazebo Sim) servezr and client. We must first export the resource and plugin paths so Gazebo can find our 3D meshes and the `gz_ros2_control` library.
 
 ```bash
 # 1. Export paths (Repeat this if you open a new terminal for Gazebo)
@@ -131,20 +141,54 @@ ros2 run ros_gz_sim create -world empty -topic robot_description -name motor_tes
 
 ### Terminal 5: Load and Start the Controllers
 
-The `controller_manager` is running inside the Gazebo process, but its controllers are inactive. Use the `ros2 control` CLI to load and start the two controllers defined in the YAML file.
+The `controller_manager` is running inside the Gazebo process. You can load and activate your controllers in one go using the `--set-state active` flag. 
+
+> [!IMPORTANT]
+> **One at a Time**: While you can load many controllers, only **one** should be active for the `rotor_joint` at any moment. If you try to activate both `position_controller` and `velocity_controller` at the same time, the second one will fail to start.
 
 ```bash
-# Run these two commands one after the other
+# 1. Always start the broadcaster first
 ros2 control load_controller --set-state active joint_state_broadcaster
+
+# 2. Choose ONE motion controller to activate (e.g., Position)
 ros2 control load_controller --set-state active position_controller
+
+# 3. Load AND configure the other one (set to 'inactive' so it's ready to switch)
+ros2 control load_controller --set-state inactive velocity_controller
 ```
-> Now the `/joint_states` and `/position_controller/commands` topics will become active.
 
-### Terminal 6: Send a Command and Verify
+> [!TIP]
+> **Manual Toggling**: You can manually toggle them using the state command:
+> ```bash
+> ros2 control set_controller_state position_controller inactive
+> ros2 control set_controller_state velocity_controller active
+> ```
 
-With the system fully running, publish a command to the `position_controller` to move the rotor to 1.57 radians (90 degrees).
+### Terminal 6: The Professional Way (Atomic Switching)
+
+While manual toggling works, the best practice for a "clean" swap is using the `switch_controllers` command. This ensures there is never a moment when the joint is left unmanaged.
 
 ```bash
-ros2 topic pub /position_controller/commands std_msgs/msg/Float64MultiArray "{data: [1.57]}"
+# Stops Position and Starts Velocity in one single transaction
+ros2 control switch_controllers --activate velocity_controller --deactivate position_controller
 ```
-> You should see the rotor on your model spin to the 90-degree position in the Gazebo window.
+
+### Terminal 7: Send a Command and Verify
+
+With the system fully running, you can now send commands to either the position or velocity controllers. 
+
+#### A. Position Control
+Send a command to move the rotor to 1.57 radians (90 degrees).
+
+```bash
+ros2 topic pub --once /position_controller/commands std_msgs/msg/Float64MultiArray "{data: [1.57]}"
+```
+> You should see the rotor move to the 90-degree position.
+
+#### B. Velocity Control
+Send a command to spin the rotor at 2.0 radians per second.
+
+```bash
+ros2 topic pub --once /velocity_controller/commands std_msgs/msg/Float64MultiArray "{data: [2.0]}"
+```
+> The rotor should now spin continuously at the specified speed.
