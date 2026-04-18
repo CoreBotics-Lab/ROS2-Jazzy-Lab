@@ -9,8 +9,11 @@
   <!-- Modern Gazebo Sim ROS 2 Control Plugin -->
   <gazebo>
     <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
-      <!-- This points to a YAML file we haven't created yet! -->
+      <!-- Method 1 (Active): Load controller config directly from the URDF. -->
       <parameters>$(find core_description)/config/motor_testbench_controllers.yaml</parameters>
+
+      <!-- Method 2 (Alternative): Pass config from the launch file. To use this,
+           comment out the <parameters> tag above. -->
     </plugin>
   </gazebo>
 
