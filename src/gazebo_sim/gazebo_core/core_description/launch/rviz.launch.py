@@ -18,6 +18,8 @@ def generate_launch_description():
                           description= 'The robot urdf.xacro file to spawn in rviz')
     use_joint_state_publisher_gui_arg = DeclareLaunchArgument('jsp_gui', default_value='true',
                           description='Whether to start Joint State Publisher GUI')
+    use_sim_time_arg = DeclareLaunchArgument('use_sim_time', default_value='false',
+                          description='Whether to use simulation time')
 
     # =========================== Paths ==========================
     urdf_path = PathJoinSubstitution([
@@ -37,7 +39,8 @@ def generate_launch_description():
         package='robot_state_publisher',
         executable='robot_state_publisher',
         parameters=[{
-            'robot_description': ParameterValue(Command(['xacro ', urdf_path]), value_type=str)
+            'robot_description': ParameterValue(Command(['xacro ', urdf_path]), value_type=str),
+            'use_sim_time': LaunchConfiguration('use_sim_time')
         }]
     )
 
@@ -45,6 +48,7 @@ def generate_launch_description():
         package='joint_state_publisher_gui',
         executable='joint_state_publisher_gui',
         output='screen',
+        parameters=[{'use_sim_time': LaunchConfiguration('use_sim_time')}],
         condition=IfCondition(LaunchConfiguration('jsp_gui'))
     )
 
@@ -61,6 +65,7 @@ def generate_launch_description():
         robot_model_arg,
         use_rviz_arg,        
         rvi_config_arg,
+        use_sim_time_arg,
         use_joint_state_publisher_gui_arg,        
         robot_state_publisher_node,
         joint_state_publisher_node,
