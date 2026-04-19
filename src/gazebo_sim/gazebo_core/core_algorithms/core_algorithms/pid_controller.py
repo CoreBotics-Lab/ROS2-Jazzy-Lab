@@ -16,6 +16,7 @@ class MotorTestBenchPIDNode(Node):
         self.kP: float = 10.0
         self.setPoint_ = float(sys.argv[1])
         self.error = 0.0
+        self.is_position_reached = False
 
     def jointStateSub_callback(self, msg: JointState):
         
@@ -26,9 +27,22 @@ class MotorTestBenchPIDNode(Node):
 
         pub_msg_ = Float64MultiArray()
         error: float = self.setPoint_ - self.error
-        pub_msg_.data = [self.kP * error]
-        
+        # pub_msg_.data = [self.kP * error]
+        if self.is_position_reached:
+            pub_msg_.data = [0.0]
+        elif abs(error) < 0.01:
+            self.is_position_reached = True
+            self.get_logger().info('Target Position Reached.')
+            pub_msg_.data = [0.0]
+        else:
+            pub_msg_.data = [self.kP * error]
+
         self.pub_speed_.publish(pub_msg_)
+        
+        if self.is_position_reached:
+            rclpy.shutdown()
+            return
+
 
 
 
