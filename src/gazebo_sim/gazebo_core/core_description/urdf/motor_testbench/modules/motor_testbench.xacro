@@ -92,7 +92,7 @@
   </joint>
   <!-- Joint from base_link to rotor_link -->
   <joint name="rotor_joint" type="continuous">
-    <origin xyz="0.0191322 0 0.101362" rpy="1.5708 -0 1.5708"/>
+    <origin xyz="0.0191322 0 0.101362" rpy="1.5708 1.5708 1.5708"/>
     <parent link="base_link"/>
     <child link="rotor_link"/>
     <axis xyz="0 0 1"/>
