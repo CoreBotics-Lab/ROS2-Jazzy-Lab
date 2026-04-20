@@ -8,6 +8,10 @@ endif()
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(ament_cmake_python REQUIRED)
+find_package(rclpy REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(std_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
 
 #This installs your scripts so they are available to 'ros2 run'
 install(PROGRAMS
@@ -17,6 +21,24 @@ install(PROGRAMS
 )
 # Install Python modules
 ament_python_install_package(${PROJECT_NAME})
+
+
+# CPP executables
+add_executable(pid_controller src/pid_controller.cpp)
+
+ament_target_dependencies(pid_controller
+  rclcpp
+  std_msgs
+  sensor_msgs
+)
+
+install(TARGETS
+  pid_controller
+
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
