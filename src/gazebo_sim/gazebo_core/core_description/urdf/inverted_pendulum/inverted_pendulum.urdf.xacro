@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<robot name="inverted_pendulum" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:include filename="$(find core_description)/urdf/inverted_pendulum/modules/inverted_pendulum.xacro" />
+    
+</robot>

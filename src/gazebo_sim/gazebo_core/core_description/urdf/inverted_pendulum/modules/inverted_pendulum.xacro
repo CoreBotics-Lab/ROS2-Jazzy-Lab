@@ -1,0 +1,165 @@
+<?xml version="1.0" ?>
+<!-- Generated using onshape-to-robot -->
+<!-- Onshape document_id: f319bd124de4579be6a3665e -->
+<robot xml:xacro="http://www.ros.org/wiki/xacro">
+
+  <link name="base_footprint" />
+  <joint name="base_joint" type="fixed">
+    <parent link="base_footprint"/>
+    <child link="base_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Link base_link -->
+  <link name="base_link">
+    <inertial>
+      <origin xyz="-0 -0 0.0214972" rpy="0 0 0"/>
+      <mass value="78.1762"/>
+      <inertia ixx="17.3599" ixy="-0" ixz="0" iyy="0.29824" iyz="0" izz="17.5649"/>
+    </inertial>
+    <!-- Part base_link -->
+    <visual>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://core_description/meshes/inverted_pendulum/base_link.stl"/>
+      </geometry>
+      <material name="base_link_material">
+        <color rgba="0.615686 0.811765 0.929412 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://core_description/meshes/inverted_pendulum/base_link.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Link rod_link -->
+  <link name="rod_link">
+    <inertial>
+      <origin xyz="-0 0 0.75" rpy="0 0 0"/>
+      <mass value="23.3365"/>
+      <inertia ixx="4.46119" ixy="0" ixz="0" iyy="4.46119" iyz="0" izz="0.00732012"/>
+    </inertial>
+    <!-- Part rod_link -->
+    <visual>
+      <origin xyz="0 0.105114 0.75" rpy="1.5708 -0 0"/>
+      <geometry>
+        <mesh filename="package://core_description/meshes/inverted_pendulum/rod_link.stl"/>
+      </geometry>
+      <material name="rod_link_material">
+        <color rgba="0.647059 0.647059 0.647059 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0.105114 0.75" rpy="1.5708 -0 0"/>
+      <geometry>
+        <mesh filename="package://core_description/meshes/inverted_pendulum/rod_link.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Link slider_motor_link -->
+  <link name="slider_motor_link">
+    <inertial>
+      <origin xyz="0.00440694 -0.0470208 1.2297e-08" rpy="0 0 0"/>
+      <mass value="1.32021"/>
+      <inertia ixx="0.000861703" ixy="-1.51432e-05" ixz="3.32e-10" iyy="0.000684313" iyz="1.39e-10" izz="0.00126081"/>
+    </inertial>
+    <!-- Part slider_motor_link -->
+    <visual>
+      <origin xyz="0 0.105114 0" rpy="1.5708 -0 0"/>
+      <geometry>
+        <mesh filename="package://core_description/meshes/inverted_pendulum/slider_motor_link.stl"/>
+      </geometry>
+      <material name="slider_motor_link_material">
+        <color rgba="0.231373 0.380392 0.705882 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0.105114 0" rpy="1.5708 -0 0"/>
+      <geometry>
+        <mesh filename="package://core_description/meshes/inverted_pendulum/slider_motor_link.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Link shaft_link -->
+  <link name="shaft_link">
+    <inertial>
+      <origin xyz="-2.81e-10 -0.0993034 -0.0740094" rpy="0 0 0"/>
+      <mass value="0.6"/>
+      <inertia ixx="0.00589234" ixy="1.1e-11" ixz="1e-12" iyy="0.000270452" iyz="-0.000476096" izz="0.00566495"/>
+    </inertial>
+    <!-- Part shaft_link -->
+    <visual>
+      <origin xyz="0 0.156433 0.0365357" rpy="1.5708 1.5708 0"/>
+      <geometry>
+        <mesh filename="package://core_description/meshes/inverted_pendulum/shaft_link.stl"/>
+      </geometry>
+      <material name="shaft_link_material">
+        <color rgba="0.917647 0.917647 0.917647 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0.156433 0.0365357" rpy="1.5708 1.5708 0"/>
+      <geometry>
+        <mesh filename="package://core_description/meshes/inverted_pendulum/shaft_link.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Link weight_link -->
+  <link name="weight_link">
+    <inertial>
+      <origin xyz="-0 -0 -0.0222886" rpy="0 0 0"/>
+      <mass value="0.7"/>
+      <inertia ixx="0.00023716" ixy="0" ixz="0" iyy="0.000223667" iyz="0" izz="0.00013504"/>
+    </inertial>
+    <!-- Part weight_link -->
+    <visual>
+      <origin xyz="-0.118536 -0 0.446433" rpy="3.14159 -0 0"/>
+      <geometry>
+        <mesh filename="package://core_description/meshes/inverted_pendulum/weight_link.stl"/>
+      </geometry>
+      <material name="weight_link_material">
+        <color rgba="0.768627 0.886275 0.952941 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.118536 -0 0.446433" rpy="3.14159 -0 0"/>
+      <geometry>
+        <mesh filename="package://core_description/meshes/inverted_pendulum/weight_link.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Joint from shaft_link to weight_link -->
+  <joint name="weight_joint" type="fixed">
+    <origin xyz="-0 -0.29 -0.082" rpy="-1.5708 1.5708 0"/>
+    <parent link="shaft_link"/>
+    <child link="weight_link"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10"/>
+  </joint>
+  <!-- Joint from slider_motor_link to shaft_link -->
+  <joint name="sensor_rotor_joint" type="revolute">
+    <origin xyz="0.0365357 -0.0513191 0" rpy="-0 -1.5708 0"/>
+    <parent link="slider_motor_link"/>
+    <child link="shaft_link"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10" lower="-3.141592653589793" upper="3.141592653589793"/>
+  </joint>
+  <!-- Joint from rod_link to slider_motor_link -->
+  <joint name="slider_joint" type="prismatic">
+    <origin xyz="0 0 0.75" rpy="0 -0 0"/>
+    <parent link="rod_link"/>
+    <child link="slider_motor_link"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10" lower="-0.65" upper="0.65"/>
+  </joint>
+  <!-- Joint from base_link to rod_link -->
+  <joint name="rod_base_joint" type="fixed">
+    <origin xyz="-0 -0.75 0.105114" rpy="-1.5708 -0 0"/>
+    <parent link="base_link"/>
+    <child link="rod_link"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10"/>
+  </joint>
+</robot>
