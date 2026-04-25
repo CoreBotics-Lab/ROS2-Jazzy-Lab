@@ -13,6 +13,10 @@ class action_server_node_class : public rclcpp::Node{
         action_server_node_class() : Node("counter_action_server_preemptive"){
             RCLCPP_INFO(this->get_logger(), "%s has been started", this->get_name());
 
+            // Pre-allocate messages to ensure flat RAM overhead
+            feedback_ = std::make_shared<CounterAction::Feedback>();
+            result_ = std::make_shared<CounterAction::Result>();
+
             // STEP 1: Create the action server, defining the three core callbacks.
             this->action_server_ = rclcpp_action::create_server<CounterAction>(
                 this,
@@ -33,7 +37,8 @@ class action_server_node_class : public rclcpp::Node{
                         std::lock_guard<std::mutex> lock(active_goal_mutex_);
                         if (active_goal_handle_ && active_goal_handle_->is_active()) {
                             RCLCPP_INFO(this->get_logger(), "New goal received, aborting previous active goal.");
-                            active_goal_handle_->abort(std::make_shared<CounterAction::Result>());
+                            result_->final_sequence.clear();
+                            active_goal_handle_->abort(result_);
                         }
                         active_goal_handle_ = goal_handle;
                     }
@@ -50,8 +55,11 @@ class action_server_node_class : public rclcpp::Node{
         std::mutex active_goal_mutex_;
         std::shared_ptr<GoalHandle> active_goal_handle_;
 
+        // Pre-allocated messages
+        CounterAction::Feedback::SharedPtr feedback_;
+        CounterAction::Result::SharedPtr result_;
+
         // STEP 2: The "Gatekeeper" for new goals.
-        // This function validates incoming goals and decides whether to accept or reject them.
         rclcpp_action::GoalResponse goal_callback(
             const rclcpp_action::GoalUUID & uuid,
             std::shared_ptr<const CounterAction::Goal> goal)
@@ -59,17 +67,14 @@ class action_server_node_class : public rclcpp::Node{
             (void)uuid;
             RCLCPP_INFO(this->get_logger(), "Received goal request to count to %d", goal->target_number);
 
-            // Perform validation.
             if (goal->target_number < 0) {
                 RCLCPP_WARN(this->get_logger(), "Rejecting goal: target_number cannot be negative.");
-                return rclcpp_action::GoalResponse::REJECT; // Reject the goal.
+                return rclcpp_action::GoalResponse::REJECT;
             }
-            // If validation passes, accept the goal and start executing it.
             return rclcpp_action::GoalResponse::ACCEPT_AND_EXECUTE;
         }
 
         // STEP 3: The "Gatekeeper" for cancellation.
-        // This function approves or denies cancellation requests.
         rclcpp_action::CancelResponse cancel_callback(
             const std::shared_ptr<GoalHandle> goal_handle)
         {
@@ -84,40 +89,34 @@ class action_server_node_class : public rclcpp::Node{
             rclcpp::Rate rate(5.0);
 
             const auto goal = goal_handle->get_goal();
-            // These messages are created as local variables to ensure that each goal execution
-            // has its own independent messages, making the process thread-safe.
-            auto feedback = std::make_shared<CounterAction::Feedback>();
-            auto result = std::make_shared<CounterAction::Result>();
+            
+            // Reset pre-allocated messages for the new goal
+            feedback_->current_sequence.clear();
+            result_->final_sequence.clear();
 
             for (int i = 0; (i <= goal->target_number) && rclcpp::ok(); ++i) {
-                // First, check if the goal is still active. If not, it means it was
-                // aborted by the server (due to a new goal arriving). In this case,
-                // the state is already terminal, so we just need to stop this thread.
                 if (!goal_handle->is_active()) {
                     RCLCPP_INFO(this->get_logger(), "Goal aborted by server, stopping execution thread.");
                     return;
                 }
 
-                // The Cooperative Cancellation Model: Periodically check if cancellation was requested.
-                // This handles cancellation requests from the client.
                 if (goal_handle->is_canceling()) {
-                    result->final_sequence = feedback->current_sequence;
-                    goal_handle->canceled(result);
+                    result_->final_sequence = feedback_->current_sequence;
+                    goal_handle->canceled(result_);
                     RCLCPP_INFO(this->get_logger(), "Goal canceled");
-                    return; // Exit the execute function immediately.
+                    return;
                 }
 
-                feedback->current_sequence.push_back(i);
-                goal_handle->publish_feedback(feedback);
+                feedback_->current_sequence.push_back(i);
+                goal_handle->publish_feedback(feedback_);
                 RCLCPP_INFO(this->get_logger(), "Publishing feedback: Current Value is %d", i);
 
                 rate.sleep();
             }
 
-            // If the loop completes without cancellation, the goal has succeeded.
             if (rclcpp::ok()) {
-                result->final_sequence = feedback->current_sequence;
-                goal_handle->succeed(result);
+                result_->final_sequence = feedback_->current_sequence;
+                goal_handle->succeed(result_);
                 RCLCPP_INFO(this->get_logger(), "Goal succeeded");
             }
         }
@@ -145,7 +144,6 @@ int main(int argc, char * argv[]){
     }
 
     if(rclcpp::ok()){
-        // Manually shut down the ROS 2 client library.
         RCLCPP_INFO(log, "Manually shutting down the ROS2 client...");
         rclcpp::shutdown();
     }
