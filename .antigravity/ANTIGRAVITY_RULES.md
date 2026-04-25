@@ -10,53 +10,7 @@
 
 ---
 
-## 🧬 C++ ROS 2 Coding Style (Jazzy)
-When generating C++ code, strictly adhere to these modern patterns:
-
-### 1. Modern C++ Standard (C++17/C++20)
-*   **Smart Pointers:** Use `std::make_shared` for all initialization.
-*   **Thread Safety:** Use `std::lock_guard<std::mutex>` for local scope protection in multi-threaded scenarios.
-*   **Simplified Time:** Use `using namespace std::chrono_literals;` (e.g., `500ms`, `1s`).
-*   **Logic Extraction:** Do **not** write complex logic inside a lambda. Extract logic into a dedicated private class method and call it from the lambda.
-    *   *Correct:* `[this](msg) { this->process_data(msg); }`
-    *   *Incorrect:* `[this](msg) { // 20 lines of math code here }`
-
-### 2. Standardized C++ `main` Boilerplate
-Every executable node must follow this robust `try/catch` structure:
-
-```cpp
-int main(int argc, char * argv[]){
-    auto log = rclcpp::get_logger("System");
-    MyNodeClass::SharedPtr node_instance = nullptr;
-
-    try{
-        RCLCPP_INFO(log, "Initializing the ROS2 Client...");
-        rclcpp::init(argc, argv);
-
-        RCLCPP_INFO(log, "Starting ROS2 Node...");
-        node_instance = std::make_shared<MyNodeClass>();
-        
-        // Use an executor if multi-threading is required
-        rclcpp::spin(node_instance);
-
-        RCLCPP_WARN(log, "[CTRL+C]>>> Interrupted by the User.");
-    }
-    catch(const std::exception & e){
-        RCLCPP_ERROR(log, "Critical Error: %s", e.what());
-    }
-
-    if(rclcpp::ok()){
-        RCLCPP_INFO(log, "Manually shutting down the ROS2 Client...");
-        rclcpp::shutdown();
-    }
-    return 0;
-}
-```
-
----
-
 ## 🐍 Python ROS 2 Coding Style (Jazzy)
-
 ### 1. Robust Design
 *   **Type Hinting:** Use Python type hints wherever possible to clarify the data flow for the learner.
 *   **Clean Transitions:** Keep class structures similar to their C++ counterparts (e.g., matching method names) to ease the transition phase.
@@ -105,18 +59,63 @@ if __name__ == '__main__':
 
 ---
 
-## 📢 Descriptive Logging
-*   **Startup Announcement:** Every node must announce itself in the constructor: `RCLCPP_INFO(this->get_logger(), "%s has been started!", this->get_name());` (C++) or `self.get_logger().info(f"{self.get_name()} has been started!")` (Python).
-*   **Verbosity:** Use explicit, highly readable log messages that describe exactly what the node is doing or why it failed.
+## 🧬 C++ ROS 2 Coding Style (Jazzy)
+When generating C++ code, strictly adhere to these modern patterns:
+
+### 1. Modern C++ Standard (C++17/C++20)
+*   **Smart Pointers:** Use `std::make_shared` for all initialization.
+*   **Thread Safety:** Use `std::lock_guard<std::mutex>` for local scope protection in multi-threaded scenarios.
+*   **Simplified Time:** Use `using namespace std::chrono_literals;` (e.g., `500ms`, `1s`).
+*   **Logic Extraction:** Do **not** write complex logic inside a lambda. Extract logic into a dedicated private class method and call it from the lambda.
+    *   *Correct:* `[this](msg) { this->process_data(msg); }`
+    *   *Incorrect:* `[this](msg) { // 20 lines of math code here }`
+
+### 2. Memory Management & Real-Time Optimization
+*   **Strict Pre-Allocation:** Always pre-allocate message objects (`std::make_shared`) in the class constructor for high-frequency loops (timers, control loops, and high-rate subscribers). Avoid `new` or `make_shared` inside runtime callbacks.
+*   **Memory vs. Time Balance:** In robotics, **"Memory is cheap, but Time is expensive."** Prefer spending a small amount of RAM on pre-allocation/duplicate buffers over wasting CPU time on Mutex locks or heap management.
+*   **Safety Headroom:** Aim for a 50% "Safety Margin" in CPU load. If a shared-resource bottleneck is detected, prefer splitting data across multiple buffers rather than increasing lock contention.
+*   **Stack vs. Heap:** 
+    *   **Stack:** Use for small primitives (`int`, `double`) and local calculations inside callbacks.
+    *   **Heap:** Reserve for large objects and pre-allocated members in the constructor.
+
+### 3. Standardized C++ `main` Boilerplate
+Every executable node must follow this robust `try/catch` structure:
+
+```cpp
+int main(int argc, char * argv[]){
+    auto log = rclcpp::get_logger("System");
+    MyNodeClass::SharedPtr node_instance = nullptr;
+
+    try{
+        RCLCPP_INFO(log, "Initializing the ROS 2 Client...");
+        rclcpp::init(argc, argv);
+
+        RCLCPP_INFO(log, "Starting the ROS 2 Node...");
+        node_instance = std::make_shared<MyNodeClass>();
+        rclcpp::spin(node_instance);
+
+        RCLCPP_WARN(log, "[CTRL+C]>>> Interrupted by the user.");
+        RCLCPP_INFO(log, "Destroying the ROS 2 Node...");
+    }
+    catch(const std::exception & e){
+        RCLCPP_ERROR(log, "Critical Error: %s", e.what());
+    }
+
+    if(rclcpp::ok()){
+        RCLCPP_INFO(log, "Manually shutting down the ROS 2 client...");
+        rclcpp::shutdown();
+    }
+
+    return 0;
+}
+```
 
 ---
 
-## 📊 Visual Documentation (Draw.io)
-*   When asked for a flowchart, use **XML code** for the VS Code Draw.io extension.
-*   Ensure professional shapes (Rectangles for processes, Diamonds for decisions, Capsules for start/stop).
-*   Focus on the logical execution flow of the ROS nodes.
+## 🎨 Visual Excellence (Web/UI)
+When building web applications or visualizations:
+*   **Rich Aesthetics:** Use curated color palettes (HSL), modern typography (Inter/Outfit), and subtle micro-animations.
+*   **Premium Design:** Avoid generic browser defaults. Use glassmorphism, smooth gradients, and responsive layouts.
+*   **Interactive Design:** Hover effects and transitions must make the interface feel alive.
 
-## 🛑 Self-Correction Rules
-1.  **Diffs Only:** Always provide code changes as diffs.
-2.  **No Unsolicited Build Files:** Never touch `CMakeLists.txt` or `package.xml` unless explicitly requested.
-3.  **Concise Explanations:** Keep the "Why" short and focused on core concepts.
+---
