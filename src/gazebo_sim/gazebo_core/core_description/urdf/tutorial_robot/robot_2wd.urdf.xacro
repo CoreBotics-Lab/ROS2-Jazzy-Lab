@@ -28,7 +28,21 @@
         </visual>
     </link>
 
-    <link name="right_wheel_link">
+    <xacro:macro name="wheel_link" params="wheel">
+        <link name="${wheel}_wheel_link">
+            <visual>
+                <geometry>
+                    <cylinder radius="${wheel_radius}" length="${wheel_width}" />
+                </geometry>
+                <origin xyz="0 0 0" rpy="${pi / 2} 0 0" />
+                <material name="grey" />
+            </visual>
+        </link>
+    </xacro:macro>
+    <xacro:wheel_link wheel="left"/>
+    <xacro:wheel_link wheel="right"/>
+    
+    <!-- <link name="right_wheel_link">
         <visual>
             <geometry>
                 <cylinder radius="${wheel_radius}" length="${wheel_width}" />
@@ -46,7 +60,7 @@
             <origin xyz="0 0 0" rpy="${pi / 2} 0 0" />
             <material name="grey" />
         </visual>
-    </link>
+    </link> -->
 
     <link name="caster_wheel_link">
         <visual>
