@@ -10,7 +10,7 @@ from launch import LaunchDescription
 def generate_launch_description():
 
     urdf_file = os.path.join(get_package_share_directory("core_description"), "urdf/tutorial_robot", "robot_2wd.urdf.xacro")
-    rviz2_config = os.path.join(get_package_share_directory("core_description"), "rviz", "rviz_config.rviz")
+    rviz2_config = os.path.join(get_package_share_directory("core_description"), "rviz", "robot_2wd.rviz")
     robot_desc = ParameterValue(Command(['xacro ', urdf_file]), value_type=str)
     rsp_node = Node(
         package="robot_state_publisher",
