@@ -11,7 +11,7 @@ setup(
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
     ],
-    install_requires=['setuptools'],
+    install_requires=['setuptools', 'rclpy', 'geometry_msgs', 'PyQt6'],
     zip_safe=True,
     maintainer='root',
     maintainer_email='hayisyed@gmail.com',

@@ -40,7 +40,7 @@ class JoystickWidget(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setMinimumSize(250, 250)
-        self.max_distance = 100
+        self.max_distance = 100.0
         self.puck_pos = QPointF(125, 125)
         self.center = QPointF(125, 125)
         self.pressed = False
