@@ -23,6 +23,8 @@
         </link>
     </xacro:macro>
 
+    <!-- refer https://en.wikipedia.org/wiki/List_of_moments_of_inertia#:~:text=%CE%A3%29-,List%20of%203D%20inertia%20tensors
+    for moment of inertia of different shapes -->
     <xacro:macro name="box_inertia" params="m x y z o_xyz o_rpy">
         <inertial>
             <mass value="${m}" />
