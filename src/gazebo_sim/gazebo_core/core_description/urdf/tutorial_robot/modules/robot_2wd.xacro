@@ -19,6 +19,14 @@
             <origin xyz="0 0 ${base_height/2}" rpy="0 0 0" />
             <material name="blue" />
         </visual>
+
+        <collision>
+            <geometry>
+                <box size="${base_length} ${base_width} ${base_height}" />
+            </geometry>
+            <origin xyz="0 0 ${base_height/2}" rpy="0 0 0" />
+        </collision>
+
         <xacro:box_inertia m="2.268" 
                            x="${base_length}" y="${base_width}" z="${base_height}" 
                            o_xyz="0 0 ${base_height/2}" o_rpy="0 0 0" />
@@ -35,6 +43,14 @@
             <origin xyz="0 0 0" rpy="0 0 0" />
             <material name="grey" />
         </visual>
+
+        <collision>
+            <geometry>
+                <sphere radius="${caster_radius}" />
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+        </collision>
+
         <xacro:sphere_inertia m="0.234" r="${caster_radius}" o_xyz="0 0 0" o_rpy="0 0 0" />
     </link>
 
