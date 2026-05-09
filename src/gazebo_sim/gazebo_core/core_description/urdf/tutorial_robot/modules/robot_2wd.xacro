@@ -19,6 +19,9 @@
             <origin xyz="0 0 ${base_height/2}" rpy="0 0 0" />
             <material name="blue" />
         </visual>
+        <xacro:box_inertia m="2.268" 
+                           x="${base_length}" y="${base_width}" z="${base_height}" 
+                           o_xyz="0 0 ${base_height/2}" o_rpy="0 0 0" />
     </link>
 
     <xacro:wheel_link wheel="left"/>
