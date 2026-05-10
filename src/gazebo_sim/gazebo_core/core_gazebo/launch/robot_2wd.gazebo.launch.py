@@ -38,6 +38,8 @@ def generate_launch_description():
         default_value='true',
         description='Use simulation (Gazebo) clock if true')
     
+    # Path to the ROS-Gazebo bridge parameter file
+    bridge_config_file = os.path.join(pkg_gazebo, 'config', 'robot_2wd_ros_gz_bridge.yaml')
 
     # ================== Simulation Environment Setup =================== #
     
@@ -78,6 +80,19 @@ def generate_launch_description():
             'on_exit_shutdown': 'true'
         }.items(),
         condition=IfCondition(PythonExpression(['not ', LaunchConfiguration('headless')]))
+    )
+
+    # ================== Communication Bridge =================== #
+    
+    # Parameter bridge for message exchange between ROS 2 and Gazebo
+    node_parameter_bridge = Node(
+        package='ros_gz_bridge',
+        executable='parameter_bridge',
+        parameters=[{
+            'config_file': bridge_config_file,
+            'use_sim_time': LaunchConfiguration('use_sim_time')
+        }],
+        output='screen'
     )
 
 
@@ -127,6 +142,7 @@ def generate_launch_description():
     ld.add_action(env_gz_resource_path)
     ld.add_action(action_gazebo_server)
     ld.add_action(action_gazebo_gui)
+    ld.add_action(node_parameter_bridge)
     ld.add_action(start_rviz_rsp)
     ld.add_action(node_spawn_entity)
 
