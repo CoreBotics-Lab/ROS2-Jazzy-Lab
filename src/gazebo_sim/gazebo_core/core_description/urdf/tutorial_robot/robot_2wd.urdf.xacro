@@ -3,4 +3,5 @@
     <xacro:include filename="$(find core_description)/urdf/tutorial_robot/modules/common_properties.xacro" />
     <xacro:include filename="$(find core_description)/urdf/tutorial_robot/modules/robot_2wd.xacro" />
     <xacro:include filename="$(find core_description)/urdf/tutorial_robot/modules/robot_2wd.gazebo.xacro" />
+    <xacro:include filename="$(find core_description)/urdf/tutorial_robot/modules/camera.xacro" />
 </robot>
