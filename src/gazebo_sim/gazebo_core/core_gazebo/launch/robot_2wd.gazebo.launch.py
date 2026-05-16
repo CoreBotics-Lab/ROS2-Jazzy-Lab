@@ -25,7 +25,7 @@ def generate_launch_description():
 
     launch_arg_world = DeclareLaunchArgument(
         'world',
-        default_value='empty.sdf',
+        default_value='maze_world.sdf',
         description='Simulation world file')
 
     launch_arg_headless = DeclareLaunchArgument(
