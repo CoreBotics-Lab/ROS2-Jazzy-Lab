@@ -1,0 +1,968 @@
+<sdf version='1.10'>
+  <world name='maze_world'>
+    <physics name='1ms' type='ignored'>
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+    </physics>
+    <plugin name='gz::sim::systems::Physics' filename='gz-sim-physics-system'/>
+    <plugin name='gz::sim::systems::UserCommands' filename='gz-sim-user-commands-system'/>
+    <plugin name='gz::sim::systems::SceneBroadcaster' filename='gz-sim-scene-broadcaster-system'/>
+    <plugin name='gz::sim::systems::Contact' filename='gz-sim-contact-system'/>
+    <gravity>0 0 -9.8000000000000007</gravity>
+    <magnetic_field>5.5644999999999998e-06 2.2875799999999999e-05 -4.2388400000000002e-05</magnetic_field>
+    <atmosphere type='adiabatic'/>
+    <scene>
+      <ambient>0.400000006 0.400000006 0.400000006 1</ambient>
+      <background>0.699999988 0.699999988 0.699999988 1</background>
+      <shadows>true</shadows>
+    </scene>
+    <model name='ground_plane'>
+      <static>true</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <surface>
+            <friction>
+              <ode/>
+            </friction>
+            <bounce/>
+            <contact/>
+          </surface>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.800000012 0.800000012 0.800000012 1</ambient>
+            <diffuse>0.800000012 0.800000012 0.800000012 1</diffuse>
+            <specular>0.800000012 0.800000012 0.800000012 1</specular>
+          </material>
+        </visual>
+        <pose>0 0 0 0 0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+        </inertial>
+        <enable_wind>false</enable_wind>
+      </link>
+      <pose>0 0 0 0 0 0</pose>
+      <self_collide>false</self_collide>
+    </model>
+    <model name='maze_world'>
+      <link name='part_1'>
+        <inertial>
+          <pose>0 0 0.5 0 0 0</pose>
+          <mass>106252</mass>
+          <inertia>
+            <ixx>45174800</ixx>
+            <ixy>-7.7797000000000005e-08</ixy>
+            <ixz>3.2700000000000001e-10</ixz>
+            <iyy>45174800</iyy>
+            <iyz>8.08e-10</iyz>
+            <izz>90331900</izz>
+          </inertia>
+        </inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <visual name='part_1_visual_mesh_1'>
+          <pose relative_to='part_1'>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>file:///root/ros2_ws/src/gazebo_sim/gazebo_core/core_gazebo/models/maze_world/meshes/part_1.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>0.0862744972 0.31764701 0.690195978 1</ambient>
+            <diffuse>0.0862744972 0.31764701 0.690195978 1</diffuse>
+            <specular>0.100000001 0.100000001 0.100000001 1</specular>
+            <emissive>0 0 0 0</emissive>
+          </material>
+        </visual>
+        <collision name='part_1_collision_mesh_2'>
+          <pose relative_to='part_1'>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>file:///root/ros2_ws/src/gazebo_sim/gazebo_core/core_gazebo/models/maze_world/meshes/part_1.stl</uri>
+            </mesh>
+          </geometry>
+        </collision>
+        <enable_wind>false</enable_wind>
+      </link>
+      <link name='part_2'>
+        <inertial>
+          <pose>-6.3289900000000001 -0.179225 0.5 0 0 0</pose>
+          <mass>41647.800000000003</mass>
+          <inertia>
+            <ixx>730806</ixx>
+            <ixy>-75930.399999999994</ixy>
+            <ixz>-3.3999999999999999e-11</ixz>
+            <iyy>1034040</iyy>
+            <iyz>-7.9999999999999998e-12</iyz>
+            <izz>1757900</izz>
+          </inertia>
+        </inertial>
+        <pose>2.8867953456463332e-18 0 5.2403511826767952e-11 1.2030628608740676e-12 -4.9611963414138126e-12 3.6288946374317178e-20</pose>
+        <visual name='part_2_visual_mesh_1'>
+          <pose relative_to='part_2'>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>file:///root/ros2_ws/src/gazebo_sim/gazebo_core/core_gazebo/models/maze_world/meshes/part_2.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>0.600000024 0.352941006 0.0549019985 1</ambient>
+            <diffuse>0.600000024 0.352941006 0.0549019985 1</diffuse>
+            <specular>0.100000001 0.100000001 0.100000001 1</specular>
+            <emissive>0 0 0 0</emissive>
+          </material>
+        </visual>
+        <collision name='part_2_collision_mesh_2'>
+          <pose relative_to='part_2'>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>file:///root/ros2_ws/src/gazebo_sim/gazebo_core/core_gazebo/models/maze_world/meshes/part_2.stl</uri>
+            </mesh>
+          </geometry>
+        </collision>
+        <enable_wind>false</enable_wind>
+      </link>
+      <link name='part_3'>
+        <inertial>
+          <pose>12.539300000000001 -2.5064600000000001 0.5 0 0 0</pose>
+          <mass>51445</mass>
+          <inertia>
+            <ixx>2085750</ixx>
+            <ixy>1058920</ixy>
+            <ixz>2e-12</ixz>
+            <iyy>1769860</iyy>
+            <iyz>-7.0000000000000001e-12</iyz>
+            <izz>3847040</izz>
+          </inertia>
+        </inertial>
+        <pose>-1.9067704538031705e-20 0 4.3685453017180973e-11 5.2337667814900106e-12 1.4300286899360531e-13 -2.261770304483586e-20</pose>
+        <visual name='part_3_visual_mesh_1'>
+          <pose relative_to='part_3'>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>file:///root/ros2_ws/src/gazebo_sim/gazebo_core/core_gazebo/models/maze_world/meshes/part_3.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>0.231372997 0.380391985 0.705882013 1</ambient>
+            <diffuse>0.231372997 0.380391985 0.705882013 1</diffuse>
+            <specular>0.100000001 0.100000001 0.100000001 1</specular>
+            <emissive>0 0 0 0</emissive>
+          </material>
+        </visual>
+        <collision name='part_3_collision_mesh_2'>
+          <pose relative_to='part_3'>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>file:///root/ros2_ws/src/gazebo_sim/gazebo_core/core_gazebo/models/maze_world/meshes/part_3.stl</uri>
+            </mesh>
+          </geometry>
+        </collision>
+        <enable_wind>false</enable_wind>
+      </link>
+      <link name='part_4'>
+        <inertial>
+          <pose>8.4704899999999999 17.296399999999998 0.5 0 0 0</pose>
+          <mass>57995.5</mass>
+          <inertia>
+            <ixx>762791</ixx>
+            <ixy>-46266.199999999997</ixy>
+            <ixz>7.4000000000000003e-11</ixz>
+            <iyy>4253970</iyy>
+            <iyz>-3.9999999999999999e-12</iyz>
+            <izz>5007100</izz>
+          </inertia>
+        </inertial>
+        <pose>-1.4403310938268577e-12 7.1720407390785113e-13 -8.557769417545662e-07 1.2099728341305722e-08 -4.7352610747229353e-08 -6.2716405280342795e-14</pose>
+        <visual name='part_4_visual_mesh_1'>
+          <pose relative_to='part_4'>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>file:///root/ros2_ws/src/gazebo_sim/gazebo_core/core_gazebo/models/maze_world/meshes/part_4.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>0.341176003 0.776471019 0.741176009 1</ambient>
+            <diffuse>0.341176003 0.776471019 0.741176009 1</diffuse>
+            <specular>0.100000001 0.100000001 0.100000001 1</specular>
+            <emissive>0 0 0 0</emissive>
+          </material>
+        </visual>
+        <collision name='part_4_collision_mesh_2'>
+          <pose relative_to='part_4'>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>file:///root/ros2_ws/src/gazebo_sim/gazebo_core/core_gazebo/models/maze_world/meshes/part_4.stl</uri>
+            </mesh>
+          </geometry>
+        </collision>
+        <enable_wind>false</enable_wind>
+      </link>
+      <link name='part_5'>
+        <inertial>
+          <pose>13.6775 8.4757099999999994 0.5 0 0 0</pose>
+          <mass>10236</mass>
+          <inertia>
+            <ixx>71104.399999999994</ixx>
+            <ixy>4397.1599999999999</ixy>
+            <ixz>-0</ixz>
+            <iyy>51452.300000000003</iyy>
+            <iyz>0</iyz>
+            <izz>120851</izz>
+          </inertia>
+        </inertial>
+        <pose>-1.1832024653495938e-18 0 2.5838466574668041e-11 1.2600257762805637e-12 1.8314860739970819e-12 4.7464856331541083e-20</pose>
+        <visual name='part_5_visual_mesh_1'>
+          <pose relative_to='part_5'>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>file:///root/ros2_ws/src/gazebo_sim/gazebo_core/core_gazebo/models/maze_world/meshes/part_5.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>0.87450999 0.447059005 0.31764701 1</ambient>
+            <diffuse>0.87450999 0.447059005 0.31764701 1</diffuse>
+            <specular>0.100000001 0.100000001 0.100000001 1</specular>
+            <emissive>0 0 0 0</emissive>
+          </material>
+        </visual>
+        <collision name='part_5_collision_mesh_2'>
+          <pose relative_to='part_5'>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>file:///root/ros2_ws/src/gazebo_sim/gazebo_core/core_gazebo/models/maze_world/meshes/part_5.stl</uri>
+            </mesh>
+          </geometry>
+        </collision>
+        <enable_wind>false</enable_wind>
+      </link>
+      <link name='part_6'>
+        <inertial>
+          <pose>-2.9881199999999999 -18.249300000000002 0.5 0 0 0</pose>
+          <mass>37324.699999999997</mass>
+          <inertia>
+            <ixx>445565</ixx>
+            <ixy>478436</ixy>
+            <ixz>-3.0000000000000001e-12</ixz>
+            <iyy>3844420</iyy>
+            <iyz>4.6999999999999999e-11</iyz>
+            <izz>4283760</izz>
+          </inertia>
+        </inertial>
+        <pose>-1.1447749571675335e-19 0 9.2766174030617426e-12 -1.2678875449735637e-12 -4.3339504647299246e-13 1.253253968968503e-20</pose>
+        <visual name='part_6_visual_mesh_1'>
+          <pose relative_to='part_6'>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>file:///root/ros2_ws/src/gazebo_sim/gazebo_core/core_gazebo/models/maze_world/meshes/part_6.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>0.972549021 0.529411972 0.00392156979 1</ambient>
+            <diffuse>0.972549021 0.529411972 0.00392156979 1</diffuse>
+            <specular>0.100000001 0.100000001 0.100000001 1</specular>
+            <emissive>0 0 0 0</emissive>
+          </material>
+        </visual>
+        <collision name='part_6_collision_mesh_2'>
+          <pose relative_to='part_6'>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>file:///root/ros2_ws/src/gazebo_sim/gazebo_core/core_gazebo/models/maze_world/meshes/part_6.stl</uri>
+            </mesh>
+          </geometry>
+        </collision>
+        <enable_wind>false</enable_wind>
+      </link>
+      <link name='part_7'>
+        <inertial>
+          <pose>18.726600000000001 -20.385400000000001 0.5 0 0 0</pose>
+          <mass>8303.2700000000004</mass>
+          <inertia>
+            <ixx>18666.5</ixx>
+            <ixy>-32932.800000000003</ixy>
+            <ixz>0</ixz>
+            <iyy>89447.5</iyy>
+            <iyz>-2e-12</iyz>
+            <izz>106730</izz>
+          </inertia>
+        </inertial>
+        <pose>4.3021526739912104e-19 0 -1.4936069468556022e-10 -5.6195930131709723e-12 -1.9327626173654108e-12 4.456177446047507e-20</pose>
+        <visual name='part_7_visual_mesh_1'>
+          <pose relative_to='part_7'>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>file:///root/ros2_ws/src/gazebo_sim/gazebo_core/core_gazebo/models/maze_world/meshes/part_7.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>0.68235302 0.333332986 0.737254977 1</ambient>
+            <diffuse>0.68235302 0.333332986 0.737254977 1</diffuse>
+            <specular>0.100000001 0.100000001 0.100000001 1</specular>
+            <emissive>0 0 0 0</emissive>
+          </material>
+        </visual>
+        <collision name='part_7_collision_mesh_2'>
+          <pose relative_to='part_7'>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>file:///root/ros2_ws/src/gazebo_sim/gazebo_core/core_gazebo/models/maze_world/meshes/part_7.stl</uri>
+            </mesh>
+          </geometry>
+        </collision>
+        <enable_wind>false</enable_wind>
+      </link>
+      <link name='part_8'>
+        <inertial>
+          <pose>20.2712 -15.6045 0.5 0 0 0</pose>
+          <mass>4974.7200000000003</mass>
+          <inertia>
+            <ixx>518.20000000000005</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>37495.699999999997</iyy>
+            <iyz>0</iyz>
+            <izz>37184.800000000003</izz>
+          </inertia>
+        </inertial>
+        <pose>-1.5858466107466097e-20 0 -6.2115708467438955e-11 5.0586645963105657e-14 -3.3927885498230572e-17 -1.6165443092599035e-22</pose>
+        <visual name='part_8_visual_mesh_1'>
+          <pose relative_to='part_8'>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>file:///root/ros2_ws/src/gazebo_sim/gazebo_core/core_gazebo/models/maze_world/meshes/part_8.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>0.980391979 0.713724971 0.00392156979 1</ambient>
+            <diffuse>0.980391979 0.713724971 0.00392156979 1</diffuse>
+            <specular>0.100000001 0.100000001 0.100000001 1</specular>
+            <emissive>0 0 0 0</emissive>
+          </material>
+        </visual>
+        <collision name='part_8_collision_mesh_2'>
+          <pose relative_to='part_8'>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>file:///root/ros2_ws/src/gazebo_sim/gazebo_core/core_gazebo/models/maze_world/meshes/part_8.stl</uri>
+            </mesh>
+          </geometry>
+        </collision>
+        <enable_wind>false</enable_wind>
+      </link>
+      <link name='part_9'>
+        <inertial>
+          <pose>22.450700000000001 8.6110000000000007 0.5 0 0 0</pose>
+          <mass>5137.4300000000003</mass>
+          <inertia>
+            <ixx>25379.200000000001</ixx>
+            <ixy>5393.0900000000001</ixy>
+            <ixz>-0</ixz>
+            <iyy>4196.6999999999998</iyy>
+            <iyz>0</iyz>
+            <izz>28719.599999999999</izz>
+          </inertia>
+        </inertial>
+        <pose>4.4686515194731306e-18 0 -1.8724289335518559e-10 -2.0237014843674442e-13 -6.9236341647377328e-12 -1.5407072614071399e-18</pose>
+        <visual name='part_9_visual_mesh_1'>
+          <pose relative_to='part_9'>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>file:///root/ros2_ws/src/gazebo_sim/gazebo_core/core_gazebo/models/maze_world/meshes/part_9.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>0.0941175967 0.580392003 0.545098007 1</ambient>
+            <diffuse>0.0941175967 0.580392003 0.545098007 1</diffuse>
+            <specular>0.100000001 0.100000001 0.100000001 1</specular>
+            <emissive>0 0 0 0</emissive>
+          </material>
+        </visual>
+        <collision name='part_9_collision_mesh_2'>
+          <pose relative_to='part_9'>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>file:///root/ros2_ws/src/gazebo_sim/gazebo_core/core_gazebo/models/maze_world/meshes/part_9.stl</uri>
+            </mesh>
+          </geometry>
+        </collision>
+        <enable_wind>false</enable_wind>
+      </link>
+      <link name='part_10'>
+        <inertial>
+          <pose>-19.0305 -20.618400000000001 0.5 0 0 0</pose>
+          <mass>9990.8199999999997</mass>
+          <inertia>
+            <ixx>22225.5</ixx>
+            <ixy>28679.599999999999</ixy>
+            <ixz>0</ixz>
+            <iyy>96050.5</iyy>
+            <iyz>-0</iyz>
+            <izz>116611</izz>
+          </inertia>
+        </inertial>
+        <pose>1.7345607878799824e-18 0 -1.0143115079623564e-10 -3.9205305113677884e-12 1.789939419158396e-12 -1.3699637860510585e-19</pose>
+        <visual name='part_10_visual_mesh_1'>
+          <pose relative_to='part_10'>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>file:///root/ros2_ws/src/gazebo_sim/gazebo_core/core_gazebo/models/maze_world/meshes/part_10.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>0.87450999 0.447059005 0.31764701 1</ambient>
+            <diffuse>0.87450999 0.447059005 0.31764701 1</diffuse>
+            <specular>0.100000001 0.100000001 0.100000001 1</specular>
+            <emissive>0 0 0 0</emissive>
+          </material>
+        </visual>
+        <collision name='part_10_collision_mesh_2'>
+          <pose relative_to='part_10'>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>file:///root/ros2_ws/src/gazebo_sim/gazebo_core/core_gazebo/models/maze_world/meshes/part_10.stl</uri>
+            </mesh>
+          </geometry>
+        </collision>
+        <enable_wind>false</enable_wind>
+      </link>
+      <link name='part_11'>
+        <inertial>
+          <pose>-15.501899999999999 22.040600000000001 0.5 0 0 0</pose>
+          <mass>10427</mass>
+          <inertia>
+            <ixx>1105.48</ixx>
+            <ixy>-6.3999999999999999e-11</ixy>
+            <ixz>0</ixz>
+            <iyy>314421</iyy>
+            <iyz>0</iyz>
+            <izz>313789</izz>
+          </inertia>
+        </inertial>
+        <pose>-4.4637528573921032e-20 0 -6.5778673424832215e-11 5.6132659389388682e-14 -1.3466718015675577e-17 6.3068655745432501e-22</pose>
+        <visual name='part_11_visual_mesh_1'>
+          <pose relative_to='part_11'>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>file:///root/ros2_ws/src/gazebo_sim/gazebo_core/core_gazebo/models/maze_world/meshes/part_11.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>0.231372997 0.380391985 0.705882013 1</ambient>
+            <diffuse>0.231372997 0.380391985 0.705882013 1</diffuse>
+            <specular>0.100000001 0.100000001 0.100000001 1</specular>
+            <emissive>0 0 0 0</emissive>
+          </material>
+        </visual>
+        <collision name='part_11_collision_mesh_2'>
+          <pose relative_to='part_11'>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>file:///root/ros2_ws/src/gazebo_sim/gazebo_core/core_gazebo/models/maze_world/meshes/part_11.stl</uri>
+            </mesh>
+          </geometry>
+        </collision>
+        <enable_wind>false</enable_wind>
+      </link>
+      <link name='part_12'>
+        <inertial>
+          <pose>-0.71310899999999999 -12.1288 0.5 0 0 0</pose>
+          <mass>44649.800000000003</mass>
+          <inertia>
+            <ixx>443002</ixx>
+            <ixy>276084</ixy>
+            <ixz>3.9999999999999999e-12</ixz>
+            <iyy>3174340</iyy>
+            <iyz>2.7e-11</iyz>
+            <izz>3609900</izz>
+          </inertia>
+        </inertial>
+        <pose>3.1344929550763171e-19 0 3.0384527463511728e-11 -2.2396890243040126e-13 -1.2869615760170677e-12 8.2924973888723139e-21</pose>
+        <visual name='part_12_visual_mesh_1'>
+          <pose relative_to='part_12'>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>file:///root/ros2_ws/src/gazebo_sim/gazebo_core/core_gazebo/models/maze_world/meshes/part_12.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>0.513724983 0.737254977 0.407842994 1</ambient>
+            <diffuse>0.513724983 0.737254977 0.407842994 1</diffuse>
+            <specular>0.100000001 0.100000001 0.100000001 1</specular>
+            <emissive>0 0 0 0</emissive>
+          </material>
+        </visual>
+        <collision name='part_12_collision_mesh_2'>
+          <pose relative_to='part_12'>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>file:///root/ros2_ws/src/gazebo_sim/gazebo_core/core_gazebo/models/maze_world/meshes/part_12.stl</uri>
+            </mesh>
+          </geometry>
+        </collision>
+        <enable_wind>false</enable_wind>
+      </link>
+      <link name='part_13'>
+        <inertial>
+          <pose>21.984500000000001 0.33372200000000002 0.5 0 0 0</pose>
+          <mass>3295.4099999999999</mass>
+          <inertia>
+            <ixx>11053.5</ixx>
+            <ixy>9.9999999999999998e-13</ixy>
+            <ixz>0</ixz>
+            <iyy>343.27199999999999</iyy>
+            <iyz>0</iyz>
+            <izz>10847.6</izz>
+          </inertia>
+        </inertial>
+        <pose>4.1166537230584677e-16 4.4408920985006262e-16 -1.4364986589410212e-09 -5.0568520024772348e-12 -6.3323558841057995e-11 -2.5765740749116343e-17</pose>
+        <visual name='part_13_visual_mesh_1'>
+          <pose relative_to='part_13'>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>file:///root/ros2_ws/src/gazebo_sim/gazebo_core/core_gazebo/models/maze_world/meshes/part_13.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>0.87450999 0.447059005 0.31764701 1</ambient>
+            <diffuse>0.87450999 0.447059005 0.31764701 1</diffuse>
+            <specular>0.100000001 0.100000001 0.100000001 1</specular>
+            <emissive>0 0 0 0</emissive>
+          </material>
+        </visual>
+        <collision name='part_13_collision_mesh_2'>
+          <pose relative_to='part_13'>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>file:///root/ros2_ws/src/gazebo_sim/gazebo_core/core_gazebo/models/maze_world/meshes/part_13.stl</uri>
+            </mesh>
+          </geometry>
+        </collision>
+        <enable_wind>false</enable_wind>
+      </link>
+      <link name='part_14'>
+        <inertial>
+          <pose>-8.8241800000000001 13.3104 0.5 0 0 0</pose>
+          <mass>31106.599999999999</mass>
+          <inertia>
+            <ixx>561393</ixx>
+            <ixy>642372</ixy>
+            <ixz>3.0000000000000001e-12</ixz>
+            <iyy>1328400</iyy>
+            <iyz>2e-12</iyz>
+            <izz>1884610</izz>
+          </inertia>
+        </inertial>
+        <pose>3.0249104730988677e-19 0 2.43993829567718e-11 1.2211915714981073e-12 -1.1058002743556644e-12 -5.9277566349765961e-21</pose>
+        <visual name='part_14_visual_mesh_1'>
+          <pose relative_to='part_14'>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>file:///root/ros2_ws/src/gazebo_sim/gazebo_core/core_gazebo/models/maze_world/meshes/part_14.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>0.972549021 0.529411972 0.00392156979 1</ambient>
+            <diffuse>0.972549021 0.529411972 0.00392156979 1</diffuse>
+            <specular>0.100000001 0.100000001 0.100000001 1</specular>
+            <emissive>0 0 0 0</emissive>
+          </material>
+        </visual>
+        <collision name='part_14_collision_mesh_2'>
+          <pose relative_to='part_14'>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>file:///root/ros2_ws/src/gazebo_sim/gazebo_core/core_gazebo/models/maze_world/meshes/part_14.stl</uri>
+            </mesh>
+          </geometry>
+        </collision>
+        <enable_wind>false</enable_wind>
+      </link>
+      <link name='part_15'>
+        <inertial>
+          <pose>18.855799999999999 2.9759600000000002 0.5 0 0 0</pose>
+          <mass>3266.0900000000001</mass>
+          <inertia>
+            <ixx>10766</ixx>
+            <ixy>-0</ixy>
+            <ixz>0</ixz>
+            <iyy>340.21800000000002</iyy>
+            <iyz>0</iyz>
+            <izz>10561.799999999999</izz>
+          </inertia>
+        </inertial>
+        <pose>7.7183089207627466e-19 0 -6.2998653313148227e-11 -9.6451242846180196e-18 -6.0466060683436697e-14 -9.824431281669115e-22</pose>
+        <visual name='part_15_visual_mesh_1'>
+          <pose relative_to='part_15'>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>file:///root/ros2_ws/src/gazebo_sim/gazebo_core/core_gazebo/models/maze_world/meshes/part_15.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>0.68235302 0.333332986 0.737254977 1</ambient>
+            <diffuse>0.68235302 0.333332986 0.737254977 1</diffuse>
+            <specular>0.100000001 0.100000001 0.100000001 1</specular>
+            <emissive>0 0 0 0</emissive>
+          </material>
+        </visual>
+        <collision name='part_15_collision_mesh_2'>
+          <pose relative_to='part_15'>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>file:///root/ros2_ws/src/gazebo_sim/gazebo_core/core_gazebo/models/maze_world/meshes/part_15.stl</uri>
+            </mesh>
+          </geometry>
+        </collision>
+        <enable_wind>false</enable_wind>
+      </link>
+      <link name='part_16'>
+        <inertial>
+          <pose>9.4744100000000007 9.5030199999999994 0.5 0 0 0</pose>
+          <mass>3070.46</mass>
+          <inertia>
+            <ixx>321.57100000000003</ixx>
+            <ixy>-2e-12</ixy>
+            <ixz>0</ixz>
+            <iyy>8744.7900000000009</iyy>
+            <iyz>0</iyz>
+            <izz>8554.6200000000008</izz>
+          </inertia>
+        </inertial>
+        <pose>5.3766395324339023e-20 0 -6.1915182520896882e-11 3.3634206329770885e-15 1.4846735234551189e-19 2.6586554997642192e-21</pose>
+        <visual name='part_16_visual_mesh_1'>
+          <pose relative_to='part_16'>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>file:///root/ros2_ws/src/gazebo_sim/gazebo_core/core_gazebo/models/maze_world/meshes/part_16.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>0.980391979 0.713724971 0.00392156979 1</ambient>
+            <diffuse>0.980391979 0.713724971 0.00392156979 1</diffuse>
+            <specular>0.100000001 0.100000001 0.100000001 1</specular>
+            <emissive>0 0 0 0</emissive>
+          </material>
+        </visual>
+        <collision name='part_16_collision_mesh_2'>
+          <pose relative_to='part_16'>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>file:///root/ros2_ws/src/gazebo_sim/gazebo_core/core_gazebo/models/maze_world/meshes/part_16.stl</uri>
+            </mesh>
+          </geometry>
+        </collision>
+        <enable_wind>false</enable_wind>
+      </link>
+      <link name='part_17'>
+        <inertial>
+          <pose>-19.099699999999999 1.9562600000000001 0.5 0 0 0</pose>
+          <mass>43248.5</mass>
+          <inertia>
+            <ixx>3382300</ixx>
+            <ixy>-146889</ixy>
+            <ixz>-9.9999999999999998e-13</ixz>
+            <iyy>311497</iyy>
+            <iyz>-3.9999999999999999e-12</iyz>
+            <izz>3686590</izz>
+          </inertia>
+        </inertial>
+        <pose>4.588347439315504e-18 0 1.4414085828737267e-10 5.5739615559675224e-12 -7.230430105334415e-12 1.9218197936953606e-19</pose>
+        <visual name='part_17_visual_mesh_1'>
+          <pose relative_to='part_17'>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>file:///root/ros2_ws/src/gazebo_sim/gazebo_core/core_gazebo/models/maze_world/meshes/part_17.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>0.0941175967 0.580392003 0.545098007 1</ambient>
+            <diffuse>0.0941175967 0.580392003 0.545098007 1</diffuse>
+            <specular>0.100000001 0.100000001 0.100000001 1</specular>
+            <emissive>0 0 0 0</emissive>
+          </material>
+        </visual>
+        <collision name='part_17_collision_mesh_2'>
+          <pose relative_to='part_17'>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>file:///root/ros2_ws/src/gazebo_sim/gazebo_core/core_gazebo/models/maze_world/meshes/part_17.stl</uri>
+            </mesh>
+          </geometry>
+        </collision>
+        <enable_wind>false</enable_wind>
+      </link>
+      <link name='part_18'>
+        <inertial>
+          <pose>-3.1325400000000001 -20.085999999999999 0.5 0 0 0</pose>
+          <mass>1651.6600000000001</mass>
+          <inertia>
+            <ixx>1494.74</ixx>
+            <ixy>-0</ixy>
+            <ixz>0</ixz>
+            <iyy>172.048</iyy>
+            <iyz>-0</iyz>
+            <izz>1391.51</izz>
+          </inertia>
+        </inertial>
+        <pose>1.2858047998149822e-15 0 -4.5824237944122586e-11 -9.6392213933184387e-12 -6.0527430345649878e-11 -4.4261287021998085e-17</pose>
+        <visual name='part_18_visual_mesh_1'>
+          <pose relative_to='part_18'>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>file:///root/ros2_ws/src/gazebo_sim/gazebo_core/core_gazebo/models/maze_world/meshes/part_18.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>0.866666973 0.321568996 0.156863004 1</ambient>
+            <diffuse>0.866666973 0.321568996 0.156863004 1</diffuse>
+            <specular>0.100000001 0.100000001 0.100000001 1</specular>
+            <emissive>0 0 0 0</emissive>
+          </material>
+        </visual>
+        <collision name='part_18_collision_mesh_2'>
+          <pose relative_to='part_18'>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>file:///root/ros2_ws/src/gazebo_sim/gazebo_core/core_gazebo/models/maze_world/meshes/part_18.stl</uri>
+            </mesh>
+          </geometry>
+        </collision>
+        <enable_wind>false</enable_wind>
+      </link>
+      <link name='part_19'>
+        <inertial>
+          <pose>3.17611 -20.085999999999999 0.5 0 0 0</pose>
+          <mass>1651.6600000000001</mass>
+          <inertia>
+            <ixx>1494.74</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>172.048</iyy>
+            <iyz>0</iyz>
+            <izz>1391.51</izz>
+          </inertia>
+        </inertial>
+        <pose>1.2857532854666397e-15 0 -4.276881748390554e-10 -9.6389822506127993e-12 -6.0534265877790194e-11 -4.425636736707982e-17</pose>
+        <visual name='part_19_visual_mesh_1'>
+          <pose relative_to='part_19'>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>file:///root/ros2_ws/src/gazebo_sim/gazebo_core/core_gazebo/models/maze_world/meshes/part_19.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>0.231372997 0.380391985 0.705882013 1</ambient>
+            <diffuse>0.231372997 0.380391985 0.705882013 1</diffuse>
+            <specular>0.100000001 0.100000001 0.100000001 1</specular>
+            <emissive>0 0 0 0</emissive>
+          </material>
+        </visual>
+        <collision name='part_19_collision_mesh_2'>
+          <pose relative_to='part_19'>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>file:///root/ros2_ws/src/gazebo_sim/gazebo_core/core_gazebo/models/maze_world/meshes/part_19.stl</uri>
+            </mesh>
+          </geometry>
+        </collision>
+        <enable_wind>false</enable_wind>
+      </link>
+      <link name='part_20'>
+        <inertial>
+          <pose>0.0213181 -0.0107508 0.050000000000000003 0 0 0</pose>
+          <mass>225362</mass>
+          <inertia>
+            <ixx>48028800</ixx>
+            <ixy>16287.799999999999</ixy>
+            <ixz>-2e-12</ixz>
+            <iyy>48050400</iyy>
+            <iyz>-3.0000000000000001e-12</iyz>
+            <izz>96078800</izz>
+          </inertia>
+        </inertial>
+        <pose>1.4207792945597945e-14 3.4550140526334872e-13 -7.5918449286813692e-07 2.813943479938485e-08 -5.7844034793814283e-09 5.7979748364618292e-15</pose>
+        <visual name='part_20_visual_mesh_1'>
+          <pose relative_to='part_20'>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>file:///root/ros2_ws/src/gazebo_sim/gazebo_core/core_gazebo/models/maze_world/meshes/part_20.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>0.768626988 0.886274993 0.952941 1</ambient>
+            <diffuse>0.768626988 0.886274993 0.952941 1</diffuse>
+            <specular>0.100000001 0.100000001 0.100000001 1</specular>
+            <emissive>0 0 0 0</emissive>
+          </material>
+        </visual>
+        <collision name='part_20_collision_mesh_2'>
+          <pose relative_to='part_20'>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>file:///root/ros2_ws/src/gazebo_sim/gazebo_core/core_gazebo/models/maze_world/meshes/part_20.stl</uri>
+            </mesh>
+          </geometry>
+        </collision>
+        <enable_wind>false</enable_wind>
+      </link>
+      <link name='part_21'>
+        <inertial>
+          <pose>0 0 0.050000000000000003 0 0 0</pose>
+          <mass>82.623900000000006</mass>
+          <inertia>
+            <ixx>5.23285</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>5.23285</iyy>
+            <iyz>0</iyz>
+            <izz>10.327999999999999</izz>
+          </inertia>
+        </inertial>
+        <pose>4.3495071902354557e-17 0 -4.9016747723229489e-11 1.9599445435690161e-10 -1.9599445435469713e-10 -1.9206925023312073e-20</pose>
+        <visual name='part_21_visual_mesh_1'>
+          <pose relative_to='part_21'>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>file:///root/ros2_ws/src/gazebo_sim/gazebo_core/core_gazebo/models/maze_world/meshes/part_21.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>0.768626988 0.886274993 0.952941 1</ambient>
+            <diffuse>0.768626988 0.886274993 0.952941 1</diffuse>
+            <specular>0.100000001 0.100000001 0.100000001 1</specular>
+            <emissive>0 0 0 0</emissive>
+          </material>
+        </visual>
+        <collision name='part_21_collision_mesh_2'>
+          <pose relative_to='part_21'>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>file:///root/ros2_ws/src/gazebo_sim/gazebo_core/core_gazebo/models/maze_world/meshes/part_21.stl</uri>
+            </mesh>
+          </geometry>
+        </collision>
+        <enable_wind>false</enable_wind>
+      </link>
+      <link name='part_22'>
+        <inertial>
+          <pose>0.23282700000000001 -0.071182200000000001 0.050000000000000003 0 0 0</pose>
+          <mass>516.88400000000001</mass>
+          <inertia>
+            <ixx>469.75400000000002</ixx>
+            <ixy>-57.494199999999999</ixy>
+            <ixz>0</ixz>
+            <iyy>299.27600000000001</iyy>
+            <iyz>-0</iyz>
+            <izz>768.16899999999998</izz>
+          </inertia>
+        </inertial>
+        <pose>5.9663396467224832e-15 -6.3504757008558954e-13 -9.6700100861445561e-08 1.4502866312532905e-07 -2.0353047850223996e-07 1.4876695421986242e-12</pose>
+        <visual name='part_22_visual_mesh_1'>
+          <pose relative_to='part_22'>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>file:///root/ros2_ws/src/gazebo_sim/gazebo_core/core_gazebo/models/maze_world/meshes/part_22.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>0.972549021 0.529411972 0.00392156979 1</ambient>
+            <diffuse>0.972549021 0.529411972 0.00392156979 1</diffuse>
+            <specular>0.100000001 0.100000001 0.100000001 1</specular>
+            <emissive>0 0 0 0</emissive>
+          </material>
+        </visual>
+        <collision name='part_22_collision_mesh_2'>
+          <pose relative_to='part_22'>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>file:///root/ros2_ws/src/gazebo_sim/gazebo_core/core_gazebo/models/maze_world/meshes/part_22.stl</uri>
+            </mesh>
+          </geometry>
+        </collision>
+        <enable_wind>false</enable_wind>
+      </link>
+      <link name='part_23'>
+        <inertial>
+          <pose>-1.2518199999999999 0.38272 0.050000000000000003 0 0 0</pose>
+          <mass>96.135599999999997</mass>
+          <inertia>
+            <ixx>5.71495</ixx>
+            <ixy>2.8696899999999999</ixy>
+            <ixz>0</ixz>
+            <iyy>14.2239</iyy>
+            <iyz>0</iyz>
+            <izz>19.778700000000001</izz>
+          </inertia>
+        </inertial>
+        <pose>5.2651323699755278e-19 0 -2.4043077151425501e-10 -3.8508768051351487e-13 -1.2580574089954249e-12 2.3503521923320402e-19</pose>
+        <visual name='part_23_visual_mesh_1'>
+          <pose relative_to='part_23'>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>file:///root/ros2_ws/src/gazebo_sim/gazebo_core/core_gazebo/models/maze_world/meshes/part_23.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>0.729412019 0.25097999 0.105881996 1</ambient>
+            <diffuse>0.729412019 0.25097999 0.105881996 1</diffuse>
+            <specular>0.100000001 0.100000001 0.100000001 1</specular>
+            <emissive>0 0 0 0</emissive>
+          </material>
+        </visual>
+        <collision name='part_23_collision_mesh_2'>
+          <pose relative_to='part_23'>0 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>file:///root/ros2_ws/src/gazebo_sim/gazebo_core/core_gazebo/models/maze_world/meshes/part_23.stl</uri>
+            </mesh>
+          </geometry>
+        </collision>
+        <enable_wind>false</enable_wind>
+      </link>
+      <pose>-3.8453568608271497e-24 -3 -4.8981756171906369e-11 2.0124823548164888e-23 8.0488349334074347e-23 1.6695505651031554e-26</pose>
+      <static>true</static>
+      <self_collide>false</self_collide>
+    </model>
+    <light name='sun' type='directional'>
+      <pose>0 0 10 0 0 0</pose>
+      <cast_shadows>true</cast_shadows>
+      <intensity>1</intensity>
+      <direction>-0.5 0.10000000000000001 -0.90000000000000002</direction>
+      <diffuse>0.800000012 0.800000012 0.800000012 1</diffuse>
+      <specular>0.200000003 0.200000003 0.200000003 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <linear>0.0099999997764825821</linear>
+        <constant>0.89999997615814209</constant>
+        <quadratic>0.0010000000474974513</quadratic>
+      </attenuation>
+      <spot>
+        <inner_angle>0</inner_angle>
+        <outer_angle>0</outer_angle>
+        <falloff>0</falloff>
+      </spot>
+    </light>
+  </world>
+</sdf>

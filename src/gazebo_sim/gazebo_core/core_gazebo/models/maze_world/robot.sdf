@@ -1,0 +1,904 @@
+<?xml version="1.0" ?>
+<!-- Generated using onshape-to-robot -->
+<!-- Onshape document_id: 6c3ccb78c3fb44a0bd1989e4 -->
+<sdf version="1.7">
+  <model name="maze_world">
+    <!-- Link part_1 -->
+    <link name="part_1">
+      <inertial>
+        <pose>0 -0 0.5 0 0 0</pose>
+        <mass>106252</mass>
+        <inertia>
+          <ixx>4.51748e+07</ixx>
+          <ixy>-7.7797e-08</ixy>
+          <ixz>3.27e-10</ixz>
+          <iyy>4.51748e+07</iyy>
+          <iyz>8.08e-10</iyz>
+          <izz>9.03319e+07</izz>
+        </inertia>
+      </inertial>
+      <pose>0 0 0 0 -0 0</pose>
+      <!-- Part part_1 -->
+      <visual name="part_1_visual_mesh_1">
+        <pose relative_to="part_1">0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://maze_world/meshes/part_1.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <ambient>0.0862745 0.317647 0.690196 1</ambient>
+          <diffuse>0.0862745 0.317647 0.690196 1</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+          <emissive>0 0 0 0</emissive>
+        </material>
+      </visual>
+      <collision name="part_1_collision_mesh_2">
+        <pose relative_to="part_1">0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://maze_world/meshes/part_1.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+    </link>
+    <!-- Link part_2 -->
+    <link name="part_2">
+      <inertial>
+        <pose>-6.32899 -0.179225 0.5 0 0 0</pose>
+        <mass>41647.8</mass>
+        <inertia>
+          <ixx>730806</ixx>
+          <ixy>-75930.4</ixy>
+          <ixz>-3.4e-11</ixz>
+          <iyy>1.03404e+06</iyy>
+          <iyz>-8e-12</iyz>
+          <izz>1.7579e+06</izz>
+        </inertia>
+      </inertial>
+      <pose>0 0 0 0 -0 0</pose>
+      <!-- Part part_2 -->
+      <visual name="part_2_visual_mesh_1">
+        <pose relative_to="part_2">0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://maze_world/meshes/part_2.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <ambient>0.6 0.352941 0.054902 1</ambient>
+          <diffuse>0.6 0.352941 0.054902 1</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+          <emissive>0 0 0 0</emissive>
+        </material>
+      </visual>
+      <collision name="part_2_collision_mesh_2">
+        <pose relative_to="part_2">0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://maze_world/meshes/part_2.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+    </link>
+    <!-- Link part_3 -->
+    <link name="part_3">
+      <inertial>
+        <pose>12.5393 -2.50646 0.5 0 0 0</pose>
+        <mass>51445</mass>
+        <inertia>
+          <ixx>2.08575e+06</ixx>
+          <ixy>1.05892e+06</ixy>
+          <ixz>2e-12</ixz>
+          <iyy>1.76986e+06</iyy>
+          <iyz>-7e-12</iyz>
+          <izz>3.84704e+06</izz>
+        </inertia>
+      </inertial>
+      <pose>0 0 0 0 -0 0</pose>
+      <!-- Part part_3 -->
+      <visual name="part_3_visual_mesh_1">
+        <pose relative_to="part_3">0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://maze_world/meshes/part_3.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <ambient>0.231373 0.380392 0.705882 1</ambient>
+          <diffuse>0.231373 0.380392 0.705882 1</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+          <emissive>0 0 0 0</emissive>
+        </material>
+      </visual>
+      <collision name="part_3_collision_mesh_2">
+        <pose relative_to="part_3">0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://maze_world/meshes/part_3.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+    </link>
+    <!-- Link part_4 -->
+    <link name="part_4">
+      <inertial>
+        <pose>8.47049 17.2964 0.5 0 0 0</pose>
+        <mass>57995.5</mass>
+        <inertia>
+          <ixx>762791</ixx>
+          <ixy>-46266.2</ixy>
+          <ixz>7.4e-11</ixz>
+          <iyy>4.25397e+06</iyy>
+          <iyz>-4e-12</iyz>
+          <izz>5.0071e+06</izz>
+        </inertia>
+      </inertial>
+      <pose>0 0 0 0 -0 0</pose>
+      <!-- Part part_4 -->
+      <visual name="part_4_visual_mesh_1">
+        <pose relative_to="part_4">0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://maze_world/meshes/part_4.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <ambient>0.341176 0.776471 0.741176 1</ambient>
+          <diffuse>0.341176 0.776471 0.741176 1</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+          <emissive>0 0 0 0</emissive>
+        </material>
+      </visual>
+      <collision name="part_4_collision_mesh_2">
+        <pose relative_to="part_4">0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://maze_world/meshes/part_4.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+    </link>
+    <!-- Link part_5 -->
+    <link name="part_5">
+      <inertial>
+        <pose>13.6775 8.47571 0.5 0 0 0</pose>
+        <mass>10236</mass>
+        <inertia>
+          <ixx>71104.4</ixx>
+          <ixy>4397.16</ixy>
+          <ixz>-0</ixz>
+          <iyy>51452.3</iyy>
+          <iyz>0</iyz>
+          <izz>120851</izz>
+        </inertia>
+      </inertial>
+      <pose>0 0 0 0 -0 0</pose>
+      <!-- Part part_5 -->
+      <visual name="part_5_visual_mesh_1">
+        <pose relative_to="part_5">0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://maze_world/meshes/part_5.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <ambient>0.87451 0.447059 0.317647 1</ambient>
+          <diffuse>0.87451 0.447059 0.317647 1</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+          <emissive>0 0 0 0</emissive>
+        </material>
+      </visual>
+      <collision name="part_5_collision_mesh_2">
+        <pose relative_to="part_5">0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://maze_world/meshes/part_5.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+    </link>
+    <!-- Link part_6 -->
+    <link name="part_6">
+      <inertial>
+        <pose>-2.98812 -18.2493 0.5 0 0 0</pose>
+        <mass>37324.7</mass>
+        <inertia>
+          <ixx>445565</ixx>
+          <ixy>478436</ixy>
+          <ixz>-3e-12</ixz>
+          <iyy>3.84442e+06</iyy>
+          <iyz>4.7e-11</iyz>
+          <izz>4.28376e+06</izz>
+        </inertia>
+      </inertial>
+      <pose>0 0 0 0 -0 0</pose>
+      <!-- Part part_6 -->
+      <visual name="part_6_visual_mesh_1">
+        <pose relative_to="part_6">0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://maze_world/meshes/part_6.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <ambient>0.972549 0.529412 0.00392157 1</ambient>
+          <diffuse>0.972549 0.529412 0.00392157 1</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+          <emissive>0 0 0 0</emissive>
+        </material>
+      </visual>
+      <collision name="part_6_collision_mesh_2">
+        <pose relative_to="part_6">0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://maze_world/meshes/part_6.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+    </link>
+    <!-- Link part_7 -->
+    <link name="part_7">
+      <inertial>
+        <pose>18.7266 -20.3854 0.5 0 0 0</pose>
+        <mass>8303.27</mass>
+        <inertia>
+          <ixx>18666.5</ixx>
+          <ixy>-32932.8</ixy>
+          <ixz>0</ixz>
+          <iyy>89447.5</iyy>
+          <iyz>-2e-12</iyz>
+          <izz>106730</izz>
+        </inertia>
+      </inertial>
+      <pose>0 0 0 0 -0 0</pose>
+      <!-- Part part_7 -->
+      <visual name="part_7_visual_mesh_1">
+        <pose relative_to="part_7">0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://maze_world/meshes/part_7.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <ambient>0.682353 0.333333 0.737255 1</ambient>
+          <diffuse>0.682353 0.333333 0.737255 1</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+          <emissive>0 0 0 0</emissive>
+        </material>
+      </visual>
+      <collision name="part_7_collision_mesh_2">
+        <pose relative_to="part_7">0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://maze_world/meshes/part_7.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+    </link>
+    <!-- Link part_8 -->
+    <link name="part_8">
+      <inertial>
+        <pose>20.2712 -15.6045 0.5 0 0 0</pose>
+        <mass>4974.72</mass>
+        <inertia>
+          <ixx>518.2</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>37495.7</iyy>
+          <iyz>0</iyz>
+          <izz>37184.8</izz>
+        </inertia>
+      </inertial>
+      <pose>0 0 0 0 -0 0</pose>
+      <!-- Part part_8 -->
+      <visual name="part_8_visual_mesh_1">
+        <pose relative_to="part_8">0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://maze_world/meshes/part_8.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <ambient>0.980392 0.713725 0.00392157 1</ambient>
+          <diffuse>0.980392 0.713725 0.00392157 1</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+          <emissive>0 0 0 0</emissive>
+        </material>
+      </visual>
+      <collision name="part_8_collision_mesh_2">
+        <pose relative_to="part_8">0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://maze_world/meshes/part_8.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+    </link>
+    <!-- Link part_9 -->
+    <link name="part_9">
+      <inertial>
+        <pose>22.4507 8.611 0.5 0 0 0</pose>
+        <mass>5137.43</mass>
+        <inertia>
+          <ixx>25379.2</ixx>
+          <ixy>5393.09</ixy>
+          <ixz>-0</ixz>
+          <iyy>4196.7</iyy>
+          <iyz>0</iyz>
+          <izz>28719.6</izz>
+        </inertia>
+      </inertial>
+      <pose>0 0 0 0 -0 0</pose>
+      <!-- Part part_9 -->
+      <visual name="part_9_visual_mesh_1">
+        <pose relative_to="part_9">0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://maze_world/meshes/part_9.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <ambient>0.0941176 0.580392 0.545098 1</ambient>
+          <diffuse>0.0941176 0.580392 0.545098 1</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+          <emissive>0 0 0 0</emissive>
+        </material>
+      </visual>
+      <collision name="part_9_collision_mesh_2">
+        <pose relative_to="part_9">0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://maze_world/meshes/part_9.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+    </link>
+    <!-- Link part_10 -->
+    <link name="part_10">
+      <inertial>
+        <pose>-19.0305 -20.6184 0.5 0 0 0</pose>
+        <mass>9990.82</mass>
+        <inertia>
+          <ixx>22225.5</ixx>
+          <ixy>28679.6</ixy>
+          <ixz>0</ixz>
+          <iyy>96050.5</iyy>
+          <iyz>-0</iyz>
+          <izz>116611</izz>
+        </inertia>
+      </inertial>
+      <pose>0 0 0 0 -0 0</pose>
+      <!-- Part part_10 -->
+      <visual name="part_10_visual_mesh_1">
+        <pose relative_to="part_10">0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://maze_world/meshes/part_10.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <ambient>0.87451 0.447059 0.317647 1</ambient>
+          <diffuse>0.87451 0.447059 0.317647 1</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+          <emissive>0 0 0 0</emissive>
+        </material>
+      </visual>
+      <collision name="part_10_collision_mesh_2">
+        <pose relative_to="part_10">0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://maze_world/meshes/part_10.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+    </link>
+    <!-- Link part_11 -->
+    <link name="part_11">
+      <inertial>
+        <pose>-15.5019 22.0406 0.5 0 0 0</pose>
+        <mass>10427</mass>
+        <inertia>
+          <ixx>1105.48</ixx>
+          <ixy>-6.4e-11</ixy>
+          <ixz>0</ixz>
+          <iyy>314421</iyy>
+          <iyz>0</iyz>
+          <izz>313789</izz>
+        </inertia>
+      </inertial>
+      <pose>0 0 0 0 -0 0</pose>
+      <!-- Part part_11 -->
+      <visual name="part_11_visual_mesh_1">
+        <pose relative_to="part_11">0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://maze_world/meshes/part_11.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <ambient>0.231373 0.380392 0.705882 1</ambient>
+          <diffuse>0.231373 0.380392 0.705882 1</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+          <emissive>0 0 0 0</emissive>
+        </material>
+      </visual>
+      <collision name="part_11_collision_mesh_2">
+        <pose relative_to="part_11">0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://maze_world/meshes/part_11.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+    </link>
+    <!-- Link part_12 -->
+    <link name="part_12">
+      <inertial>
+        <pose>-0.713109 -12.1288 0.5 0 0 0</pose>
+        <mass>44649.8</mass>
+        <inertia>
+          <ixx>443002</ixx>
+          <ixy>276084</ixy>
+          <ixz>4e-12</ixz>
+          <iyy>3.17434e+06</iyy>
+          <iyz>2.7e-11</iyz>
+          <izz>3.6099e+06</izz>
+        </inertia>
+      </inertial>
+      <pose>0 0 0 0 -0 0</pose>
+      <!-- Part part_12 -->
+      <visual name="part_12_visual_mesh_1">
+        <pose relative_to="part_12">0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://maze_world/meshes/part_12.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <ambient>0.513725 0.737255 0.407843 1</ambient>
+          <diffuse>0.513725 0.737255 0.407843 1</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+          <emissive>0 0 0 0</emissive>
+        </material>
+      </visual>
+      <collision name="part_12_collision_mesh_2">
+        <pose relative_to="part_12">0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://maze_world/meshes/part_12.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+    </link>
+    <!-- Link part_13 -->
+    <link name="part_13">
+      <inertial>
+        <pose>21.9845 0.333722 0.5 0 0 0</pose>
+        <mass>3295.41</mass>
+        <inertia>
+          <ixx>11053.5</ixx>
+          <ixy>1e-12</ixy>
+          <ixz>0</ixz>
+          <iyy>343.272</iyy>
+          <iyz>0</iyz>
+          <izz>10847.6</izz>
+        </inertia>
+      </inertial>
+      <pose>0 0 0 0 -0 0</pose>
+      <!-- Part part_13 -->
+      <visual name="part_13_visual_mesh_1">
+        <pose relative_to="part_13">0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://maze_world/meshes/part_13.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <ambient>0.87451 0.447059 0.317647 1</ambient>
+          <diffuse>0.87451 0.447059 0.317647 1</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+          <emissive>0 0 0 0</emissive>
+        </material>
+      </visual>
+      <collision name="part_13_collision_mesh_2">
+        <pose relative_to="part_13">0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://maze_world/meshes/part_13.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+    </link>
+    <!-- Link part_14 -->
+    <link name="part_14">
+      <inertial>
+        <pose>-8.82418 13.3104 0.5 0 0 0</pose>
+        <mass>31106.6</mass>
+        <inertia>
+          <ixx>561393</ixx>
+          <ixy>642372</ixy>
+          <ixz>3e-12</ixz>
+          <iyy>1.3284e+06</iyy>
+          <iyz>2e-12</iyz>
+          <izz>1.88461e+06</izz>
+        </inertia>
+      </inertial>
+      <pose>0 0 0 0 -0 0</pose>
+      <!-- Part part_14 -->
+      <visual name="part_14_visual_mesh_1">
+        <pose relative_to="part_14">0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://maze_world/meshes/part_14.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <ambient>0.972549 0.529412 0.00392157 1</ambient>
+          <diffuse>0.972549 0.529412 0.00392157 1</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+          <emissive>0 0 0 0</emissive>
+        </material>
+      </visual>
+      <collision name="part_14_collision_mesh_2">
+        <pose relative_to="part_14">0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://maze_world/meshes/part_14.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+    </link>
+    <!-- Link part_15 -->
+    <link name="part_15">
+      <inertial>
+        <pose>18.8558 2.97596 0.5 0 0 0</pose>
+        <mass>3266.09</mass>
+        <inertia>
+          <ixx>10766</ixx>
+          <ixy>-0</ixy>
+          <ixz>0</ixz>
+          <iyy>340.218</iyy>
+          <iyz>0</iyz>
+          <izz>10561.8</izz>
+        </inertia>
+      </inertial>
+      <pose>0 0 0 0 -0 0</pose>
+      <!-- Part part_15 -->
+      <visual name="part_15_visual_mesh_1">
+        <pose relative_to="part_15">0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://maze_world/meshes/part_15.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <ambient>0.682353 0.333333 0.737255 1</ambient>
+          <diffuse>0.682353 0.333333 0.737255 1</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+          <emissive>0 0 0 0</emissive>
+        </material>
+      </visual>
+      <collision name="part_15_collision_mesh_2">
+        <pose relative_to="part_15">0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://maze_world/meshes/part_15.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+    </link>
+    <!-- Link part_16 -->
+    <link name="part_16">
+      <inertial>
+        <pose>9.47441 9.50302 0.5 0 0 0</pose>
+        <mass>3070.46</mass>
+        <inertia>
+          <ixx>321.571</ixx>
+          <ixy>-2e-12</ixy>
+          <ixz>0</ixz>
+          <iyy>8744.79</iyy>
+          <iyz>0</iyz>
+          <izz>8554.62</izz>
+        </inertia>
+      </inertial>
+      <pose>0 0 0 0 -0 0</pose>
+      <!-- Part part_16 -->
+      <visual name="part_16_visual_mesh_1">
+        <pose relative_to="part_16">0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://maze_world/meshes/part_16.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <ambient>0.980392 0.713725 0.00392157 1</ambient>
+          <diffuse>0.980392 0.713725 0.00392157 1</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+          <emissive>0 0 0 0</emissive>
+        </material>
+      </visual>
+      <collision name="part_16_collision_mesh_2">
+        <pose relative_to="part_16">0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://maze_world/meshes/part_16.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+    </link>
+    <!-- Link part_17 -->
+    <link name="part_17">
+      <inertial>
+        <pose>-19.0997 1.95626 0.5 0 0 0</pose>
+        <mass>43248.5</mass>
+        <inertia>
+          <ixx>3.3823e+06</ixx>
+          <ixy>-146889</ixy>
+          <ixz>-1e-12</ixz>
+          <iyy>311497</iyy>
+          <iyz>-4e-12</iyz>
+          <izz>3.68659e+06</izz>
+        </inertia>
+      </inertial>
+      <pose>0 0 0 0 -0 0</pose>
+      <!-- Part part_17 -->
+      <visual name="part_17_visual_mesh_1">
+        <pose relative_to="part_17">0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://maze_world/meshes/part_17.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <ambient>0.0941176 0.580392 0.545098 1</ambient>
+          <diffuse>0.0941176 0.580392 0.545098 1</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+          <emissive>0 0 0 0</emissive>
+        </material>
+      </visual>
+      <collision name="part_17_collision_mesh_2">
+        <pose relative_to="part_17">0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://maze_world/meshes/part_17.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+    </link>
+    <!-- Link part_18 -->
+    <link name="part_18">
+      <inertial>
+        <pose>-3.13254 -20.086 0.5 0 0 0</pose>
+        <mass>1651.66</mass>
+        <inertia>
+          <ixx>1494.74</ixx>
+          <ixy>-0</ixy>
+          <ixz>0</ixz>
+          <iyy>172.048</iyy>
+          <iyz>-0</iyz>
+          <izz>1391.51</izz>
+        </inertia>
+      </inertial>
+      <pose>0 0 0 0 -0 0</pose>
+      <!-- Part part_18 -->
+      <visual name="part_18_visual_mesh_1">
+        <pose relative_to="part_18">0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://maze_world/meshes/part_18.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <ambient>0.866667 0.321569 0.156863 1</ambient>
+          <diffuse>0.866667 0.321569 0.156863 1</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+          <emissive>0 0 0 0</emissive>
+        </material>
+      </visual>
+      <collision name="part_18_collision_mesh_2">
+        <pose relative_to="part_18">0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://maze_world/meshes/part_18.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+    </link>
+    <!-- Link part_19 -->
+    <link name="part_19">
+      <inertial>
+        <pose>3.17611 -20.086 0.5 0 0 0</pose>
+        <mass>1651.66</mass>
+        <inertia>
+          <ixx>1494.74</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>172.048</iyy>
+          <iyz>0</iyz>
+          <izz>1391.51</izz>
+        </inertia>
+      </inertial>
+      <pose>0 0 0 0 -0 0</pose>
+      <!-- Part part_19 -->
+      <visual name="part_19_visual_mesh_1">
+        <pose relative_to="part_19">0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://maze_world/meshes/part_19.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <ambient>0.231373 0.380392 0.705882 1</ambient>
+          <diffuse>0.231373 0.380392 0.705882 1</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+          <emissive>0 0 0 0</emissive>
+        </material>
+      </visual>
+      <collision name="part_19_collision_mesh_2">
+        <pose relative_to="part_19">0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://maze_world/meshes/part_19.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+    </link>
+    <!-- Link part_20 -->
+    <link name="part_20">
+      <inertial>
+        <pose>0.0213181 -0.0107508 0.05 0 0 0</pose>
+        <mass>225362</mass>
+        <inertia>
+          <ixx>4.80288e+07</ixx>
+          <ixy>16287.8</ixy>
+          <ixz>-2e-12</ixz>
+          <iyy>4.80504e+07</iyy>
+          <iyz>-3e-12</iyz>
+          <izz>9.60788e+07</izz>
+        </inertia>
+      </inertial>
+      <pose>0 0 0 0 -0 0</pose>
+      <!-- Part part_20 -->
+      <visual name="part_20_visual_mesh_1">
+        <pose relative_to="part_20">0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://maze_world/meshes/part_20.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <ambient>0.768627 0.886275 0.952941 1</ambient>
+          <diffuse>0.768627 0.886275 0.952941 1</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+          <emissive>0 0 0 0</emissive>
+        </material>
+      </visual>
+      <collision name="part_20_collision_mesh_2">
+        <pose relative_to="part_20">0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://maze_world/meshes/part_20.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+    </link>
+    <!-- Link part_21 -->
+    <link name="part_21">
+      <inertial>
+        <pose>0 0 0.05 0 0 0</pose>
+        <mass>82.6239</mass>
+        <inertia>
+          <ixx>5.23285</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>5.23285</iyy>
+          <iyz>0</iyz>
+          <izz>10.328</izz>
+        </inertia>
+      </inertial>
+      <pose>0 0 0 0 -0 0</pose>
+      <!-- Part part_21 -->
+      <visual name="part_21_visual_mesh_1">
+        <pose relative_to="part_21">0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://maze_world/meshes/part_21.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <ambient>0.768627 0.886275 0.952941 1</ambient>
+          <diffuse>0.768627 0.886275 0.952941 1</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+          <emissive>0 0 0 0</emissive>
+        </material>
+      </visual>
+      <collision name="part_21_collision_mesh_2">
+        <pose relative_to="part_21">0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://maze_world/meshes/part_21.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+    </link>
+    <!-- Link part_22 -->
+    <link name="part_22">
+      <inertial>
+        <pose>0.232827 -0.0711822 0.05 0 0 0</pose>
+        <mass>516.884</mass>
+        <inertia>
+          <ixx>469.754</ixx>
+          <ixy>-57.4942</ixy>
+          <ixz>0</ixz>
+          <iyy>299.276</iyy>
+          <iyz>-0</iyz>
+          <izz>768.169</izz>
+        </inertia>
+      </inertial>
+      <pose>0 0 0 0 -0 0</pose>
+      <!-- Part part_22 -->
+      <visual name="part_22_visual_mesh_1">
+        <pose relative_to="part_22">0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://maze_world/meshes/part_22.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <ambient>0.972549 0.529412 0.00392157 1</ambient>
+          <diffuse>0.972549 0.529412 0.00392157 1</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+          <emissive>0 0 0 0</emissive>
+        </material>
+      </visual>
+      <collision name="part_22_collision_mesh_2">
+        <pose relative_to="part_22">0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://maze_world/meshes/part_22.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+    </link>
+    <!-- Link part_23 -->
+    <link name="part_23">
+      <inertial>
+        <pose>-1.25182 0.38272 0.05 0 0 0</pose>
+        <mass>96.1356</mass>
+        <inertia>
+          <ixx>5.71495</ixx>
+          <ixy>2.86969</ixy>
+          <ixz>0</ixz>
+          <iyy>14.2239</iyy>
+          <iyz>0</iyz>
+          <izz>19.7787</izz>
+        </inertia>
+      </inertial>
+      <pose>0 0 0 0 -0 0</pose>
+      <!-- Part part_23 -->
+      <visual name="part_23_visual_mesh_1">
+        <pose relative_to="part_23">0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://maze_world/meshes/part_23.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <ambient>0.729412 0.25098 0.105882 1</ambient>
+          <diffuse>0.729412 0.25098 0.105882 1</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+          <emissive>0 0 0 0</emissive>
+        </material>
+      </visual>
+      <collision name="part_23_collision_mesh_2">
+        <pose relative_to="part_23">0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://maze_world/meshes/part_23.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+    </link>
+  </model>
+</sdf>
