@@ -7,6 +7,13 @@
       "command": "bash -ic 'terminator > /dev/null 2>&1 &'",
       "isBackground": true,
       "problemMatcher": [],
+      "options": {
+        "statusbar": {
+          "label": "$(terminal) Terminator",
+          "color": "#E06C75",
+          "detail": "Click to open Terminator"
+        }
+      },
       "presentation": {
         "reveal": "never",
         "panel": "shared",
