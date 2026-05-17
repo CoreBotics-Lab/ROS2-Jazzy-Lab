@@ -1,15 +1,11 @@
 {
     // --- Python & Pyrefly ---
-    "python.languageServer": "None",
+    "python.languageServer": "Default",
     "python.pyrefly.typeCheckingMode": "default",
     "python.pyrefly.disableTypeErrors": false,
     "python.autoComplete.extraPaths": [
         "/opt/ros/jazzy/lib/python3.12/site-packages",
         "/root/ros2_ws/install/ros2_interfaces/lib/python3.12/site-packages"
-    ],
-    "python.analysis.extraPaths": [
-        "/root/ros2_ws/install/ros2_interfaces/lib/python3.12/site-packages",
-        "/opt/ros/jazzy/lib/python3.12/site-packages"
     ],
     "python.REPL.enableREPLSmartSend": false,
     // --- C++ & Clangd ---
