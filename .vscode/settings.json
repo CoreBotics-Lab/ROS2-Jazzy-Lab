@@ -36,5 +36,9 @@
     // --- URDF Visualizer ---
     "urdf-visualizer.packages": {
         "core_description": "${workspaceFolder}/src/gazebo_sim/gazebo_core/core_description"
-    }
+    },
+    "urdf-visualizer.default.showLinkFrames": true,
+    "urdf-visualizer.default.linkFrameSize": 0.5,
+    "urdf-visualizer.highlightLinkWhenHover": true,
+    "urdf-visualizer.showTips": false
 }
