@@ -35,5 +35,9 @@
         "**/build": true,
         "**/install": true,
         "**/log": true
+    },
+    // --- URDF Visualizer ---
+    "urdf-visualizer.packages": {
+        "core_description": "${workspaceFolder}/src/gazebo_sim/gazebo_core/core_description"
     }
 }
