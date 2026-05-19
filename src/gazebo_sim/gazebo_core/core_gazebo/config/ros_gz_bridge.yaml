@@ -1,5 +1,6 @@
 # ROS-Gazebo Bridge Configuration for Motor Testbench
 # Topic definition: [ROS Topic] @ [ROS Message Type] [Bridge Direction] [Gazebo Message Type]
+# reference: https://github.com/gazebosim/ros_gz/tree/ros2/ros_gz_bridge
 
 - topic_name: "/clock"
   ros_type_name: "rosgraph_msgs/msg/Clock"
