@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<robot name="robot_2wd" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:include filename="$(find core_description)/urdf/robot_2wd/modules/common_properties.xacro" />
+    <xacro:include filename="$(find core_description)/urdf/robot_2wd/modules/robot_2wd.xacro" />
+    <xacro:include filename="$(find core_description)/urdf/robot_2wd/modules/robot_2wd.gazebo.xacro" />
+    <xacro:include filename="$(find core_description)/urdf/robot_2wd/modules/camera.xacro" />
+    <xacro:include filename="$(find core_description)/urdf/robot_2wd/modules/lidar.xacro" />
+</robot>
