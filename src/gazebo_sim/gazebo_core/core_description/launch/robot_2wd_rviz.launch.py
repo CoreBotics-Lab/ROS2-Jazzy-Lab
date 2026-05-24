@@ -24,7 +24,7 @@ def generate_launch_description():
     # =========================== Paths ==========================
     urdf_path = PathJoinSubstitution([
         get_package_share_directory('core_description'),
-        'urdf/tutorial_robot',
+        'urdf/robot_2wd',
         LaunchConfiguration('urdf_model')
     ])
     rviz_config_path = PathJoinSubstitution([
