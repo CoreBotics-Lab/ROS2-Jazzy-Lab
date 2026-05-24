@@ -121,6 +121,24 @@ Gazebo and ROS 2 speak different languages. We need a bridge to bring the simula
 ```bash
 ros2 run ros_gz_bridge parameter_bridge /clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock
 ```
+> **Note:** Alternatively, you can configure the clock bridge using a `ros_gz_bridge.yaml` file with an explicit mapping.
+
+```yaml
+# ros_gz_bridge.yaml
+parameter_bridge:
+  topics:
+    - topic_name: "/clock"
+      ros_type_name: "rosgraph_msgs/msg/Clock"
+      gz_type_name: "gz.msgs.Clock"
+      direction: GZ_TO_ROS
+```
+
+```bash
+# Load the bridge using the YAML file
+ros2 run ros_gz_bridge parameter_bridge --ros-args --params-file ros_gz_bridge.yaml
+```
+
+
 
 ### Terminal 3: Start Robot State Publisher & Load URDF
 
