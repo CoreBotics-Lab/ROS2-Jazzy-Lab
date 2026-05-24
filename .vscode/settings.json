@@ -36,7 +36,7 @@
     // --- URDF Visualizer ---
     "urdf-visualizer.packages": {
         "core_description": "${workspaceFolder}/src/gazebo_sim/gazebo_core/core_description",
-        "bumperbot_description": "${workspaceFolder}/src/odometry_and_control/bumperbot_description"
+        "bumperbot_description": "${workspaceFolder}/src/Odometry&Control/bumperbot_description"
     },
     "urdf-visualizer.default.showLinkFrames": true,
     "urdf-visualizer.default.linkFrameSize": 0.5,
