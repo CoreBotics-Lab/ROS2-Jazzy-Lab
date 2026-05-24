@@ -99,7 +99,7 @@ In ROS 2, Xacro and Gazebo use the `$(find package_name)` macro to locate files.
 
 ## 3. "Old School" Manual Launch Guide
 
-This process requires **six** separate terminals. In each new terminal, you must first source your workspace: `source /root/ros2_ws/install/setup.bash`.
+This process requires **seven** separate terminals (six for launch + one for verification). In each new terminal, you must first source your workspace: `source /root/ros2_ws/install/setup.bash`.
 
 ### Terminal 1: Start Gazebo
 
