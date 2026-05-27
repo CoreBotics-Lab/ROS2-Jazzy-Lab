@@ -3,5 +3,6 @@
 
   <xacro:include filename="$(find bumperbot_description)/urdf/include/bumperbot_mobile_base.xacro"/>
   <xacro:include filename="$(find bumperbot_description)/urdf/include/bumperbot.gazebo.xacro"/>
+  <xacro:include filename="$(find bumperbot_description)/urdf/include/bumperbot_ros2control.xacro"/>
 
 </robot>

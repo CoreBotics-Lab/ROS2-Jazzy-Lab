@@ -39,4 +39,10 @@
     <maxVel>0.1</maxVel>
   </gazebo>
 
+  <gazebo>
+    <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin" >
+      <parameters>$(find bumperbot_controllers)/config/bumperbot_controllers.yaml</parameters>
+    </plugin>
+  </gazebo>
+  
 </robot>
