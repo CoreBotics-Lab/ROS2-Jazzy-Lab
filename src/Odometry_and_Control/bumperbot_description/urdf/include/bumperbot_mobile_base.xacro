@@ -83,13 +83,13 @@
         <mesh filename="package://bumperbot_description/meshes/spacer_hex.${mesh_format}"/>
       </geometry>
     </collision>
-    <!-- Part base_plate -->
+    <!-- Part base_plate_mid_left -->
     <visual>
       <origin xyz="-0.0005 -0 0.037" rpy="0 -0 1.5708"/>
       <geometry>
         <mesh filename="package://bumperbot_description/meshes/base_plate.${mesh_format}"/>
       </geometry>
-      <material name="base_plate_material">
+      <material name="base_plate_mid_left_material">
         <color rgba="0.117647 0.117647 0.117647 1"/>
       </material>
     </visual>
@@ -131,13 +131,13 @@
         <mesh filename="package://bumperbot_description/meshes/spacer_hex.${mesh_format}"/>
       </geometry>
     </collision>
-    <!-- Part base_plate_2 -->
+    <!-- Part base_plate_mid_right -->
     <visual>
       <origin xyz="-0.0005 -0 0.037" rpy="0 -0 -1.5708"/>
       <geometry>
         <mesh filename="package://bumperbot_description/meshes/base_plate.${mesh_format}"/>
       </geometry>
-      <material name="base_plate_2_material">
+      <material name="base_plate_mid_right_material">
         <color rgba="0.117647 0.117647 0.117647 1"/>
       </material>
     </visual>
@@ -147,13 +147,13 @@
         <mesh filename="package://bumperbot_description/meshes/base_plate.${mesh_format}"/>
       </geometry>
     </collision>
-    <!-- Part base_plate_3 -->
+    <!-- Part base_plate_top_left -->
     <visual>
       <origin xyz="-0.0005 -0 0.074" rpy="0 -0 1.5708"/>
       <geometry>
         <mesh filename="package://bumperbot_description/meshes/base_plate.${mesh_format}"/>
       </geometry>
-      <material name="base_plate_3_material">
+      <material name="base_plate_top_left_material">
         <color rgba="0.117647 0.117647 0.117647 1"/>
       </material>
     </visual>
@@ -163,13 +163,13 @@
         <mesh filename="package://bumperbot_description/meshes/base_plate.${mesh_format}"/>
       </geometry>
     </collision>
-    <!-- Part base_plate_4 -->
+    <!-- Part base_plate_top_right -->
     <visual>
       <origin xyz="-0.0005 -0 0.074" rpy="0 -0 -1.5708"/>
       <geometry>
         <mesh filename="package://bumperbot_description/meshes/base_plate.${mesh_format}"/>
       </geometry>
-      <material name="base_plate_4_material">
+      <material name="base_plate_top_right_material">
         <color rgba="0.117647 0.117647 0.117647 1"/>
       </material>
     </visual>
@@ -291,13 +291,13 @@
         <mesh filename="package://bumperbot_description/meshes/actuatordc_left.${mesh_format}"/>
       </geometry>
     </collision>
-    <!-- Part base_plate_5 -->
+    <!-- Part base_plate_bottom_left -->
     <visual>
       <origin xyz="-0.0005 -0 0" rpy="0 -0 1.5708"/>
       <geometry>
         <mesh filename="package://bumperbot_description/meshes/base_plate.${mesh_format}"/>
       </geometry>
-      <material name="base_plate_5_material">
+      <material name="base_plate_bottom_left_material">
         <color rgba="0.117647 0.117647 0.117647 1"/>
       </material>
     </visual>
@@ -355,13 +355,13 @@
         <mesh filename="package://bumperbot_description/meshes/spacer_hex.${mesh_format}"/>
       </geometry>
     </collision>
-    <!-- Part base_plate_6 -->
+    <!-- Part base_plate_bottom_right -->
     <visual>
       <origin xyz="-0.0005 -0 0" rpy="0 -0 -1.5708"/>
       <geometry>
         <mesh filename="package://bumperbot_description/meshes/base_plate.${mesh_format}"/>
       </geometry>
-      <material name="base_plate_6_material">
+      <material name="base_plate_bottom_right_material">
         <color rgba="0.117647 0.117647 0.117647 1"/>
       </material>
     </visual>
@@ -371,6 +371,35 @@
         <mesh filename="package://bumperbot_description/meshes/base_plate.${mesh_format}"/>
       </geometry>
     </collision>
+
+    <!-- Part raspberry_pi_5 -->
+    <visual>
+      <origin xyz="0.025 0 0.046" rpy="0 0 1.5708"/>
+      <geometry>
+        <mesh filename="package://bumperbot_description/meshes/raspberry_pi_5.gltf"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.025 0 0.046" rpy="0 0 1.5708"/>
+      <geometry>
+        <mesh filename="package://bumperbot_description/meshes/raspberry_pi_5.gltf"/>
+      </geometry>
+    </collision>
+
+    <!-- Part l298n -->
+    <visual>
+      <origin xyz="-0.03 0 0.046" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://bumperbot_description/meshes/l298n.gltf"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.03 0 0.046" rpy="0 0 1.5708"/>
+      <geometry>
+        <mesh filename="package://bumperbot_description/meshes/l298n.gltf"/>
+      </geometry>
+    </collision>
+
   </link>
   <!-- Link caster_wheel -->
   <link name="caster_wheel">
