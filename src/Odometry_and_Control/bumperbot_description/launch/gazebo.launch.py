@@ -52,28 +52,31 @@ def generate_launch_description():
         arguments = ['-d', os.path.join(bumperbot_package_dir, 'rviz', 'display.rviz')]
     )
 
-    # Initialize Gazebo Sim server
-    action_gazebo_server = IncludeLaunchDescription(
+    gazebo_clock_bridge = Node(
+        package='ros_gz_bridge',
+        executable='parameter_bridge',
+        output='screen',
+        name='clock_bridge',
+        arguments=[
+            '/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock'
+        ]
+    )
+
+    # Pass '-s ' (server only) if headless is True, otherwise pass empty string to run both by default.
+    gz_sim = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             PathJoinSubstitution([ros_gz_package_dir, 'launch', 'gz_sim.launch.py'])
         ),
         launch_arguments={
-            'gz_args': ['-r -s ', 'empty.sdf'],
+            'gz_args': [
+                '-r ', 
+                PythonExpression(["'-s ' if '", LaunchConfiguration('headless'), "'.lower() == 'true' else ''"]), 
+                'empty.sdf'
+            ],
             'on_exit_shutdown': 'true'
         }.items()
     )
 
-    # Initialize Gazebo Sim GUI
-    action_gazebo_gui = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            PathJoinSubstitution([ros_gz_package_dir, 'launch', 'gz_sim.launch.py'])
-        ),
-        launch_arguments={
-            'gz_args': '-g ',
-            'on_exit_shutdown': 'true'
-        }.items(),
-        condition=IfCondition(PythonExpression(['not ', LaunchConfiguration('headless')]))
-    )
     gz_spawn_entity = Node(
         package='ros_gz_sim',
         executable='create',
@@ -91,8 +94,8 @@ def generate_launch_description():
     return LaunchDescription([
         launch_arg_headless,
         env_gz_resource_path,
-        action_gazebo_server,
-        action_gazebo_gui,
+        gazebo_clock_bridge,
+        gz_sim,
         gz_spawn_entity,
         robot_state_publisher,
         rviz2,
