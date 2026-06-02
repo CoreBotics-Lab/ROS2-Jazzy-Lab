@@ -10,6 +10,7 @@ find_package(ament_cmake REQUIRED)
 find_package(ament_cmake_python REQUIRED)
 
 find_package(rclpy REQUIRED)
+find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)  
 
@@ -32,6 +33,18 @@ install(
   DIRECTORY config launch
   DESTINATION share/${PROJECT_NAME}
 )
+
+# ________________________________CPP_______________________________________________
+
+add_executable(diff_drive_kinematics_cpp src/diff_drive_kinematics_cpp.cpp)
+ament_target_dependencies(diff_drive_kinematics_cpp rclcpp std_msgs geometry_msgs)
+
+install(TARGETS
+  diff_drive_kinematics_cpp
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+# ________________________________CPP_______________________________________________
 
 
 
