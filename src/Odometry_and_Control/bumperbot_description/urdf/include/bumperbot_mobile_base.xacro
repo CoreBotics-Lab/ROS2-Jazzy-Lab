@@ -15,360 +15,360 @@
 <!-- Link base_link -->
   <link name="base_link">
     <inertial>
-      <origin xyz="-0.000500099 3.9e-11 0.0388508" rpy="0 0 0"/>
+      <origin xyz="-9.8651e-08 -0 0.0388508" rpy="0 0 0"/>
       <mass value="0.427641"/>
-      <inertia ixx="0.000917472" ixy="-1.75126e-05" ixz="-6.25e-10" iyy="0.000910074" iyz="2e-12" izz="0.0011829"/>
+      <inertia ixx="0.000917472" ixy="-1.75126e-05" ixz="-6.26e-10" iyy="0.000910074" iyz="-0" izz="0.0011829"/>
     </inertial>
     <!-- Part spacer_hex -->
     <visual>
-      <origin xyz="0.0635 -0.024 0.0434998" rpy="0 -0 -0"/>
+      <origin xyz="-0.064 0.024 0.0434998" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/spacer_hex.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/spacer_hex.gltf"/>
       </geometry>
       <material name="spacer_hex_material">
         <color rgba="0.980392 0.796078 0.262745 1"/>
       </material>
     </visual>
     <collision>
-      <origin xyz="0.0635 -0.024 0.0434998" rpy="0 -0 -0"/>
+      <origin xyz="-0.064 0.024 0.0434998" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/spacer_hex.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/spacer_hex.gltf"/>
       </geometry>
     </collision>
     <!-- Part spacer_hex_2 -->
     <visual>
-      <origin xyz="-0.0645 -0.012 0.0434998" rpy="0 -0 -0"/>
+      <origin xyz="0.024 0.064 0.0434998" rpy="0 -0 0.523599"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/spacer_hex.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/spacer_hex.gltf"/>
       </geometry>
       <material name="spacer_hex_2_material">
         <color rgba="0.980392 0.796078 0.262745 1"/>
       </material>
     </visual>
     <collision>
-      <origin xyz="-0.0645 -0.012 0.0434998" rpy="0 -0 -0"/>
+      <origin xyz="0.024 0.064 0.0434998" rpy="0 -0 0.523599"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/spacer_hex.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/spacer_hex.gltf"/>
       </geometry>
     </collision>
     <!-- Part spacer_hex_3 -->
     <visual>
-      <origin xyz="0.0635 0.012 0.0434998" rpy="0 0 -0"/>
+      <origin xyz="-0.064 -0.012 0.0434998" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/spacer_hex.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/spacer_hex.gltf"/>
       </geometry>
       <material name="spacer_hex_3_material">
         <color rgba="0.980392 0.796078 0.262745 1"/>
       </material>
     </visual>
     <collision>
-      <origin xyz="0.0635 0.012 0.0434998" rpy="0 0 -0"/>
+      <origin xyz="-0.064 -0.012 0.0434998" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/spacer_hex.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/spacer_hex.gltf"/>
       </geometry>
     </collision>
     <!-- Part spacer_hex_4 -->
     <visual>
-      <origin xyz="0.0235 0.064 0.0434998" rpy="0 -0 -1.5708"/>
+      <origin xyz="-0.024 -0.064 0.0434998" rpy="0 -0 0.523599"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/spacer_hex.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/spacer_hex.gltf"/>
       </geometry>
       <material name="spacer_hex_4_material">
         <color rgba="0.980392 0.796078 0.262745 1"/>
       </material>
     </visual>
     <collision>
-      <origin xyz="0.0235 0.064 0.0434998" rpy="0 -0 -1.5708"/>
+      <origin xyz="-0.024 -0.064 0.0434998" rpy="0 -0 0.523599"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/spacer_hex.${mesh_format}"/>
-      </geometry>
-    </collision>
-    <!-- Part base_plate_mid_left -->
-    <visual>
-      <origin xyz="-0.0005 -0 0.037" rpy="0 -0 1.5708"/>
-      <geometry>
-        <mesh filename="package://bumperbot_description/meshes/base_plate.${mesh_format}"/>
-      </geometry>
-      <material name="base_plate_mid_left_material">
-        <color rgba="0.117647 0.117647 0.117647 1"/>
-      </material>
-    </visual>
-    <collision>
-      <origin xyz="-0.0005 -0 0.037" rpy="0 -0 1.5708"/>
-      <geometry>
-        <mesh filename="package://bumperbot_description/meshes/base_plate.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/spacer_hex.gltf"/>
       </geometry>
     </collision>
     <!-- Part spacer_hex_5 -->
     <visual>
-      <origin xyz="-0.0645 0.024 0.0434998" rpy="-0 -0 -0"/>
+      <origin xyz="0.064 0.012 0.0434998" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/spacer_hex.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/spacer_hex.gltf"/>
       </geometry>
       <material name="spacer_hex_5_material">
         <color rgba="0.980392 0.796078 0.262745 1"/>
       </material>
     </visual>
     <collision>
-      <origin xyz="-0.0645 0.024 0.0434998" rpy="-0 -0 -0"/>
+      <origin xyz="0.064 0.012 0.0434998" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/spacer_hex.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/spacer_hex.gltf"/>
+      </geometry>
+    </collision>
+    <!-- Part base_plate_right -->
+    <visual>
+      <origin xyz="0 0 0.037" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://bumperbot_description/meshes/base_plate_right.gltf"/>
+      </geometry>
+      <material name="base_plate_right_material">
+        <color rgba="0.117647 0.117647 0.117647 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.037" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://bumperbot_description/meshes/base_plate_right.gltf"/>
       </geometry>
     </collision>
     <!-- Part spacer_hex_6 -->
     <visual>
-      <origin xyz="-0.0245 -0.064 0.0434998" rpy="0 -0 1.5708"/>
+      <origin xyz="0.064 -0.024 0.0434998" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/spacer_hex.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/spacer_hex.gltf"/>
       </geometry>
       <material name="spacer_hex_6_material">
         <color rgba="0.980392 0.796078 0.262745 1"/>
       </material>
     </visual>
     <collision>
-      <origin xyz="-0.0245 -0.064 0.0434998" rpy="0 -0 1.5708"/>
+      <origin xyz="0.064 -0.024 0.0434998" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/spacer_hex.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/spacer_hex.gltf"/>
       </geometry>
     </collision>
-    <!-- Part base_plate_mid_right -->
+    <!-- Part base_plate_left -->
     <visual>
-      <origin xyz="-0.0005 -0 0.037" rpy="0 -0 -1.5708"/>
+      <origin xyz="0 0 0.037" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/base_plate.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/base_plate_left.gltf"/>
       </geometry>
-      <material name="base_plate_mid_right_material">
+      <material name="base_plate_left_material">
         <color rgba="0.117647 0.117647 0.117647 1"/>
       </material>
     </visual>
     <collision>
-      <origin xyz="-0.0005 -0 0.037" rpy="0 -0 -1.5708"/>
+      <origin xyz="0 0 0.037" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/base_plate.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/base_plate_left.gltf"/>
       </geometry>
     </collision>
-    <!-- Part base_plate_top_left -->
+    <!-- Part base_plate_right_2 -->
     <visual>
-      <origin xyz="-0.0005 -0 0.074" rpy="0 -0 1.5708"/>
+      <origin xyz="0 0 0.074" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/base_plate.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/base_plate_right.gltf"/>
       </geometry>
-      <material name="base_plate_top_left_material">
+      <material name="base_plate_right_2_material">
         <color rgba="0.117647 0.117647 0.117647 1"/>
       </material>
     </visual>
     <collision>
-      <origin xyz="-0.0005 -0 0.074" rpy="0 -0 1.5708"/>
+      <origin xyz="0 0 0.074" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/base_plate.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/base_plate_right.gltf"/>
       </geometry>
     </collision>
-    <!-- Part base_plate_top_right -->
+    <!-- Part base_plate_left_2 -->
     <visual>
-      <origin xyz="-0.0005 -0 0.074" rpy="0 -0 -1.5708"/>
+      <origin xyz="0 0 0.074" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/base_plate.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/base_plate_left.gltf"/>
       </geometry>
-      <material name="base_plate_top_right_material">
+      <material name="base_plate_left_2_material">
         <color rgba="0.117647 0.117647 0.117647 1"/>
       </material>
     </visual>
     <collision>
-      <origin xyz="-0.0005 -0 0.074" rpy="0 -0 -1.5708"/>
+      <origin xyz="0 0 0.074" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/base_plate.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/base_plate_left.gltf"/>
       </geometry>
     </collision>
     <!-- Part spacer_hex_7 -->
     <visual>
-      <origin xyz="0.0635 -0.024 0.0064998" rpy="0 -0 0"/>
+      <origin xyz="-0.064 0.024 0.0064998" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/spacer_hex.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/spacer_hex.gltf"/>
       </geometry>
       <material name="spacer_hex_7_material">
         <color rgba="0.980392 0.796078 0.262745 1"/>
       </material>
     </visual>
     <collision>
-      <origin xyz="0.0635 -0.024 0.0064998" rpy="0 -0 0"/>
+      <origin xyz="-0.064 0.024 0.0064998" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/spacer_hex.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/spacer_hex.gltf"/>
       </geometry>
     </collision>
     <!-- Part motor_bracket_left -->
     <visual>
-      <origin xyz="-0.0005 0.0482736 0.00899984" rpy="0 -0 0"/>
+      <origin xyz="0 0.0482736 0.0089998" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/motor_bracket_left.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/motor_bracket_left.gltf"/>
       </geometry>
       <material name="motor_bracket_left_material">
         <color rgba="0.262745 0.282353 0.301961 1"/>
       </material>
     </visual>
     <collision>
-      <origin xyz="-0.0005 0.0482736 0.00899984" rpy="0 -0 0"/>
+      <origin xyz="0 0.0482736 0.0089998" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/motor_bracket_left.${mesh_format}"/>
-      </geometry>
-    </collision>
-    <!-- Part spacer_hex_8 -->
-    <visual>
-      <origin xyz="-0.0645 -0.012 0.0064998" rpy="0 -0 0"/>
-      <geometry>
-        <mesh filename="package://bumperbot_description/meshes/spacer_hex.${mesh_format}"/>
-      </geometry>
-      <material name="spacer_hex_8_material">
-        <color rgba="0.980392 0.796078 0.262745 1"/>
-      </material>
-    </visual>
-    <collision>
-      <origin xyz="-0.0645 -0.012 0.0064998" rpy="0 -0 0"/>
-      <geometry>
-        <mesh filename="package://bumperbot_description/meshes/spacer_hex.${mesh_format}"/>
-      </geometry>
-    </collision>
-    <!-- Part spacer_hex_9 -->
-    <visual>
-      <origin xyz="0.0635 0.012 0.0064998" rpy="0 0 0"/>
-      <geometry>
-        <mesh filename="package://bumperbot_description/meshes/spacer_hex.${mesh_format}"/>
-      </geometry>
-      <material name="spacer_hex_9_material">
-        <color rgba="0.980392 0.796078 0.262745 1"/>
-      </material>
-    </visual>
-    <collision>
-      <origin xyz="0.0635 0.012 0.0064998" rpy="0 0 0"/>
-      <geometry>
-        <mesh filename="package://bumperbot_description/meshes/spacer_hex.${mesh_format}"/>
-      </geometry>
-    </collision>
-    <!-- Part spacer_hex_10 -->
-    <visual>
-      <origin xyz="0.0235 0.064 0.0064998" rpy="0 -0 -1.5708"/>
-      <geometry>
-        <mesh filename="package://bumperbot_description/meshes/spacer_hex.${mesh_format}"/>
-      </geometry>
-      <material name="spacer_hex_10_material">
-        <color rgba="0.980392 0.796078 0.262745 1"/>
-      </material>
-    </visual>
-    <collision>
-      <origin xyz="0.0235 0.064 0.0064998" rpy="0 -0 -1.5708"/>
-      <geometry>
-        <mesh filename="package://bumperbot_description/meshes/spacer_hex.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/motor_bracket_left.gltf"/>
       </geometry>
     </collision>
     <!-- Part motor_bracket_right -->
     <visual>
-      <origin xyz="-0.0005 -0.0482736 0.00899984" rpy="0 -0 0"/>
+      <origin xyz="-0 -0.0482736 0.0089998" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/motor_bracket_right.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/motor_bracket_right.gltf"/>
       </geometry>
       <material name="motor_bracket_right_material">
         <color rgba="0.262745 0.282353 0.301961 1"/>
       </material>
     </visual>
     <collision>
-      <origin xyz="-0.0005 -0.0482736 0.00899984" rpy="0 -0 0"/>
+      <origin xyz="-0 -0.0482736 0.0089998" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/motor_bracket_right.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/motor_bracket_right.gltf"/>
       </geometry>
     </collision>
     <!-- Part actuatordc_left -->
     <visual>
-      <origin xyz="-0.0005 0.0667736 0.0239998" rpy="-0 -0 0"/>
+      <origin xyz="0 0.0667736 0.0239998" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/actuatordc_left.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/actuatordc_left.gltf"/>
       </geometry>
       <material name="actuatordc_left_material">
         <color rgba="0.647059 0.647059 0.647059 1"/>
       </material>
     </visual>
     <collision>
-      <origin xyz="-0.0005 0.0667736 0.0239998" rpy="-0 -0 0"/>
+      <origin xyz="0 0.0667736 0.0239998" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/actuatordc_left.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/actuatordc_left.gltf"/>
       </geometry>
     </collision>
-    <!-- Part base_plate_bottom_left -->
+    <!-- Part spacer_hex_8 -->
     <visual>
-      <origin xyz="-0.0005 -0 0" rpy="0 -0 1.5708"/>
+      <origin xyz="0.024 0.064 0.0064998" rpy="0 -0 0.523599"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/base_plate.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/spacer_hex.gltf"/>
       </geometry>
-      <material name="base_plate_bottom_left_material">
-        <color rgba="0.117647 0.117647 0.117647 1"/>
+      <material name="spacer_hex_8_material">
+        <color rgba="0.980392 0.796078 0.262745 1"/>
       </material>
     </visual>
     <collision>
-      <origin xyz="-0.0005 -0 0" rpy="0 -0 1.5708"/>
+      <origin xyz="0.024 0.064 0.0064998" rpy="0 -0 0.523599"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/base_plate.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/spacer_hex.gltf"/>
       </geometry>
     </collision>
     <!-- Part actuatordc_right -->
     <visual>
-      <origin xyz="-0.0005 -0.0667736 0.0239998" rpy="0 0 0"/>
+      <origin xyz="-0 -0.0667736 0.0239998" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/actuatordc_right.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/actuatordc_right.gltf"/>
       </geometry>
       <material name="actuatordc_right_material">
         <color rgba="0.647059 0.647059 0.647059 1"/>
       </material>
     </visual>
     <collision>
-      <origin xyz="-0.0005 -0.0667736 0.0239998" rpy="0 0 0"/>
+      <origin xyz="-0 -0.0667736 0.0239998" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/actuatordc_right.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/actuatordc_right.gltf"/>
+      </geometry>
+    </collision>
+    <!-- Part spacer_hex_9 -->
+    <visual>
+      <origin xyz="-0.064 -0.012 0.0064998" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://bumperbot_description/meshes/spacer_hex.gltf"/>
+      </geometry>
+      <material name="spacer_hex_9_material">
+        <color rgba="0.980392 0.796078 0.262745 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.064 -0.012 0.0064998" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://bumperbot_description/meshes/spacer_hex.gltf"/>
+      </geometry>
+    </collision>
+    <!-- Part spacer_hex_10 -->
+    <visual>
+      <origin xyz="-0.024 -0.064 0.0064998" rpy="0 -0 0.523599"/>
+      <geometry>
+        <mesh filename="package://bumperbot_description/meshes/spacer_hex.gltf"/>
+      </geometry>
+      <material name="spacer_hex_10_material">
+        <color rgba="0.980392 0.796078 0.262745 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.024 -0.064 0.0064998" rpy="0 -0 0.523599"/>
+      <geometry>
+        <mesh filename="package://bumperbot_description/meshes/spacer_hex.gltf"/>
       </geometry>
     </collision>
     <!-- Part spacer_hex_11 -->
     <visual>
-      <origin xyz="-0.0645 0.024 0.0064998" rpy="-0 -0 0"/>
+      <origin xyz="0.064 0.012 0.0064998" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/spacer_hex.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/spacer_hex.gltf"/>
       </geometry>
       <material name="spacer_hex_11_material">
         <color rgba="0.980392 0.796078 0.262745 1"/>
       </material>
     </visual>
     <collision>
-      <origin xyz="-0.0645 0.024 0.0064998" rpy="-0 -0 0"/>
+      <origin xyz="0.064 0.012 0.0064998" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/spacer_hex.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/spacer_hex.gltf"/>
+      </geometry>
+    </collision>
+    <!-- Part base_plate_right_3 -->
+    <visual>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://bumperbot_description/meshes/base_plate_right.gltf"/>
+      </geometry>
+      <material name="base_plate_right_3_material">
+        <color rgba="0.117647 0.117647 0.117647 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://bumperbot_description/meshes/base_plate_right.gltf"/>
       </geometry>
     </collision>
     <!-- Part spacer_hex_12 -->
     <visual>
-      <origin xyz="-0.0245 -0.064 0.0064998" rpy="0 -0 1.5708"/>
+      <origin xyz="0.064 -0.024 0.0064998" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/spacer_hex.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/spacer_hex.gltf"/>
       </geometry>
       <material name="spacer_hex_12_material">
         <color rgba="0.980392 0.796078 0.262745 1"/>
       </material>
     </visual>
     <collision>
-      <origin xyz="-0.0245 -0.064 0.0064998" rpy="0 -0 1.5708"/>
+      <origin xyz="0.064 -0.024 0.0064998" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/spacer_hex.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/spacer_hex.gltf"/>
       </geometry>
     </collision>
-    <!-- Part base_plate_bottom_right -->
+    <!-- Part base_plate_left_3 -->
     <visual>
-      <origin xyz="-0.0005 -0 0" rpy="0 -0 -1.5708"/>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/base_plate.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/base_plate_left.gltf"/>
       </geometry>
-      <material name="base_plate_bottom_right_material">
+      <material name="base_plate_left_3_material">
         <color rgba="0.117647 0.117647 0.117647 1"/>
       </material>
     </visual>
     <collision>
-      <origin xyz="-0.0005 -0 0" rpy="0 -0 -1.5708"/>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/base_plate.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/base_plate_left.gltf"/>
       </geometry>
     </collision>
 
@@ -401,6 +401,7 @@
     </collision>
 
   </link>
+
   <!-- Link caster_wheel -->
   <link name="caster_wheel">
     <inertial>
@@ -410,25 +411,25 @@
     </inertial>
     <!-- Part caster_ball -->
     <visual>
-      <origin xyz="0 0 0" rpy="0 -0 -0"/>
+      <origin xyz="0 0 -0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/caster_ball.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/caster_ball.stl"/>
       </geometry>
       <material name="caster_ball_material">
         <color rgba="0.917647 0.917647 0.917647 1"/>
       </material>
     </visual>
     <collision>
-      <origin xyz="0 0 0" rpy="0 -0 -0"/>
+      <origin xyz="0 0 -0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/caster_ball.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/caster_ball.stl"/>
       </geometry>
     </collision>
     <!-- Part caster_frame -->
     <visual>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/caster_frame.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/caster_frame.stl"/>
       </geometry>
       <material name="caster_frame_material">
         <color rgba="0.262745 0.282353 0.301961 1"/>
@@ -437,17 +438,17 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/caster_frame.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/caster_frame.stl"/>
       </geometry>
     </collision>
   </link>
   <!-- Joint from base_link to caster_wheel -->
   <joint name="caster_front_joint" type="fixed">
-    <origin xyz="0.0475264 0 -0.00523446" rpy="0 -0 0"/>
+    <origin xyz="0.0480264 -0 -0.00523446" rpy="0 -0 0"/>
     <parent link="base_link"/>
     <child link="caster_wheel"/>
-    
-    
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10"/>
   </joint>
   <!-- Link caster_wheel_2 -->
   <link name="caster_wheel_2">
@@ -458,44 +459,44 @@
     </inertial>
     <!-- Part caster_ball_2 -->
     <visual>
-      <origin xyz="0 0 0" rpy="0 -0 -0"/>
+      <origin xyz="0 0 -0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/caster_ball.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/caster_ball.stl"/>
       </geometry>
       <material name="caster_ball_2_material">
         <color rgba="0.917647 0.917647 0.917647 1"/>
       </material>
     </visual>
     <collision>
-      <origin xyz="0 0 0" rpy="0 -0 -0"/>
+      <origin xyz="0 0 -0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/caster_ball.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/caster_ball.stl"/>
       </geometry>
     </collision>
     <!-- Part caster_frame_2 -->
     <visual>
-      <origin xyz="0 0 0" rpy="0 -0 -0"/>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/caster_frame.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/caster_frame.stl"/>
       </geometry>
       <material name="caster_frame_2_material">
         <color rgba="0.262745 0.282353 0.301961 1"/>
       </material>
     </visual>
     <collision>
-      <origin xyz="0 0 0" rpy="0 -0 -0"/>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/caster_frame.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/caster_frame.stl"/>
       </geometry>
     </collision>
   </link>
   <!-- Joint from base_link to caster_wheel_2 -->
   <joint name="caster_rear_joint" type="fixed">
-    <origin xyz="-0.0485264 -0 -0.00523446" rpy="0 -0 0"/>
+    <origin xyz="-0.0480264 -0 -0.00523446" rpy="0 -0 0"/>
     <parent link="base_link"/>
     <child link="caster_wheel_2"/>
-    
-    
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10"/>
   </joint>
   <!-- Link wheel_left -->
   <link name="wheel_left">
@@ -506,56 +507,56 @@
     </inertial>
     <!-- Part rim_l -->
     <visual>
-      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <origin xyz="0 0 0" rpy="-0 0 -0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/rim_l.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/rim_l.stl"/>
       </geometry>
       <material name="rim_l_material">
         <color rgba="0 0.501961 1 1"/>
       </material>
     </visual>
     <collision>
-      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <origin xyz="0 0 0" rpy="-0 0 -0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/rim_l.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/rim_l.stl"/>
       </geometry>
     </collision>
     <!-- Part tire_l -->
     <visual>
-      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <origin xyz="0 0 0" rpy="-0 0 -0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/tire_l.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/tire_l.stl"/>
       </geometry>
       <material name="tire_l_material">
         <color rgba="0.156863 0.156863 0.156863 1"/>
       </material>
     </visual>
     <collision>
-      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <origin xyz="0 0 0" rpy="-0 0 -0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/tire_l.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/tire_l.stl"/>
       </geometry>
     </collision>
     <!-- Part hexcoupler_l -->
     <visual>
-      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <origin xyz="0 0 0" rpy="-0 0 -0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/hexcoupler_l.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/hexcoupler_l.stl"/>
       </geometry>
       <material name="hexcoupler_l_material">
         <color rgba="1 0.870588 0.529412 1"/>
       </material>
     </visual>
     <collision>
-      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <origin xyz="0 0 0" rpy="-0 0 -0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/hexcoupler_l.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/hexcoupler_l.stl"/>
       </geometry>
     </collision>
   </link>
   <!-- Joint from base_link to wheel_left -->
   <joint name="wheel_left_joint" type="continuous">
-    <origin xyz="-0.0005 0.0872736 0.0239998" rpy="0 -0 0"/>
+    <origin xyz="0 0.087 0.0239998" rpy="0 -0 0"/>
     <parent link="base_link"/>
     <child link="wheel_left"/>
     <axis xyz="0 1 0"/>
@@ -570,41 +571,41 @@
     </inertial>
     <!-- Part tire_r -->
     <visual>
-      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <origin xyz="0 0 0" rpy="-0 -0 0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/tire_r.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/tire_r.stl"/>
       </geometry>
       <material name="tire_r_material">
         <color rgba="0.156863 0.156863 0.156863 1"/>
       </material>
     </visual>
     <collision>
-      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <origin xyz="0 0 0" rpy="-0 -0 0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/tire_r.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/tire_r.stl"/>
       </geometry>
     </collision>
     <!-- Part rim_r -->
     <visual>
-      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <origin xyz="0 0 0" rpy="-0 -0 0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/rim_r.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/rim_r.stl"/>
       </geometry>
       <material name="rim_r_material">
         <color rgba="0 0.501961 1 1"/>
       </material>
     </visual>
     <collision>
-      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <origin xyz="0 0 0" rpy="-0 -0 0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/rim_r.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/rim_r.stl"/>
       </geometry>
     </collision>
     <!-- Part hexcoupler_r -->
     <visual>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/hexcoupler_r.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/hexcoupler_r.stl"/>
       </geometry>
       <material name="hexcoupler_r_material">
         <color rgba="1 0.870588 0.529412 1"/>
@@ -613,13 +614,13 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/hexcoupler_r.${mesh_format}"/>
+        <mesh filename="package://bumperbot_description/meshes/hexcoupler_r.stl"/>
       </geometry>
     </collision>
   </link>
   <!-- Joint from base_link to wheel_right -->
   <joint name="wheel_right_joint" type="continuous">
-    <origin xyz="-0.0005 -0.0872736 0.0239998" rpy="0 -0 0"/>
+    <origin xyz="-0 -0.087 0.0239998" rpy="0 0 0"/>
     <parent link="base_link"/>
     <child link="wheel_right"/>
     <axis xyz="0 1 0"/>

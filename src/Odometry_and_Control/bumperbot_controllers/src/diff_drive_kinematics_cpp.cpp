@@ -15,7 +15,7 @@ public:
     {
         this->wheel_radius_ = 0.068 / 2.0;    // meters
         // this->wheel_separation_ = 0.17454725; // meters
-        this->wheel_separation_ = 0.175; // meters
+        this->wheel_separation_ = 0.174; // meters
         
         // Logic Extraction: Using a lambda that only calls a private method
         this->cmd_vel_subscriber_ = this->create_subscription<Twist>(

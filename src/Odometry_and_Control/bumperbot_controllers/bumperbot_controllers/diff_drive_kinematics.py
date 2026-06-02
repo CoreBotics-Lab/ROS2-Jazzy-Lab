@@ -10,7 +10,7 @@ class Diff_drive_kinematics_class(Node):
     def __init__(self) -> None:
         super().__init__("diff_drive_kinematics")
         self.wheel_radius = 0.068/2.0 # meters
-        self.wheel_seperation = 0.17454725 # meters
+        self.wheel_seperation = 0.174 # meters
         self.cmd_vel_subscriber_ = self.create_subscription(Twist, "/cmd_vel", self.callback_cmd_vel, 10)
         self.wheel_speed_publisher_ = self.create_publisher(Float64MultiArray, "/velocity_controller/commands", 10)   
 
