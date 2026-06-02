@@ -11,12 +11,14 @@ find_package(ament_cmake_python REQUIRED)
 
 find_package(rclpy REQUIRED)
 find_package(std_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)  
 
 # ________________________________PYTHON____________________________________________
 
 #This installs your scripts so they are available to 'ros2 run'
 install(PROGRAMS
   bumperbot_controllers/simple_wheel_speed_controller.py
+  bumperbot_controllers/diff_drive_kinematics.py  
   DESTINATION lib/${PROJECT_NAME}
 )
 # This tells ROS 2 that your folder contains a Python module
