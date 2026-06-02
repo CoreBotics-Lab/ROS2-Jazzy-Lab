@@ -7,6 +7,24 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
+find_package(ament_cmake_python REQUIRED)
+
+find_package(rclpy REQUIRED)
+find_package(std_msgs REQUIRED)
+
+# ________________________________PYTHON____________________________________________
+
+#This installs your scripts so they are available to 'ros2 run'
+install(PROGRAMS
+  bumperbot_controllers/simple_speed_controller.py
+  DESTINATION lib/${PROJECT_NAME}
+)
+# This tells ROS 2 that your folder contains a Python module
+ament_python_install_package(${PROJECT_NAME})
+
+# ________________________________PYTHON____________________________________________
+
+
 
 install(
   DIRECTORY config launch
