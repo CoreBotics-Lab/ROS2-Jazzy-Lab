@@ -16,7 +16,7 @@ find_package(std_msgs REQUIRED)
 
 #This installs your scripts so they are available to 'ros2 run'
 install(PROGRAMS
-  bumperbot_controllers/simple_speed_controller.py
+  bumperbot_controllers/simple_wheel_speed_controller.py
   DESTINATION lib/${PROJECT_NAME}
 )
 # This tells ROS 2 that your folder contains a Python module
