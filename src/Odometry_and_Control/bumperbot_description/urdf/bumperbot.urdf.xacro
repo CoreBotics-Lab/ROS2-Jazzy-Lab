@@ -1,8 +1,8 @@
 <?xml version="1.0" ?>
 <robot name="bumperbot" xmlns:xacro="http://ros.org/wiki/xacro">
 
-  <xacro:include filename="$(find bumperbot_description)/urdf/include/common_properties.xacro" />
-
+  <xacro:include filename="$(find bumperbot_description)/urdf/include/robot_properties.xacro" />
+  <xacro:include filename="$(find bumperbot_description)/urdf/include/intertia_function_macros.xacro" />
   <xacro:include filename="$(find bumperbot_description)/urdf/include/bumperbot_mobile_base.xacro" />
   <xacro:include filename="$(find bumperbot_description)/urdf/include/bumperbot.gazebo.xacro" />
   <xacro:include filename="$(find bumperbot_description)/urdf/include/bumperbot_ros2control.xacro" />

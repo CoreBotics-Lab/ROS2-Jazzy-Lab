@@ -1,24 +1,18 @@
 <?xml version="1.0" ?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
-  <xacro:property name="base_footprint_to_base_link_z" value="0.00999676" />
-  <xacro:property name="mesh_format" value="gltf" />
-
+  <xacro:property name="caster_z_offset" value="-0.005237682" />
+<!-- -0.005237682 -->
   <link name="base_footprint"/>
   <joint name="base_footprint_joint" type="fixed">
     <parent link="base_footprint"/>
     <child link="base_link"/>
-    <!-- <origin xyz="0 0 0"/> -->
     <origin xyz="0 0 ${base_footprint_to_base_link_z}"/>
   </joint>
   
 <!-- Link base_link -->
   <link name="base_link">
-    <inertial>
-      <origin xyz="-9.8651e-08 -0 0.0388508" rpy="0 0 0"/>
-      <mass value="0.427641"/>
-      <inertia ixx="0.000917472" ixy="-1.75126e-05" ixz="-6.26e-10" iyy="0.000910074" iyz="-0" izz="0.0011829"/>
-    </inertial>
+    <xacro:box_inertia m="${base_mass}" x="${base_length}" y="${base_width}" z="${base_height}" o_xyz="0 0 ${base_height/2}" o_rpy="0 0 0"/>
     <!-- Part spacer_hex -->
     <visual>
       <origin xyz="-0.064 0.024 0.0434998" rpy="0 -0 0"/>
@@ -402,13 +396,9 @@
 
   </link>
 
-  <!-- Link caster_wheel -->
-  <link name="caster_wheel">
-    <inertial>
-      <origin xyz="1.49659e-07 1.68167e-07 0.000721256" rpy="0 0 0"/>
-      <mass value="0.00466009"/>
-      <inertia ixx="1.13552e-07" ixy="-5e-12" ixz="1e-12" iyy="7.7488e-08" iyz="1e-12" izz="1.35464e-07"/>
-    </inertial>
+  <!-- Link caster_front_link -->
+  <link name="caster_front_link">
+    <xacro:sphere_inertia m="${caster_mass}" r="${caster_radius}" o_xyz="0 0 0" o_rpy="0 0 0"/>
     <!-- Part caster_ball -->
     <visual>
       <origin xyz="0 0 -0" rpy="0 -0 0"/>
@@ -442,21 +432,16 @@
       </geometry>
     </collision>
   </link>
-  <!-- Joint from base_link to caster_wheel -->
+
+  <!-- Joint from base_link to caster_front_link -->
   <joint name="caster_front_joint" type="fixed">
-    <origin xyz="0.0480264 -0 -0.00523446" rpy="0 -0 0"/>
+    <origin xyz="0.0480264 -0 ${caster_z_offset}" rpy="0 -0 0"/> 
     <parent link="base_link"/>
-    <child link="caster_wheel"/>
-    <axis xyz="0 0 1"/>
-    <limit effort="10" velocity="10"/>
+    <child link="caster_front_link"/>
   </joint>
-  <!-- Link caster_wheel_2 -->
-  <link name="caster_wheel_2">
-    <inertial>
-      <origin xyz="1.49659e-07 1.68167e-07 0.000721256" rpy="0 0 0"/>
-      <mass value="0.00466009"/>
-      <inertia ixx="1.13552e-07" ixy="-5e-12" ixz="1e-12" iyy="7.7488e-08" iyz="1e-12" izz="1.35464e-07"/>
-    </inertial>
+  <!-- Link caster_rear_link -->
+  <link name="caster_rear_link">
+    <xacro:sphere_inertia m="${caster_mass}" r="${caster_radius}" o_xyz="0 0 0" o_rpy="0 0 0"/>
     <!-- Part caster_ball_2 -->
     <visual>
       <origin xyz="0 0 -0" rpy="0 -0 0"/>
@@ -490,21 +475,15 @@
       </geometry>
     </collision>
   </link>
-  <!-- Joint from base_link to caster_wheel_2 -->
+  <!-- Joint from base_link to caster_rear_link -->
   <joint name="caster_rear_joint" type="fixed">
-    <origin xyz="-0.0480264 -0 -0.00523446" rpy="0 -0 0"/>
+    <origin xyz="-0.0480264 -0 ${caster_z_offset}" rpy="0 -0 0"/>
     <parent link="base_link"/>
-    <child link="caster_wheel_2"/>
-    <axis xyz="0 0 1"/>
-    <limit effort="10" velocity="10"/>
+    <child link="caster_rear_link"/>
   </joint>
-  <!-- Link wheel_left -->
-  <link name="wheel_left">
-    <inertial>
-      <origin xyz="1.8479e-08 -0.000397804 -7.7121e-08" rpy="0 0 0"/>
-      <mass value="0.0706679"/>
-      <inertia ixx="2.23278e-05" ixy="-9e-12" ixz="-2.21e-09" iyy="3.49231e-05" iyz="4e-11" izz="2.23375e-05"/>
-    </inertial>
+  <!-- Link wheel_left_link -->
+  <link name="wheel_left_link">
+    <xacro:cylinder_inertia m="${wheel_mass}" r="${wheel_radius}" h="${wheel_width}" o_xyz="0 0 0" o_rpy="1.5708 0 0"/>
     <!-- Part rim_l -->
     <visual>
       <origin xyz="0 0 0" rpy="-0 0 -0"/>
@@ -515,12 +494,12 @@
         <color rgba="0 0.501961 1 1"/>
       </material>
     </visual>
-    <collision>
+    <!-- <collision>
       <origin xyz="0 0 0" rpy="-0 0 -0"/>
       <geometry>
         <mesh filename="package://bumperbot_description/meshes/rim_l.stl"/>
       </geometry>
-    </collision>
+    </collision> -->
     <!-- Part tire_l -->
     <visual>
       <origin xyz="0 0 0" rpy="-0 0 -0"/>
@@ -532,11 +511,17 @@
       </material>
     </visual>
     <collision>
+      <origin xyz="0 0 0" rpy="-0 -0 0"/>
+      <geometry>
+        <sphere radius="${wheel_radius}" />
+      </geometry>
+    </collision>
+    <!-- <collision>
       <origin xyz="0 0 0" rpy="-0 0 -0"/>
       <geometry>
         <mesh filename="package://bumperbot_description/meshes/tire_l.stl"/>
       </geometry>
-    </collision>
+    </collision> -->
     <!-- Part hexcoupler_l -->
     <visual>
       <origin xyz="0 0 0" rpy="-0 0 -0"/>
@@ -547,28 +532,24 @@
         <color rgba="1 0.870588 0.529412 1"/>
       </material>
     </visual>
-    <collision>
+    <!-- <collision>
       <origin xyz="0 0 0" rpy="-0 0 -0"/>
       <geometry>
         <mesh filename="package://bumperbot_description/meshes/hexcoupler_l.stl"/>
       </geometry>
-    </collision>
+    </collision> -->
   </link>
-  <!-- Joint from base_link to wheel_left -->
+  <!-- Joint from base_link to wheel_left_link -->
   <joint name="wheel_left_joint" type="continuous">
     <origin xyz="0 0.087 0.0239998" rpy="0 -0 0"/>
     <parent link="base_link"/>
-    <child link="wheel_left"/>
+    <child link="wheel_left_link"/>
     <axis xyz="0 1 0"/>
     <!-- <limit effort="10" velocity="10"/> -->
   </joint>
-  <!-- Link wheel_right -->
-  <link name="wheel_right">
-    <inertial>
-      <origin xyz="-1.8183e-08 0.000397804 -7.7121e-08" rpy="0 0 0"/>
-      <mass value="0.0706679"/>
-      <inertia ixx="2.23278e-05" ixy="-9e-12" ixz="1.429e-09" iyy="3.49231e-05" iyz="-2.6e-11" izz="2.23375e-05"/>
-    </inertial>
+  <!-- Link wheel_right_link -->
+  <link name="wheel_right_link">
+    <xacro:cylinder_inertia m="${wheel_mass}" r="${wheel_radius}" h="${wheel_width}" o_xyz="0 0 0" o_rpy="1.5708 0 0"/>
     <!-- Part tire_r -->
     <visual>
       <origin xyz="0 0 0" rpy="-0 -0 0"/>
@@ -582,7 +563,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="-0 -0 0"/>
       <geometry>
-        <mesh filename="package://bumperbot_description/meshes/tire_r.stl"/>
+        <sphere radius="${wheel_radius}" />
       </geometry>
     </collision>
     <!-- Part rim_r -->
@@ -595,12 +576,12 @@
         <color rgba="0 0.501961 1 1"/>
       </material>
     </visual>
-    <collision>
+    <!-- <collision>
       <origin xyz="0 0 0" rpy="-0 -0 0"/>
       <geometry>
         <mesh filename="package://bumperbot_description/meshes/rim_r.stl"/>
       </geometry>
-    </collision>
+    </collision> -->
     <!-- Part hexcoupler_r -->
     <visual>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
@@ -611,18 +592,18 @@
         <color rgba="1 0.870588 0.529412 1"/>
       </material>
     </visual>
-    <collision>
+    <!-- <collision>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
         <mesh filename="package://bumperbot_description/meshes/hexcoupler_r.stl"/>
       </geometry>
-    </collision>
+    </collision> -->
   </link>
-  <!-- Joint from base_link to wheel_right -->
+  <!-- Joint from base_link to wheel_right_link -->
   <joint name="wheel_right_joint" type="continuous">
     <origin xyz="-0 -0.087 0.0239998" rpy="0 0 0"/>
     <parent link="base_link"/>
-    <child link="wheel_right"/>
+    <child link="wheel_right_link"/>
     <axis xyz="0 1 0"/>
     <!-- <limit effort="10" velocity="10"/> -->
   </joint>
