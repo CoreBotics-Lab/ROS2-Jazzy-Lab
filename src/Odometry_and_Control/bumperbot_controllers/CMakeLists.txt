@@ -27,7 +27,7 @@ ament_python_install_package(${PROJECT_NAME})
 
 # ________________________________PYTHON____________________________________________
 
-
+include_directories(include)
 
 install(
   DIRECTORY config launch
