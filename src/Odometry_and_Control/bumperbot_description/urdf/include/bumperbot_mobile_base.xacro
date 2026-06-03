@@ -1,8 +1,6 @@
 <?xml version="1.0" ?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
-  <xacro:property name="caster_z_offset" value="-0.005237682" />
-<!-- -0.005237682 -->
   <link name="base_footprint"/>
   <joint name="base_footprint_joint" type="fixed">
     <parent link="base_footprint"/>
