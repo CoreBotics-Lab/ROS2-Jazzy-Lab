@@ -26,7 +26,7 @@ bumperbot_controller:
     left_wheel_names  : ['wheel_left_joint']
     right_wheel_names : ['wheel_right_joint']
 
-    publish_rate: 50.0               # default: 50
+    publish_rate: 100.0               # default: 50
     pose_covariance_diagonal : [0.001, 0.001, 1.0e-3, 1.0e-3, 1.0e-3, 0.01]
     twist_covariance_diagonal: [0.001, 0.001, 1.0e-3, 1.0e-3, 1.0e-3, 0.01]
 
@@ -59,19 +59,10 @@ bumperbot_controller:
         has_velocity_limits    : true
         max_velocity           : 2.0  # m/s
         min_velocity           : -2.0 # m/s
-        has_acceleration_limits: true
-        max_acceleration       : 0.8  # m/s^2
-        min_acceleration       : -0.4 # m/s^2
-        has_jerk_limits        : false
-        max_jerk               : 5.0  # m/s^3
     angular:
       z:
         has_velocity_limits    : true
         max_velocity           : 3.14  # rad/s
-        has_acceleration_limits: true
-        max_acceleration       : 3.14  # rad/s^2
-        has_jerk_limits        : false
-        max_jerk               : 3.14  # rad/s^3
 
 # this node parameters are for diff_drive_kinematics(convert /cmd_vel to wheel velocity commands)
 diff_drive_kinematics:
