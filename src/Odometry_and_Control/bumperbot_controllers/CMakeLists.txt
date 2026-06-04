@@ -40,8 +40,12 @@ install(
 add_executable(diff_drive_kinematics_cpp src/diff_drive_kinematics_cpp.cpp)
 ament_target_dependencies(diff_drive_kinematics_cpp rclcpp std_msgs geometry_msgs)
 
+add_executable(twist_to_twist_stamped src/twist_to_twist_stamped.cpp)
+ament_target_dependencies(twist_to_twist_stamped rclcpp geometry_msgs)
+
 install(TARGETS
   diff_drive_kinematics_cpp
+  twist_to_twist_stamped
   DESTINATION lib/${PROJECT_NAME}
 )
 
