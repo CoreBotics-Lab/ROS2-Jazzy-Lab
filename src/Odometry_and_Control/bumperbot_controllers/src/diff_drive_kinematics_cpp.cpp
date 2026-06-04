@@ -8,8 +8,25 @@ using Float64MultiArray = std_msgs::msg::Float64MultiArray;
 // 1. Constructor Implementation
 DiffDriveKinematicsClass::DiffDriveKinematicsClass() : Node("diff_drive_kinematics")
 {
-    this->wheel_radius_ = 0.068 / 2.0;    // meters
-    this->wheel_separation_ = 0.174;      // meters
+    rcl_interfaces::msg::ParameterDescriptor desc;
+    desc.dynamic_typing = true;
+
+    this->declare_parameter("wheel_radius", rclcpp::ParameterValue(), desc);
+    this->declare_parameter("wheel_separation", rclcpp::ParameterValue(), desc);
+
+    auto wheel_radius_param = this->get_parameter("wheel_radius");
+    auto wheel_separation_param = this->get_parameter("wheel_separation");
+
+    if (wheel_radius_param.get_type() == rclcpp::ParameterType::PARAMETER_NOT_SET ||
+        wheel_separation_param.get_type() == rclcpp::ParameterType::PARAMETER_NOT_SET) {
+        throw std::runtime_error("A required parameter was not set! Please load a config file.");
+    }       
+
+    this->wheel_radius_ = wheel_radius_param.as_double();
+    this->wheel_separation_ = wheel_separation_param.as_double();
+    
+    // this->wheel_radius_ = 0.068 / 2.0;    // meters
+    // this->wheel_separation_ = 0.174;      // meters
     
     // Logic Extraction: Using a lambda that only calls a private method
     this->cmd_vel_subscriber_ = this->create_subscription<Twist>(

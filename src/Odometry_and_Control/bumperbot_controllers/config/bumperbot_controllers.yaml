@@ -14,4 +14,8 @@ velocity_controller:
     joints:
       - wheel_left_joint
       - wheel_right_joint
-      
+
+diff_drive_kinematics:
+  ros__parameters:
+    wheel_radius: 0.034
+    wheel_separation: 0.174
