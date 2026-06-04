@@ -42,6 +42,12 @@
   <gazebo>
     <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin" >
       <parameters>$(find bumperbot_controllers)/config/bumperbot_controllers.yaml</parameters>
+      <ros>
+        <remapping>/bumperbot_controller/cmd_vel:=/cmd_vel</remapping>
+        <remapping>/bumperbot_controller/cmd_vel_out:=/cmd_vel_out</remapping>
+        <remapping>/bumperbot_controller/odom:=/odom</remapping>
+        <remapping>/bumperbot_controller/transition_event:=/transition_event</remapping>
+      </ros>
     </plugin>
   </gazebo>
   
