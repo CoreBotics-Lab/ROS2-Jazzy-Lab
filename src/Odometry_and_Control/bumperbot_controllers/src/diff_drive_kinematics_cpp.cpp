@@ -8,6 +8,7 @@ using Float64MultiArray = std_msgs::msg::Float64MultiArray;
 // 1. Constructor Implementation
 DiffDriveKinematicsClass::DiffDriveKinematicsClass() : Node("diff_drive_kinematics")
 {
+    RCLCPP_INFO(this->get_logger(), "%s node has been successfully initialized.", this->get_name());
     rcl_interfaces::msg::ParameterDescriptor desc;
     desc.dynamic_typing = true;
 
@@ -25,6 +26,10 @@ DiffDriveKinematicsClass::DiffDriveKinematicsClass() : Node("diff_drive_kinemati
     this->wheel_radius_ = wheel_radius_param.as_double();
     this->wheel_separation_ = wheel_separation_param.as_double();
     
+    RCLCPP_INFO(this->get_logger(), "Successfully loaded parameters from config file:");
+    RCLCPP_INFO(this->get_logger(), "-> wheel_radius: %.3fm", this->wheel_radius_);
+    RCLCPP_INFO(this->get_logger(), "-> wheel_separation: %.3fm", this->wheel_separation_);
+    
     // this->wheel_radius_ = 0.068 / 2.0;    // meters
     // this->wheel_separation_ = 0.174;      // meters
     
@@ -39,7 +44,6 @@ DiffDriveKinematicsClass::DiffDriveKinematicsClass() : Node("diff_drive_kinemati
     this->wheel_speed_publisher_ = this->create_publisher<Float64MultiArray>(
         "/velocity_controller/commands", 10);
         
-    RCLCPP_INFO(this->get_logger(), "%s node has been successfully initialized.", this->get_name());
 }
 
 // 2. Callback Implementation
