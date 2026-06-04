@@ -32,7 +32,7 @@ class Diff_drive_kinematics_class(Node):
         # self.wheel_separation = 0.174 # meters
 
         self.cmd_vel_subscriber_ = self.create_subscription(Twist, "/cmd_vel", self.callback_cmd_vel, 10)
-        self.wheel_speed_publisher_ = self.create_publisher(Float64MultiArray, "/velocity_controller/commands", 10)   
+        self.wheel_speed_publisher_ = self.create_publisher(Float64MultiArray, "/simple_velocity_controller/commands", 10)   
 
     def callback_cmd_vel(self, msg: Twist) -> None:
         v_linear = msg.linear.x

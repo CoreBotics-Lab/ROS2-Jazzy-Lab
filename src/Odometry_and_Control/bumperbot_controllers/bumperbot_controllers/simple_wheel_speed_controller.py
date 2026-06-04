@@ -11,7 +11,7 @@ class Simple_wheel_speed_controller_class(Node):
         super().__init__("simple_wheel_speed_controller")
         self.left_wheel_speed = left_wheel_speed
         self.right_wheel_speed = right_wheel_speed
-        self.publisher_ = self.create_publisher(Float64MultiArray, "/velocity_controller/commands", 10)
+        self.publisher_ = self.create_publisher(Float64MultiArray, "/simple_velocity_controller/commands", 10)
         self.timer_ = self.create_timer(0.1, self.callback_timer)
         
     def callback_timer(self) -> None:
