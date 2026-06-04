@@ -35,15 +35,24 @@ def generate_launch_description():
             ],
     )
 
-    diff_drive_controller_spawner = Node(
-        package="controller_manager",
-        executable="spawner",
-        arguments=[
-            'bumperbot_controller',
-            '--controller-manager', '/controller_manager'
-        ],
-        condition=UnlessCondition(use_simple_controller)
-    )
+    diff_drivecontroller = GroupAction(
+        condition=UnlessCondition(use_simple_controller),
+        actions=[
+            Node(
+            package="controller_manager",
+            executable="spawner",
+            arguments=[
+                'bumperbot_controller',
+                '--controller-manager', '/controller_manager'
+            ]
+            ),
+            Node(
+                package='bumperbot_controllers',
+                executable='twist_to_twist_stamped',
+                name='twist_to_twist_stamped',
+                output='screen'
+            )
+        ])
 
     simple_controller = GroupAction(
         condition=IfCondition(use_simple_controller),
@@ -56,7 +65,6 @@ def generate_launch_description():
                 '--controller-manager', '/controller_manager',
             ],
         ),
-
         Node(
             package='bumperbot_controllers',
             executable='diff_drive_kinematics_cpp',
@@ -72,6 +80,6 @@ def generate_launch_description():
         use_sim_time_arg,
         use_simple_controller_arg,
         joint_state_broadcaster_spawner,
-        diff_drive_controller_spawner,
+        diff_drivecontroller,
         simple_controller,
     ])
