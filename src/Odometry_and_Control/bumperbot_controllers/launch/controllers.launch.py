@@ -38,9 +38,9 @@ def generate_launch_description():
     diff_drive_controller_spawner = Node(
         package="controller_manager",
         executable="spawner",
-        arguments=["bumperbot_controller", 
-                   "--controller-manager", 
-                   "/controller_manager"
+        arguments=[
+            'bumperbot_controller',
+            '--controller-manager', '/controller_manager'
         ],
         condition=UnlessCondition(use_simple_controller)
     )
