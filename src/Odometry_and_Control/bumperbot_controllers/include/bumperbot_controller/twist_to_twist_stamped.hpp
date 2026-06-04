@@ -14,6 +14,8 @@ public:
 private:
   // Parameters
   std::string base_frame_id_;
+  std::string subscribe_topic_;
+  std::string publish_topic_;
 
   // Communication Interfaces
   rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr twist_subscriber_;

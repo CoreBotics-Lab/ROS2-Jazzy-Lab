@@ -12,19 +12,41 @@ TwistToTwistStamped::TwistToTwistStamped() : Node("twist_to_twist_stamped") {
   rcl_interfaces::msg::ParameterDescriptor desc;
   desc.dynamic_typing = true;
 
-  this->declare_parameter("base_frame_id", "base_link", desc);
-  this->base_frame_id_ = this->get_parameter("base_frame_id").as_string();
+  this->declare_parameter("base_frame_id", rclcpp::ParameterValue(), desc);
+  this->declare_parameter("subscribe_topic", rclcpp::ParameterValue(), desc);
+  this->declare_parameter("publish_topic", rclcpp::ParameterValue(), desc);
 
+  auto base_frame_id_param = this->get_parameter("base_frame_id");
+  auto subscribe_topic_param = this->get_parameter("subscribe_topic");
+  auto publish_topic_param = this->get_parameter("publish_topic");
+
+  if (base_frame_id_param.get_type() == rclcpp::ParameterType::PARAMETER_NOT_SET ||
+      subscribe_topic_param.get_type() == rclcpp::ParameterType::PARAMETER_NOT_SET ||
+      publish_topic_param.get_type() == rclcpp::ParameterType::PARAMETER_NOT_SET) {
+    throw std::runtime_error(
+        "A required parameter was not set! Please load a config file or pass them as arguments.");
+  }
+
+  this->base_frame_id_ = base_frame_id_param.as_string();
+  this->subscribe_topic_ = subscribe_topic_param.as_string();
+  this->publish_topic_ = publish_topic_param.as_string();
+
+  RCLCPP_INFO(this->get_logger(),
+              "Successfully loaded parameters:");
   RCLCPP_INFO(this->get_logger(), "-> base_frame_id: %s",
               this->base_frame_id_.c_str());
+  RCLCPP_INFO(this->get_logger(), "-> subscribe_topic: %s",
+              this->subscribe_topic_.c_str());
+  RCLCPP_INFO(this->get_logger(), "-> publish_topic: %s",
+              this->publish_topic_.c_str());
 
   this->twist_subscriber_ = this->create_subscription<Twist>(
-      "cmd_vel", 10, [this](const Twist::SharedPtr msg) -> void {
+      this->subscribe_topic_, 10, [this](const Twist::SharedPtr msg) -> void {
         this->callback_twist(msg);
       });
 
   this->twist_stamped_publisher_ =
-      this->create_publisher<TwistStamped>("/bumperbot_controller/cmd_vel", 10);
+      this->create_publisher<TwistStamped>(this->publish_topic_, 10);
 }
 
 void TwistToTwistStamped::callback_twist(const Twist::SharedPtr msg) {

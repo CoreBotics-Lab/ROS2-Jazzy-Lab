@@ -50,7 +50,12 @@ def generate_launch_description():
                 package='bumperbot_controllers',
                 executable='twist_to_twist_stamped',
                 name='twist_to_twist_stamped',
-                output='screen'
+                output='screen',
+                parameters=[{
+                    'base_frame_id': 'base_link', 
+                    'subscribe_topic': 'cmd_vel',
+                    'publish_topic': '/bumperbot_controller/cmd_vel'
+                }]
             )
         ])
 
