@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
-  <xacro:property name="base_footprint_to_base_link_z" value="0.00999676" />  
+  <xacro:property name="base_footprint_to_base_link_z" value="0.01" />  
   <xacro:property name="base_length" value="0.13763785" />
   <xacro:property name="base_width" value="0.13763785" />
   <xacro:property name="base_height" value="0.083" />
