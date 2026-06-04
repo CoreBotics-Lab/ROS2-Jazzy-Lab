@@ -135,10 +135,10 @@ class JoyNode(Node):
         self.invert_angular = False
         
         # Adjust these to set the max speeds of your robot!
-        self.declare_parameter('max_linear', 2.0)
+        self.declare_parameter('max_linear', 1.0)
         self.max_linear = float(self.get_parameter('max_linear').value)  # type: ignore
         
-        self.declare_parameter('max_angular', 2.0)
+        self.declare_parameter('max_angular', 3.14)
         self.max_angular = float(self.get_parameter('max_angular').value)  # type: ignore
         
         # Speed Profiles
