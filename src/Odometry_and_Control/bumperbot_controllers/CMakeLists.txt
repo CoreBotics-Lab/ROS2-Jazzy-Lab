@@ -14,6 +14,11 @@ find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)  
 find_package(rcl_interfaces REQUIRED)
+find_package(nav_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
+find_package(tf2 REQUIRED)
+find_package(tf2_ros REQUIRED)
+find_package(tf2_geometry_msgs REQUIRED)
 
 # ________________________________PYTHON____________________________________________
 
@@ -38,7 +43,15 @@ install(
 # ________________________________CPP_______________________________________________
 
 add_executable(diff_drive_kinematics_cpp src/diff_drive_kinematics_cpp.cpp)
-ament_target_dependencies(diff_drive_kinematics_cpp rclcpp std_msgs geometry_msgs)
+ament_target_dependencies(diff_drive_kinematics_cpp
+                          rclcpp
+                          std_msgs
+                          geometry_msgs
+                          nav_msgs
+                          sensor_msgs
+                          tf2
+                          tf2_ros
+                          tf2_geometry_msgs)
 
 add_executable(twist_to_twist_stamped src/twist_to_twist_stamped.cpp)
 ament_target_dependencies(twist_to_twist_stamped rclcpp geometry_msgs)
