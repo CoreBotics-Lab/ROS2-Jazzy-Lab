@@ -106,7 +106,7 @@ class Diff_drive_kinematics_matrix_method_class(Node):
         self.last_right_wheel_pos_ = right_wheel_position
 
         # 5. Transform wheel speeds to global map frame velocities using your matrix function
-        x_dot, y_dot, theta_dot = self.forward_kinematics(left_wheel_vel, right_wheel_vel)
+        x_dot, y_dot, theta_dot = self.Odometry(left_wheel_vel, right_wheel_vel)
 
         # 6. Accumulate local step changes into the global pose coordinates
         self.x += x_dot * dt
@@ -123,7 +123,7 @@ class Diff_drive_kinematics_matrix_method_class(Node):
         # 8. Trigger your custom publication and broadcast pipeline
         self.publish_odom_tf(v_linear_local, v_angular_local, msg.header.stamp)
 
-    def forward_kinematics(self, left_wheel_vel, right_wheel_vel):
+    def Odometry(self, left_wheel_vel, right_wheel_vel):
         """
         Computes global chassis velocities (x_dot, y_dot, theta_dot)
         from individual wheel angular velocities (rad/s) using the Forward Jacobian matrix.
