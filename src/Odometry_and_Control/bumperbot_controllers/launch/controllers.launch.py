@@ -72,7 +72,7 @@ def generate_launch_description():
         ),
         Node(
             package='bumperbot_controllers',
-            executable='diff_drive_kinematics_cpp',
+            executable='diff_drive_kinematics_matrix_method.py',
             name='diff_drive_kinematics',
             output='screen',
             parameters=[config_file]

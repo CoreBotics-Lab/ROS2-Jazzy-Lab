@@ -25,7 +25,8 @@ find_package(tf2_geometry_msgs REQUIRED)
 #This installs your scripts so they are available to 'ros2 run'
 install(PROGRAMS
   bumperbot_controllers/simple_wheel_speed_controller.py
-  bumperbot_controllers/diff_drive_kinematics.py  
+  bumperbot_controllers/diff_drive_kinematics.py
+  bumperbot_controllers/diff_drive_kinematics_matrix_method.py
   DESTINATION lib/${PROJECT_NAME}
 )
 # This tells ROS 2 that your folder contains a Python module
