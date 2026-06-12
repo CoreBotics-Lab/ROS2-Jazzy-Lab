@@ -118,11 +118,11 @@ void DiffDriveKinematicsMatrixMethodClass::callback_joint_states(const JointStat
     this->last_right_wheel_pos_ = right_wheel_position;
 
     // Run the Forward Kinematics Matrix mapping loop step
-    Eigen::Matrix<double, 3, 1> chassis_velocities = this->forward_kinematics(left_wheel_vel, right_wheel_vel);
+    Eigen::Matrix<double, 3, 1> robot_velocities = this->forward_kinematics(left_wheel_vel, right_wheel_vel);
 
-    double x_dot = chassis_velocities(0);
-    double y_dot = chassis_velocities(1);
-    double theta_dot = chassis_velocities(2);
+    double x_dot = robot_velocities(0);
+    double y_dot = robot_velocities(1);
+    double theta_dot = robot_velocities(2);
 
     // Position update accumulation
     this->x_ += x_dot * dt;
@@ -145,8 +145,8 @@ Eigen::Matrix<double, 3, 1> DiffDriveKinematicsMatrixMethodClass::forward_kinema
                         -this->wheel_radius_ / this->wheel_separation_,        this->wheel_radius_ / this->wheel_separation_;
 
     Eigen::Matrix<double, 2, 1> wheel_velocities(left_wheel_vel, right_wheel_vel);
-    Eigen::Matrix<double, 3, 1> chassis_velocities = jacobian_matrix * wheel_velocities;
-    return chassis_velocities;
+    Eigen::Matrix<double, 3, 1> robot_velocities = jacobian_matrix * wheel_velocities;
+    return robot_velocities;
 }
 
 void DiffDriveKinematicsMatrixMethodClass::publish_odom_tf(const DiffDriveKinematicsMatrixMethodClass::RobotVelocities &velocities, const rclcpp::Time &sim_time) {
