@@ -103,6 +103,7 @@ def generate_launch_description():
     return LaunchDescription([
         use_sim_time_arg,
         use_simple_controller_arg,
+        use_joy_arg,
         joint_state_broadcaster_spawner,
         diff_drivecontroller,
         simple_controller,
