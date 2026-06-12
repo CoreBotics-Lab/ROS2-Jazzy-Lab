@@ -6,16 +6,16 @@
         "limitSymbolsToIncludedHeaders": false
       },
       "includePath": [
-        "${workspaceFolder}/**",
+        "/root/ros2_ws/install/ros2_interfaces/include/**",
         "/opt/ros/jazzy/include/**",
+        "/root/ros2_ws/src/Odometry_and_Control/bumperbot_controllers/include/**",
         "/usr/include/**"
       ],
       "name": "ros2",
       "intelliSenseMode": "linux-gcc-x64",
       "compilerPath": "/usr/bin/g++",
       "cStandard": "c17",
-      "cppStandard": "c++17",
-      "compileCommands": "${workspaceFolder}/build/compile_commands.json"
+      "cppStandard": "c++17"
     }
   ],
   "version": 4
