@@ -84,7 +84,7 @@ class Diff_drive_kinematics_matrix_method_class(Node):
         right_wheel_position = joint_position_map.get("wheel_right_joint", 0.0)
         
         # 2. First-run guard initialization
-        if self.last_left_wheel_pos_ is None or self.last_right_wheel_pos_ is None:
+        if self.last_left_wheel_pos_ is None or self.last_right_wheel_pos_ is None or self.prev_time_ is None:
             self.last_left_wheel_pos_ = left_wheel_position
             self.last_right_wheel_pos_ = right_wheel_position
             self.prev_time_ = current_time
@@ -116,7 +116,7 @@ class Diff_drive_kinematics_matrix_method_class(Node):
         # Keep global orientation angle normalized securely between -pi and +pi
         self.theta = np.arctan2(np.sin(self.theta), np.cos(self.theta))
         
-       # 7. Compute local chassis linear velocity for the Odometry message twist field
+       # 7. Compute local robot linear velocity for the Odometry message twist field
         v_linear_local = (self.wheel_radius / 2.0) * (left_wheel_vel + right_wheel_vel)
         v_angular_local = theta_dot  # In differential drive, local turning rate matches global turning rate
 
@@ -125,7 +125,7 @@ class Diff_drive_kinematics_matrix_method_class(Node):
 
     def forward_kinematics(self, left_wheel_vel, right_wheel_vel):
         """
-        Computes global chassis velocities (x_dot, y_dot, theta_dot)
+        Computes global robot velocities (x_dot, y_dot, theta_dot)
         from individual wheel angular velocities (rad/s) using the Forward Jacobian matrix.
         """
         # 1. Define the 3x2 Forward Kinematics Matrix
@@ -139,10 +139,10 @@ class Diff_drive_kinematics_matrix_method_class(Node):
         wheel_velocities = np.array([left_wheel_vel, right_wheel_vel])
 
         # 3. Perform matrix multiplication: [x_dot, y_dot, theta_dot] = Jacobian @ Wheel_Velocities
-        chassis_velocities = jacobian_matrix @ wheel_velocities
+        robot_velocities = jacobian_matrix @ wheel_velocities
 
         # 4. Unpack the resulting vector into explicit, readable variables
-        x_dot, y_dot, theta_dot = chassis_velocities
+        x_dot, y_dot, theta_dot = robot_velocities
 
         return [x_dot, y_dot, theta_dot]
 
