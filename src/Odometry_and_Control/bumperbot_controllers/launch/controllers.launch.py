@@ -16,9 +16,14 @@ def generate_launch_description():
         "use_simple_controller",
         default_value="True",
     )
+    use_joy_arg = DeclareLaunchArgument(
+        "use_joy",
+        default_value="False",
+    )
 
     use_sim_time = LaunchConfiguration("use_sim_time")
     use_simple_controller = LaunchConfiguration("use_simple_controller")
+    use_joy = LaunchConfiguration("use_joy")
 
     config_file = os.path.join(
         get_package_share_directory('bumperbot_controllers'),
@@ -80,6 +85,20 @@ def generate_launch_description():
 
     )
     
+    joy_gui_node = Node(
+        package='ros2_utilities',
+        executable='joy_gui',
+        name='joy_gui',
+        output='screen',
+        condition=IfCondition(use_joy),
+        parameters=[{
+            'max_angular': 3.14,
+            'max_linear': 0.5,
+            'topic_name': '/cmd_vel',
+            'publish_rate_hz': 10.0,            
+            'use_sim_time': use_sim_time,
+        }]
+    )
     
     return LaunchDescription([
         use_sim_time_arg,
@@ -87,4 +106,6 @@ def generate_launch_description():
         joint_state_broadcaster_spawner,
         diff_drivecontroller,
         simple_controller,
+        joy_gui_node
+
     ])
