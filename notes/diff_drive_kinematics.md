@@ -88,3 +88,39 @@ $$ \theta_{normalized} = \text{atan2}(\sin(\theta), \cos(\theta)) $$
 2. It calculates the robot's new linear and angular velocity from the space deltas.
 3. It passes these values to `publish_odom_tf`, which uses the `tf_transformations.quaternion_from_euler` library to cleanly convert the 2D $\theta$ into a 3D quaternion.
 4. It constructs and publishes an `Odometry` message to `/odom` and a `TransformStamped` message to the `/tf` tree linking the `odom` frame to `base_footprint`.
+
+---
+
+## 4. Matrix Method (Industry Standard Kinematics)
+
+While the algebraic equations above are easy to read, production-level robotics heavily relies on linear algebra for speed and scalability (utilizing libraries like `Eigen` in C++ and `numpy` in Python). By formulating the kinematics as matrix multiplications, the compiler can use SIMD (Single Instruction, Multiple Data) processor instructions to calculate both wheels simultaneously.
+
+### Inverse Kinematics (Matrix)
+First, we establish the base mathematical relationship that defines the robot velocity ($V_b$ from `twist.linear.x`, $\Omega_b$ from `twist.angular.z`) as a function of the linear wheel velocities ($v_L, v_R$), utilizing the physical wheel separation ($L$) and wheel radius ($r$). This is our core Kinematics Matrix ($M$):
+
+$$ \begin{bmatrix} V_b \\ \Omega_b \end{bmatrix} = \underbrace{\begin{bmatrix} 1/2 & 1/2 \\ -1/L & 1/L \end{bmatrix}}_{M} \begin{bmatrix} v_L \\ v_R \end{bmatrix} $$
+
+Because our goal in Inverse Kinematics is to find the required wheel speeds for a given target robot velocity, we isolate the wheel velocities by multiplying both sides by the inverse of matrix $M$ ($M^{-1}$):
+
+$$ \begin{bmatrix} v_L \\ v_R \end{bmatrix} = \begin{bmatrix} 1/2 & 1/2 \\ -1/L & 1/L \end{bmatrix}^{-1} \begin{bmatrix} V_b \\ \Omega_b \end{bmatrix} $$
+
+Once the linear wheel velocities are found, we divide by the wheel radius ($r$) to get the angular wheel velocities ($\dot{\phi}_L, \dot{\phi}_R$) for the motor controllers:
+
+$$ \begin{bmatrix} \dot{\phi}_L \\ \dot{\phi}_R \end{bmatrix} = \frac{1}{r} \begin{bmatrix} v_L \\ v_R \end{bmatrix} $$
+
+**Implementation**: The `compute_wheel_velocities` function utilizes a pre-inverted matrix (`M_inv_`) at startup, converting runtime calculation into a single, highly optimized matrix multiplication step.
+
+### Forward Kinematics (Jacobian Matrix)
+To find the global movement of the robot ($\dot{x}, \dot{y}, \dot{\theta}$) from the angular speeds of the wheels ($\dot{\phi}_L, \dot{\phi}_R$), we first define a 3x2 Forward Jacobian matrix ($J$) that incorporates the robot's current heading ($\theta$):
+
+$$ J = \begin{bmatrix} \frac{r}{2} \cos(\theta) & \frac{r}{2} \cos(\theta) \\ \frac{r}{2} \sin(\theta) & \frac{r}{2} \sin(\theta) \\ -\frac{r}{L} & \frac{r}{L} \end{bmatrix} $$
+
+We then multiply this Jacobian matrix by the input wheel velocities to calculate the instantaneous velocity of the robot in the global frame:
+
+$$ \begin{bmatrix} \dot{x} \\ \dot{y} \\ \dot{\theta} \end{bmatrix} = J \begin{bmatrix} \dot{\phi}_L \\ \dot{\phi}_R \end{bmatrix} $$
+
+Expanded out, this represents the final mathematical operation our node performs:
+
+$$ \begin{bmatrix} \dot{x} \\ \dot{y} \\ \dot{\theta} \end{bmatrix} = \begin{bmatrix} \frac{r}{2} \cos(\theta) & \frac{r}{2} \cos(\theta) \\ \frac{r}{2} \sin(\theta) & \frac{r}{2} \sin(\theta) \\ -\frac{r}{L} & \frac{r}{L} \end{bmatrix} \begin{bmatrix} \dot{\phi}_L \\ \dot{\phi}_R \end{bmatrix} $$
+
+**Implementation**: The `forward_kinematics` function dynamically builds this Jacobian matrix using the robot's current heading and multiplies it by the wheel speeds to compute the precise rate of change for the robot position. These resulting velocities are then multiplied by the time step ($dt$) to securely update the robot's global Odometry tracking.
