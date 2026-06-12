@@ -20,6 +20,8 @@ find_package(tf2 REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
 
+# Locate the standard system Eigen library
+find_package(Eigen3 REQUIRED)
 # ________________________________PYTHON____________________________________________
 
 #This installs your scripts so they are available to 'ros2 run'
@@ -35,6 +37,7 @@ ament_python_install_package(${PROJECT_NAME})
 # ________________________________PYTHON____________________________________________
 
 include_directories(include)
+include_directories(${EIGEN3_INCLUDE_DIR})
 
 install(
   DIRECTORY config launch
@@ -44,6 +47,8 @@ install(
 # ________________________________CPP_______________________________________________
 
 add_executable(diff_drive_kinematics_cpp src/diff_drive_kinematics_cpp.cpp)
+add_executable(diff_drive_kinematics_matrix_method src/diff_drive_kinematics_matrix_method.cpp)
+
 ament_target_dependencies(diff_drive_kinematics_cpp
                           rclcpp
                           std_msgs
@@ -54,11 +59,23 @@ ament_target_dependencies(diff_drive_kinematics_cpp
                           tf2_ros
                           tf2_geometry_msgs)
 
+ament_target_dependencies(diff_drive_kinematics_matrix_method
+                          rclcpp
+                          std_msgs
+                          geometry_msgs
+                          nav_msgs
+                          sensor_msgs
+                          tf2
+                          tf2_ros
+                          tf2_geometry_msgs
+                          ${EIGEN_LIBRARIES})
+
 add_executable(twist_to_twist_stamped src/twist_to_twist_stamped.cpp)
 ament_target_dependencies(twist_to_twist_stamped rclcpp geometry_msgs)
 
 install(TARGETS
   diff_drive_kinematics_cpp
+  diff_drive_kinematics_matrix_method
   twist_to_twist_stamped
   DESTINATION lib/${PROJECT_NAME}
 )
