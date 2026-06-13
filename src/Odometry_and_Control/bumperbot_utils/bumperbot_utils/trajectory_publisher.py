@@ -18,9 +18,11 @@ class TrajectoryPublisher(Node):
         self.trajectory_msg.header.stamp = msg.header.stamp
         waypoint = PoseStamped()
 
+        if len(self.trajectory_msg.poses) > 1000: 
+            self.trajectory_msg.poses.pop(0)
+
         waypoint.header.stamp = msg.header.stamp
         waypoint.header.frame_id = "odom"
-      
         waypoint.pose = msg.pose.pose
         self.trajectory_msg.poses.append(waypoint)
         self.trajectory_publisher_.publish(self.trajectory_msg)
