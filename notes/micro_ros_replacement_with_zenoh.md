@@ -104,3 +104,29 @@ Stick to Zenoh + MessagePack while developing at your desk. If you are testing i
 
 **2. Moving to Production or Public Environments: Add WireGuard and mTLS**
 When you are ready to take your multi-robot systems out into the real world or deploy them in shared public spaces, WireGuard becomes highly recommended. Simply activate the mTLS config flags in Zenoh and power on the WireGuard router mounted on the chassis. You gain a fortress of security—a defense-in-depth model that rivals top-tier autonomous vehicle architectures—without having to change, rewrite, or compile a single line of your core robotics math or logic!
+
+## 🔄 How it Compares to Native ROS 2
+
+At the end of the day, combining Zenoh + MessagePack + mTLS essentially reconstructs the core capabilities of ROS 2, but it is custom-built to be lightweight enough for a microcontroller.
+
+If we look at what ROS 2 actually is under the hood, it provides three main things, and our custom stack perfectly mimics them:
+
+### 1. The Transport Layer (Pub/Sub & Discovery)
+- **ROS 2 uses:** Heavy DDS (Data Distribution Service).
+- **Our Stack uses:** Zenoh (Much faster, uses significantly less RAM, and works over Wi-Fi without crashing the ESP32).
+
+### 2. The Data Structure Layer
+- **ROS 2 uses:** `.msg` files and CDR serialization.
+- **Our Stack uses:** MessagePack (Achieves the exact same thing—turning variables into structured, compressed binary arrays—but is easier to implement in raw C++). 
+  *Note: The MCU packs the data using a C++ MessagePack library, and the Python PC gateway unpacks the data using the Python MessagePack library (and vice versa for sending commands back to the MCU).*
+
+### 3. The Security Layer
+- **ROS 2 uses:** SROS2 (Secure ROS 2, which wraps DDS in encryption).
+- **Our Stack uses:** Zenoh mTLS + WireGuard (Achieves the exact same military-grade encryption, but pushes the heavy lifting to the hardware router so the MCU doesn't lag).
+
+### Why go through the trouble of building this?
+You might wonder: *"If it equals ROS 2, why not just use micro-ROS?"*
+
+Because standard DDS (which micro-ROS relies on) was designed for massive enterprise servers, not tiny microcontrollers. Forcing an ESP32 to act like a full ROS 2 node often leads to out-of-memory errors, dropped Wi-Fi packets, and massive headaches when trying to tune QoS (Quality of Service) settings.
+
+By building this custom stack, you get all the benefits of ROS 2 on your PC, while keeping your microcontroller fast, clean, and isolated. Your ESP32 just blasts raw MessagePack bytes over Zenoh, and your Python PC gateway acts as the "translation layer" that officially turns it into ROS 2 for the rest of your system!
