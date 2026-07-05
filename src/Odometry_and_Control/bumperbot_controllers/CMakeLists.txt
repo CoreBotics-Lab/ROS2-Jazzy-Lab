@@ -29,6 +29,7 @@ install(PROGRAMS
   bumperbot_controllers/simple_wheel_speed_controller.py
   bumperbot_controllers/diff_drive_kinematics.py
   bumperbot_controllers/diff_drive_kinematics_matrix_method.py
+  bumperbot_controllers/adding_noise_to_odometry.py
   DESTINATION lib/${PROJECT_NAME}
 )
 # This tells ROS 2 that your folder contains a Python module
