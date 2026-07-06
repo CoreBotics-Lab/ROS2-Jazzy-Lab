@@ -38,17 +38,20 @@ class adding_noise_to_odometry_class(Node):
         desc = ParameterDescriptor(dynamic_typing=True)
         self.declare_parameter('wheel_radius', descriptor=desc)
         self.declare_parameter('wheel_separation', descriptor=desc)
+        self.declare_parameter('noise_factor', descriptor=desc)
         
         self.wheel_radius = self.get_parameter('wheel_radius').value
         self.wheel_separation = self.get_parameter('wheel_separation').value
+        self.noise_factor = self.get_parameter('noise_factor').value
 
-        if any(p is None for p in [self.wheel_radius, self.wheel_separation]):
+        if any(p is None for p in [self.wheel_radius, self.wheel_separation, self.noise_factor]):
             error_msg = "A required parameter was not set! Please load a config file."
             raise RuntimeError(error_msg)
             
         self.get_logger().info("Successfully loaded parameters from config file:")
         self.get_logger().info(f"-> wheel_radius: {self.wheel_radius:.3f}m")
         self.get_logger().info(f"-> wheel_separation: {self.wheel_separation:.3f}m")
+        self.get_logger().info(f"-> noise_factor: {self.noise_factor:.4f}")
 
         self.joint_state_subscriber_ = self.create_subscription(JointState, "/joint_states", self.callback_joint_states, 10)   
 
@@ -73,8 +76,8 @@ class adding_noise_to_odometry_class(Node):
         joint_position_map = dict(zip(msg.name, msg.position))
         
         # Safely pull the data out by string name, defaulting to 0.0 if not found
-        left_wheel_position = joint_position_map.get("wheel_left_joint", 0.0) + np.random.normal(0, 0.005)
-        right_wheel_position = joint_position_map.get("wheel_right_joint", 0.0) + np.random.normal(0, 0.005)
+        left_wheel_position = joint_position_map.get("wheel_left_joint", 0.0) + np.random.normal(0, self.noise_factor)
+        right_wheel_position = joint_position_map.get("wheel_right_joint", 0.0) + np.random.normal(0, self.noise_factor)
         
         # 2. First-run guard initialization
         if self.last_left_wheel_pos_ is None or self.last_right_wheel_pos_ is None or self.prev_time_ is None:

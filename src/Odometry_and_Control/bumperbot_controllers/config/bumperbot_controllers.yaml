@@ -76,3 +76,4 @@ adding_noise_to_odometry:
   ros__parameters:
     wheel_radius: 0.034
     wheel_separation: 0.174
+    noise_factor: 0.005
