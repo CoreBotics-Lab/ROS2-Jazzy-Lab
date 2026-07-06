@@ -71,8 +71,9 @@ diff_drive_kinematics:
     wheel_separation: 0.174
     use_sim_time: true
 
-#this node adds nose to odometry to simulate almst real-wrld imperfections.
+#this node adds nose to odometry to simulate almst real-world imperfections.
 adding_noise_to_odometry:
   ros__parameters:
     wheel_radius: 0.034
     wheel_separation: 0.174
+    noise_factor: 0.005
