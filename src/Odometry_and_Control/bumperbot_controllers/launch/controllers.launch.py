@@ -21,9 +21,16 @@ def generate_launch_description():
         default_value="False",
     )
 
+    add_noise_to_odom_arg = DeclareLaunchArgument(
+        "add_noise_to_odom",
+        default_value="False",
+        description="Add noise to odometry data to simulate real-world imperfections."
+    )
+
     use_sim_time = LaunchConfiguration("use_sim_time")
     use_simple_controller = LaunchConfiguration("use_simple_controller")
     use_joy = LaunchConfiguration("use_joy")
+    add_noise_to_odom = LaunchConfiguration("add_noise_to_odom")
 
     config_file = os.path.join(
         get_package_share_directory('bumperbot_controllers'),
@@ -100,13 +107,24 @@ def generate_launch_description():
         }]
     )
     
+    add_noise_to_odometry_node = Node(
+        package='bumperbot_controllers',
+        executable='adding_noise_to_odometry.py',
+        name='adding_noise_to_odometry',
+        output='screen',
+        parameters=[config_file],
+        condition=IfCondition(add_noise_to_odom)
+    )
+    
     return LaunchDescription([
         use_sim_time_arg,
         use_simple_controller_arg,
         use_joy_arg,
+        add_noise_to_odom_arg,
         joint_state_broadcaster_spawner,
         diff_drivecontroller,
         simple_controller,
-        joy_gui_node
+        joy_gui_node,
+        add_noise_to_odometry_node
 
     ])
