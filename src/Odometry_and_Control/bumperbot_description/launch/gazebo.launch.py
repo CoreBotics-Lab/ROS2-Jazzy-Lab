@@ -52,14 +52,24 @@ def generate_launch_description():
         arguments = ['-d', os.path.join(bumperbot_package_dir, 'rviz', 'display.rviz')]
     )
 
+    bridge_config_file = os.path.join(
+        bumperbot_package_dir,
+        'config', 'ros_gz_bridge_config.yaml'
+    )
+
     gazebo_clock_bridge = Node(
         package='ros_gz_bridge',
         executable='parameter_bridge',
         output='screen',
         name='clock_bridge',
-        arguments=[
-            '/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock'
-        ]
+        parameters=[{
+            'config_file': bridge_config_file,
+            'use_sim_time': True
+        }],
+        # arguments=[
+        #     '/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock',
+        #     '/imu@sensor_msgs/msg/Imu[gz.msgs.IMU'
+        # ]
     )
 
     # Pass '-s ' (server only) if headless is True, otherwise pass empty string to run both by default.
