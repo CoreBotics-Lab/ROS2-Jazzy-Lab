@@ -1,3 +1,18 @@
+"""
+Launch file for bumperbot controllers.
+
+This script manages the launch of various control and simulation nodes for the bumperbot,
+including the joint state broadcaster, velocity controllers, and optional utility nodes.
+
+Launch arguments:
+  use_sim_time: Whether to use simulated time (default: True)
+  use_simple_controller: If True, launches the custom simple velocity controller. If False, launches the pre-made ros2_control diff_drive_controller (default: True)
+  use_joy: Whether to launch the joystick GUI node for manual control (default: False)
+  add_noise_to_odom: Whether to launch the node that injects noise into odometry (default: False)
+
+for example:
+    ros2 launch bumperbot_controllers controllers.launch.py use_joy:=true add_noise_to_odom:=true
+"""
 import os
 from launch import LaunchDescription
 from launch_ros.actions import Node
