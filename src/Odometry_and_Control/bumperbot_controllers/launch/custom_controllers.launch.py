@@ -1,40 +1,32 @@
 """
-Launch file for bumperbot custom controllers (course / learning reference).
+Controller-only launch file — custom simple velocity controller stack (course / learning).
 
-This file is dedicated to the hand-written simple velocity controller that was
-built during the Udemy course to understand differential-drive kinematics from
-scratch. It is NOT intended for real-robot use — use controller_ros2_control.launch.py
-for production deployments with the battle-tested ros2_control stack.
+Spawns the custom controllers only. Gazebo must already be running
+(started via bumperbot_bringup or gazebo.launch.py directly).
 
-This launch file is self-contained: it brings up Gazebo (with the correct
-controller config pre-loaded) AND spawns all custom controller nodes in a
-single command:
+For the complete one-command simulation bringup, use:
+    ros2 launch bumperbot_bringup sim_custom_controller.launch.py
 
-    ros2 launch bumperbot_controllers custom_controllers.launch.py
-
-Nodes / actions launched:
-  - gazebo.launch.py        : Gazebo sim loaded with bumperbot_controllers.yaml
-  - joint_state_broadcaster : publishes joint states from the controller manager
-  - simple_velocity_controller: custom JointGroupVelocityController spawner
-  - diff_drive_kinematics   : converts /cmd_vel → individual wheel velocity commands
-  - joy_gui (optional)      : virtual joystick GUI for manual teleoperation
-  - adding_noise_to_odometry: injects noise into odom to simulate real-world drift
+Nodes spawned:
+  - joint_state_broadcaster
+  - simple_velocity_controller  (JointGroupVelocityController)
+  - diff_drive_kinematics        (converts /cmd_vel → wheel velocity commands)
+  - joy_gui (optional)
+  - adding_noise_to_odometry (optional)
 
 Launch arguments:
   use_sim_time     : Use simulated (Gazebo) clock (default: True)
-  headless         : Run Gazebo without the GUI (default: False)
-  use_joy          : Launch the joystick GUI (default: False)
+  use_joy          : Launch the virtual joystick GUI (default: False)
   add_noise_to_odom: Inject noise into odometry (default: False)
 
-Example:
-    ros2 launch bumperbot_controllers custom_controllers.launch.py use_joy:=true
+Example (with Gazebo already running):
+    ros2 launch bumperbot_controllers custom_controllers.launch.py
 """
 
 import os
 from launch import LaunchDescription
 from launch_ros.actions import Node
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
-from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.actions import DeclareLaunchArgument
 from ament_index_python.packages import get_package_share_directory
 from launch.conditions import IfCondition
 from launch.substitutions import LaunchConfiguration
@@ -42,26 +34,17 @@ from launch.substitutions import LaunchConfiguration
 
 def generate_launch_description():
 
-    # ── Config paths ──────────────────────────────────────────────────────────
-    controllers_pkg   = get_package_share_directory('bumperbot_controllers')
-
-    # YAML loaded by gz_ros2_control to initialise the controller_manager.
-    # Must declare simple_velocity_controller type so the CM knows how to load it.
-    controller_config = os.path.join(controllers_pkg, 'config', 'bumperbot_controllers.yaml')
-
-    # YAML used by individual nodes (diff_drive_kinematics, noise injection).
-    config_file = controller_config
+    config_file = os.path.join(
+        get_package_share_directory('bumperbot_controllers'),
+        'config',
+        'bumperbot_controllers.yaml'
+    )
 
     # ── Launch Arguments ──────────────────────────────────────────────────────
     use_sim_time_arg = DeclareLaunchArgument(
         "use_sim_time",
         default_value="True",
         description="Use simulated (Gazebo) clock."
-    )
-    headless_arg = DeclareLaunchArgument(
-        "headless",
-        default_value="False",
-        description="Run Gazebo without the GUI."
     )
     use_joy_arg = DeclareLaunchArgument(
         "use_joy",
@@ -77,19 +60,6 @@ def generate_launch_description():
     use_sim_time      = LaunchConfiguration("use_sim_time")
     use_joy           = LaunchConfiguration("use_joy")
     add_noise_to_odom = LaunchConfiguration("add_noise_to_odom")
-
-    # ── Gazebo (pre-loaded with the custom controller config) ─────────────────
-    gazebo = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(controllers_pkg, 'launch', 'gazebo.launch.py')
-        ),
-        launch_arguments={
-            'headless': LaunchConfiguration('headless'),
-            # Inject bumperbot_controllers.yaml so the controller_manager
-            # registers simple_velocity_controller on startup.
-            'controller_config': controller_config,
-        }.items()
-    )
 
     # ── Controller Manager Spawners ───────────────────────────────────────────
     joint_state_broadcaster_spawner = Node(
@@ -148,10 +118,8 @@ def generate_launch_description():
 
     return LaunchDescription([
         use_sim_time_arg,
-        headless_arg,
         use_joy_arg,
         add_noise_to_odom_arg,
-        gazebo,
         joint_state_broadcaster_spawner,
         simple_velocity_controller_spawner,
         diff_drive_kinematics_node,
