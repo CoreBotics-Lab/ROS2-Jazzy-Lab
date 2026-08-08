@@ -41,7 +41,6 @@ def generate_launch_description():
 
     # ── Config paths ──────────────────────────────────────────────────────────
     controllers_pkg  = get_package_share_directory('bumperbot_controllers')
-    description_pkg  = get_package_share_directory('bumperbot_description')
 
     # YAML loaded by gz_ros2_control to initialise the controller_manager.
     controller_config = os.path.join(controllers_pkg, 'config', 'bumperbot_ros2_control.yaml')
@@ -69,7 +68,7 @@ def generate_launch_description():
     # ── Gazebo (pre-loaded with the ros2_control controller config) ───────────
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            os.path.join(description_pkg, 'launch', 'gazebo.launch.py')
+            os.path.join(controllers_pkg, 'launch', 'gazebo.launch.py')
         ),
         launch_arguments={
             'headless': LaunchConfiguration('headless'),
