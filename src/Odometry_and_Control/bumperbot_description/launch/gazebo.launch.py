@@ -10,7 +10,28 @@ from launch.substitutions import LaunchConfiguration, PathJoinSubstitution, Pyth
 
 def generate_launch_description():
 
-    launch_arg_headless = DeclareLaunchArgument('headless', default_value='False', description='Run Gazebo without the GUI')
+    launch_arg_headless = DeclareLaunchArgument(
+        'headless',
+        default_value='False',
+        description='Run Gazebo without the GUI'
+    )
+
+    # Which controller config yaml the gz_ros2_control plugin uses to initialise
+    # the controller_manager. Override this to switch controller sets without
+    # touching the URDF/xacro.
+    #   Production (default): bumperbot_ros2_control.yaml
+    #   Learning / course:    bumperbot_controllers.yaml
+    default_controller_config = os.path.join(
+        get_package_share_directory('bumperbot_controllers'),
+        'config',
+        'bumperbot_ros2_control.yaml'
+    )
+    launch_arg_controller_config = DeclareLaunchArgument(
+        'controller_config',
+        default_value=default_controller_config,
+        description='Full path to the controller_manager YAML config file.'
+    )
+    controller_config = LaunchConfiguration('controller_config')
 
     bumperbot_package_dir = get_package_share_directory('bumperbot_description')
     ros_gz_package_dir = get_package_share_directory('ros_gz_sim')
@@ -30,8 +51,9 @@ def generate_launch_description():
     xacro_file_path = os.path.join(bumperbot_package_dir, 'urdf', 'bumperbot.urdf.xacro')
 
     robot_description = Command([
-        'xacro ', 
-        xacro_file_path
+        'xacro ',
+        xacro_file_path,
+        ' controller_config:=', controller_config
     ])
 
     robot_state_publisher = Node(
@@ -103,6 +125,7 @@ def generate_launch_description():
 
     return LaunchDescription([
         launch_arg_headless,
+        launch_arg_controller_config,
         env_gz_resource_path,
         gazebo_clock_bridge,
         gz_sim,

@@ -1,6 +1,13 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
+  <!-- Controller config YAML injected at launch time via the controller_config xacro arg.
+       Default: bumperbot_ros2_control.yaml (production ros2_control path).
+       Override from the launch file to select a different controller set, e.g.:
+         xacro bumperbot.urdf.xacro controller_config:=/path/to/bumperbot_controllers.yaml -->
+  <xacro:arg name="controller_config"
+             default="$(find bumperbot_controllers)/config/bumperbot_ros2_control.yaml"/>
+
   <gazebo reference="wheel_right_link">
     <mu1>1000000000000000.0</mu1>
     <mu2>1000000000000000.0</mu2>
@@ -40,9 +47,8 @@
   </gazebo>
 
   <gazebo>
-    <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin" >
-      <!-- <parameters>$(find bumperbot_controllers)/config/bumperbot_controllers.yaml</parameters> -->
-      <parameters>$(find bumperbot_controllers)/config/bumperbot_ros2_control.yaml</parameters>
+    <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+      <parameters>$(arg controller_config)</parameters>
       <!-- <ros>
         <remapping>/bumperbot_controller/cmd_vel:=/cmd_vel</remapping>
         <remapping>/bumperbot_controller/cmd_vel_out:=/cmd_vel_out</remapping>
@@ -51,5 +57,5 @@
       </ros> -->
     </plugin>
   </gazebo>
-  
+
 </robot>
