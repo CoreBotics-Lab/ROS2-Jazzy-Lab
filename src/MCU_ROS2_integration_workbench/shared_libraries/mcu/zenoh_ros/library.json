@@ -1,0 +1,12 @@
+{
+  "name": "zenoh_ros",
+  "version": "1.0.0",
+  "description": "ROS 2 style wrapper for Zenoh on Microcontrollers.",
+  "keywords": "zenoh, ros2, esp32, robotics",
+  "frameworks": "arduino",
+  "platforms": "espressif32",
+  "dependencies": {
+    "zenoh-pico": "https://github.com/eclipse-zenoh/zenoh-pico.git",
+    "ArduinoJson": "^7.1.0"
+  }
+}

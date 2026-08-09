@@ -1,0 +1,6 @@
+custom_msgs/ComplexRobotState target_state
+int32 command_code
+---
+custom_msgs/SensorTelemetry current_telemetry
+bool ack
+string status_details

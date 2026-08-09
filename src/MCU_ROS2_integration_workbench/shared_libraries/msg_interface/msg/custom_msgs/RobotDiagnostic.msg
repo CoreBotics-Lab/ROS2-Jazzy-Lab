@@ -1,0 +1,5 @@
+std_msgs/Header header
+geometry_msgs/Vector3 velocity
+custom_msgs/MotorStatus left_motor
+custom_msgs/MotorStatus right_motor
+string robot_name

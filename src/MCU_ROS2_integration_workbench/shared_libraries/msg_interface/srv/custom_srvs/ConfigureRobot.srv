@@ -1,0 +1,5 @@
+custom_msgs/MotorStatus target_status
+int32 mode
+---
+bool success
+string status_message
