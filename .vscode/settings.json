@@ -5,7 +5,13 @@
     "python.pyrefly.disableTypeErrors": false,
     "python.autoComplete.extraPaths": [
         "/opt/ros/jazzy/lib/python3.12/site-packages",
-        "/root/ros2_ws/install/ros2_interfaces/lib/python3.12/site-packages"
+        "/root/ros2_ws/install/ros2_interfaces/lib/python3.12/site-packages",
+        "/root/ros2_ws/src/MCU_ROS2_integration_workbench/shared_libraries/python"
+    ],
+    "python.analysis.extraPaths": [
+        "/opt/ros/jazzy/lib/python3.12/site-packages",
+        "/root/ros2_ws/install/ros2_interfaces/lib/python3.12/site-packages",
+        "/root/ros2_ws/src/MCU_ROS2_integration_workbench/shared_libraries/python"
     ],
     "python.REPL.enableREPLSmartSend": false,
     // --- C++ & Clangd ---
