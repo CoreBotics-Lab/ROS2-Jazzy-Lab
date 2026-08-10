@@ -1,3 +1,4 @@
+from glob import glob
 from setuptools import find_packages, setup
 
 package_name = 'imu_tf_visualizer'
@@ -10,6 +11,8 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
+        ('share/' + package_name + '/urdf', glob('urdf/*.xacro')),
+        ('share/' + package_name + '/meshes', glob('meshes/*')),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -25,6 +28,7 @@ setup(
     entry_points={
         'console_scripts': [
             'imu_republisher_node = imu_tf_visualizer.imu_republisher_node:main',
+            'imu_tf_broadcaster_node = imu_tf_visualizer.imu_tf_broadcaster_node:main',
         ],
     },
 )
