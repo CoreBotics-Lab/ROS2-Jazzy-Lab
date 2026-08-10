@@ -1,0 +1,15 @@
+# Pyrefly type checker configuration
+# https://pyrefly.org/en/stable/configuration/
+
+python-version = "3.12"
+
+# Tell Pyrefly where to find local/shared library packages
+# that are injected into sys.path at runtime (e.g. zenoh_ros)
+search-path = [
+    "src/MCU_ROS2_integration_workbench/shared_libraries/python",
+    # System site-packages — needed for stdlib-adjacent packages like setuptools
+    "/usr/lib/python3/dist-packages",
+    "/usr/lib/python3.12/dist-packages",
+    # pip-installed packages including type stubs (e.g. types-setuptools)
+    "/usr/local/lib/python3.12/dist-packages",
+]
