@@ -33,7 +33,7 @@ class IMURepublisherNode(Node):
         imu_msg = Imu()
         imu_msg.header.stamp.sec     = msg.header.stamp.sec
         imu_msg.header.stamp.nanosec = msg.header.stamp.nanosec
-        imu_msg.header.frame_id = "imu_link"
+        imu_msg.header.frame_id = msg.header.frame_id
 
         imu_msg.linear_acceleration.x = msg.linear_acceleration.x
         imu_msg.linear_acceleration.y = msg.linear_acceleration.y
