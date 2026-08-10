@@ -24,7 +24,7 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            'imu_visualizer_node = imu_tf_visualizer.imu_visualizer_node:main',
+            'imu_republisher_node = imu_tf_visualizer.imu_republisher_node:main',
         ],
     },
 )
