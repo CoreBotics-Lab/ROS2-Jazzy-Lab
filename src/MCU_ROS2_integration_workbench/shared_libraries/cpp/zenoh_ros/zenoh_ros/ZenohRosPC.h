@@ -454,37 +454,45 @@ public:
     }
 };
 
-/**
- * @brief Preset baudrate speeds for Serial UART and USB CDC transport modes on PC.
- */
-enum class ZenohBaudRate : uint32_t {
-    UART_STANDARD   = 115200,    ///< Standard UART speed (11.5 KB/s max throughput)
-    UART_HIGH_SPEED = 921600,    ///< High-Speed UART speed (92 KB/s max throughput)
-    USB_STANDARD    = 3000000,   ///< Native USB CDC Standard speed (300 KB/s max throughput)
-    USB_HIGH_SPEED  = 12000000   ///< Native USB CDC High speed (1.2 MB/s max throughput)
-};
-
-/**
- * @brief Communication transport modes for the PC Zenoh node.
- */
-enum class ZenohCommunicationMode {
-    ZENOH_COMM_UART_DEFAULT = 0, ///< Default: UART0 Serial
-    ZENOH_COMM_UART_USB_CDC = 1, ///< Native USB CDC Serial
-    ZENOH_COMM_UART_HW      = 2, ///< Hardware UART
-    ZENOH_COMM_WIFI         = 3  ///< Wi-Fi / TCP
-};
-
 // Configuration structure for the Zenoh node on PC
 struct ZenohConfig {
-    ZenohCommunicationMode communication_mode = ZenohCommunicationMode::ZENOH_COMM_WIFI; ///< Transport mode
-    std::string transport = "wifi";           ///< Legacy: "serial" or "wifi" (overridden by communication_mode)
-    std::string uart_port = "auto";           ///< "auto", "/dev/ttyACM0", "/dev/ttyUSB0", "COM3"
-    uint32_t    baudrate  = 115200;           ///< Baud rate (use ZenohBaudRate presets)
+    enum class CommunicationMode {
+        ZENOH_COMM_UART_DEFAULT = 0,
+        ZENOH_COMM_UART_USB_CDC = 1,
+        ZENOH_COMM_UART_HW      = 2,
+        ZENOH_COMM_WIFI         = 3
+    };
+
+    enum class BaudRate : uint32_t {
+        UART_STANDARD   = 115200,
+        UART_HIGH_SPEED = 921600,
+        USB_STANDARD    = 3000000,
+        USB_HIGH_SPEED  = 12000000
+    };
+
+    static constexpr CommunicationMode ZENOH_COMM_WIFI         = CommunicationMode::ZENOH_COMM_WIFI;
+    static constexpr CommunicationMode ZENOH_COMM_UART_DEFAULT = CommunicationMode::ZENOH_COMM_UART_DEFAULT;
+    static constexpr CommunicationMode ZENOH_COMM_UART_USB_CDC = CommunicationMode::ZENOH_COMM_UART_USB_CDC;
+    static constexpr CommunicationMode ZENOH_COMM_UART_HW      = CommunicationMode::ZENOH_COMM_UART_HW;
+
+    static constexpr const char* MODE_WIFI   = "wifi";
+    static constexpr const char* MODE_SERIAL = "serial";
+
+    static constexpr uint32_t UART_STANDARD   = 115200;
+    static constexpr uint32_t UART_HIGH_SPEED = 921600;
+    static constexpr uint32_t USB_STANDARD    = 3000000;
+    static constexpr uint32_t USB_HIGH_SPEED  = 12000000;
+
+    CommunicationMode communication_mode = CommunicationMode::ZENOH_COMM_WIFI;
+    std::string mode = "wifi";
+    std::string transport = "wifi";
+    std::string uart_port = "auto";
+    uint32_t    baudrate  = UART_STANDARD;
 
     // Wi-Fi / TCP Parameters
     std::string host = "192.168.4.1";
     uint16_t    port = 7447;
-    std::string connect_endpoint = ""; ///< If non-empty, overrides all other transport settings
+    std::string connect_endpoint = "";
 };
 
 // Main Zenoh Node Class for PC
@@ -602,7 +610,7 @@ public:
         std::string endpoint;
         if (!config.connect_endpoint.empty()) {
             endpoint = config.connect_endpoint;
-        } else if (config.communication_mode == ZenohCommunicationMode::ZENOH_COMM_WIFI) {
+        } else if (config.communication_mode == ZenohConfig::CommunicationMode::ZENOH_COMM_WIFI || config.mode == "wifi") {
             if (!config.host.empty()) {
                 endpoint = "tcp/" + config.host + ":" + std::to_string(config.port);
             }

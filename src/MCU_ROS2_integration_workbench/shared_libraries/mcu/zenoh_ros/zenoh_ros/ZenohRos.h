@@ -10,67 +10,59 @@
 #include <vector>
 #include "z_logger.h"
 
-/**
- * @brief Preset baudrate speeds for Serial UART and USB CDC transport modes.
- *
- * PERFORMANCE WARNING NOTES:
- * - UART_STANDARD (115,200 baud): Throughput ~11.5 KB/s. Ideal for low-frequency single-topic nodes.
- *   (Note: Streaming 30+ dynamic topics simultaneously at high rates will saturate the serial bus buffer).
- * - UART_HIGH_SPEED (921,600 baud): Throughput ~92 KB/s. Recommended for multi-topic setups without heavy binary payloads.
- * - USB_STANDARD (3,000,000 baud): Throughput ~300 KB/s. High-rate binary payloads over native USB CDC.
- * - USB_HIGH_SPEED (12,000,000 baud): Throughput ~1.2 MB/s. Ultra-high rate streaming over USB CDC OTG.
- */
-enum class ZenohBaudRate : uint32_t {
-    UART_STANDARD   = 115200,    ///< Standard UART speed (11.5 KB/s max throughput)
-    UART_HIGH_SPEED = 921600,    ///< High-Speed UART speed (92 KB/s max throughput - Recommended for multi-topic)
-    USB_STANDARD    = 3000000,   ///< Native USB CDC Standard speed (300 KB/s max throughput)
-    USB_HIGH_SPEED  = 12000000   ///< Native USB CDC High speed (1.2 MB/s max throughput)
-};
 
-/**
- * @brief Transport mode for Zenoh communication link between MCU and PC.
- */
-/**
- * @brief Communication mode for Zenoh connection link between MCU and PC.
- */
-enum class ZenohCommunicationMode {
-    ZENOH_COMM_UART_DEFAULT = 0, ///< Default: UART0 over built-in USB/UART flashing port (Serial)
-    ZENOH_COMM_UART_USB_CDC = 1, ///< Native USB CDC Serial (USBSerial / Native USB OTG PHY)
-    ZENOH_COMM_UART_HW      = 2, ///< Hardware UART on custom pins (.uart_pins = { .rx = 12, .tx = 13 })
-    ZENOH_COMM_WIFI         = 3  ///< Wireless TCP/UDP connection (SoftAP or STA)
-};
-
-// Aliases for backward compatibility
-using ZenohTransportMode = ZenohCommunicationMode;
-#define ZENOH_TRANSPORT_UART_DEFAULT ZenohCommunicationMode::ZENOH_COMM_UART_DEFAULT
-#define ZENOH_TRANSPORT_UART_USB_CDC ZenohCommunicationMode::ZENOH_COMM_UART_USB_CDC
-#define ZENOH_TRANSPORT_UART_HW      ZenohCommunicationMode::ZENOH_COMM_UART_HW
-#define ZENOH_TRANSPORT_WIFI         ZenohCommunicationMode::ZENOH_COMM_WIFI
 
 struct UARTPins {
     int8_t rx;
     int8_t tx;
 };
 
-// Configuration structure for the Zenoh node (Pure aggregate type for C++ designated initializers)
+// Configuration structure for the Zenoh node on MCU
 struct ZenohConfig {
-    ZenohCommunicationMode communication_mode = ZenohCommunicationMode::ZENOH_COMM_UART_DEFAULT;
-    uint32_t baudrate = 115200;
-    UARTPins uart_pins = {0, 0}; // Custom RX/TX pins for ZENOH_COMM_UART_HW
+    enum class CommunicationMode {
+        ZENOH_COMM_UART_DEFAULT = 0,
+        ZENOH_COMM_UART_USB_CDC = 1,
+        ZENOH_COMM_UART_HW      = 2,
+        ZENOH_COMM_WIFI         = 3
+    };
+
+    enum class BaudRate : uint32_t {
+        UART_STANDARD   = 115200,
+        UART_HIGH_SPEED = 921600,
+        USB_STANDARD    = 3000000,
+        USB_HIGH_SPEED  = 12000000
+    };
+
+    static constexpr CommunicationMode ZENOH_COMM_WIFI         = CommunicationMode::ZENOH_COMM_WIFI;
+    static constexpr CommunicationMode ZENOH_COMM_UART_DEFAULT = CommunicationMode::ZENOH_COMM_UART_DEFAULT;
+    static constexpr CommunicationMode ZENOH_COMM_UART_USB_CDC = CommunicationMode::ZENOH_COMM_UART_USB_CDC;
+    static constexpr CommunicationMode ZENOH_COMM_UART_HW      = CommunicationMode::ZENOH_COMM_UART_HW;
+
+    static constexpr const char* MODE_WIFI   = "wifi";
+    static constexpr const char* MODE_SERIAL = "serial";
+
+    static constexpr uint32_t UART_STANDARD   = static_cast<uint32_t>(BaudRate::UART_STANDARD);
+    static constexpr uint32_t UART_HIGH_SPEED = static_cast<uint32_t>(BaudRate::UART_HIGH_SPEED);
+    static constexpr uint32_t USB_STANDARD    = static_cast<uint32_t>(BaudRate::USB_STANDARD);
+    static constexpr uint32_t USB_HIGH_SPEED  = static_cast<uint32_t>(BaudRate::USB_HIGH_SPEED);
+
+    CommunicationMode communication_mode = CommunicationMode::ZENOH_COMM_UART_DEFAULT;
+    uint32_t baudrate = UART_STANDARD;
+    UARTPins uart_pins = {0, 0};
 
     const char* ssid = nullptr;
     const char* password = nullptr;
     uint16_t port = 7447;
-    WiFiMode_t wifi_mode = WIFI_STA; // Wi-Fi mode (WIFI_STA or WIFI_AP)
-    const char* local_ip = nullptr; // Optional: custom static IP for SoftAP/STA
-    const char* gateway = nullptr;  // Optional: gateway IP
-    const char* subnet = nullptr;   // Optional: subnet mask
-    const uint8_t* mac_addr = nullptr; // Optional: target router MAC address / BSSID (6-byte uint8_t array)
+    WiFiMode_t wifi_mode = WIFI_STA;
+    const char* local_ip = nullptr;
+    const char* gateway = nullptr;
+    const char* subnet = nullptr;
+    const uint8_t* mac_addr = nullptr;
 
     // Default Constructor
     ZenohConfig() = default;
 
-    ZenohConfig& set_communication_mode(ZenohCommunicationMode mode) {
+    ZenohConfig& set_communication_mode(CommunicationMode mode) {
         communication_mode = mode;
         return *this;
     }
@@ -80,19 +72,19 @@ struct ZenohConfig {
         return *this;
     }
 
-    ZenohConfig& set_baudrate(ZenohBaudRate baud) {
+    ZenohConfig& set_baudrate(BaudRate baud) {
         baudrate = static_cast<uint32_t>(baud);
         return *this;
     }
 
     ZenohConfig& set_uart_pins(int8_t rx_pin, int8_t tx_pin) {
-        communication_mode = ZenohCommunicationMode::ZENOH_COMM_UART_HW;
+        communication_mode = CommunicationMode::ZENOH_COMM_UART_HW;
         uart_pins = { rx_pin, tx_pin };
         return *this;
     }
 
     ZenohConfig& set_wifi(const char* wifi_ssid, const char* wifi_pass, WiFiMode_t mode = WIFI_STA) {
-        communication_mode = ZenohCommunicationMode::ZENOH_COMM_WIFI;
+        communication_mode = CommunicationMode::ZENOH_COMM_WIFI;
         ssid = wifi_ssid;
         password = wifi_pass;
         wifi_mode = mode;

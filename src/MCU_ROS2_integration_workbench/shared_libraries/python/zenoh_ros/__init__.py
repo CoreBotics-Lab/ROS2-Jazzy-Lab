@@ -5,20 +5,6 @@ from .z_std_msgs import (
 from .node import (
     ZenohNode,
     ZenohConfig,
-    ZenohCommunicationMode,
-    ZenohBaudRate,
-    CommunicationMode,
-    BaudRate,
-    ZENOH_COMM_UART_DEFAULT,
-    ZENOH_COMM_UART_USB_CDC,
-    ZENOH_COMM_UART_HW,
-    ZENOH_COMM_WIFI,
-    UART_STANDARD,
-    UART_HIGH_SPEED,
-    USB_STANDARD,
-    USB_HIGH_SPEED,
-    SERIAL,
-    WIFI,
     QoS,
     SensorDataQoS,
     SystemDefaultsQoS,
@@ -27,7 +13,6 @@ from .node import (
     ZenohPublisher,
     ZenohSubscription,
     ZenohTimer,
-    BaudRate
 )
 from .logging import (
     ZenohLogger,

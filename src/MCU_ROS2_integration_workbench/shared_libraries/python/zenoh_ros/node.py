@@ -2,47 +2,6 @@ import sys
 import glob
 from enum import Enum, IntEnum
 
-class ZenohCommunicationMode(str, Enum):
-    ZENOH_COMM_UART_DEFAULT = "serial"
-    ZENOH_COMM_UART_USB_CDC = "serial"
-    ZENOH_COMM_UART_HW      = "serial"
-    ZENOH_COMM_WIFI         = "wifi"
-
-# Backward compatibility alias
-CommunicationMode = ZenohCommunicationMode
-
-class ZenohBaudRate(IntEnum):
-    """
-    Preset baudrate speeds for Serial UART and USB CDC transport modes.
-
-    PERFORMANCE WARNING NOTES:
-    - UART_STANDARD (115,200 baud): Throughput ~11.5 KB/s. Ideal for low-frequency single-topic nodes.
-    - UART_HIGH_SPEED (921,600 baud): Throughput ~92 KB/s. Recommended for multi-topic setups without heavy binary payloads.
-    - USB_STANDARD (3,000,000 baud): Throughput ~300 KB/s. High-rate binary payloads over native USB CDC.
-    - USB_HIGH_SPEED (12,000,000 baud): Throughput ~1.2 MB/s. Ultra-high rate streaming over USB CDC OTG.
-    """
-    UART_STANDARD   = 115200
-    UART_HIGH_SPEED = 921600
-    USB_STANDARD    = 3000000
-    USB_HIGH_SPEED  = 12000000
-
-# Backward compatibility alias
-BaudRate = ZenohBaudRate
-
-# Top-level exports matching C++ enum names directly
-ZENOH_COMM_UART_DEFAULT = ZenohCommunicationMode.ZENOH_COMM_UART_DEFAULT
-ZENOH_COMM_UART_USB_CDC = ZenohCommunicationMode.ZENOH_COMM_UART_USB_CDC
-ZENOH_COMM_UART_HW      = ZenohCommunicationMode.ZENOH_COMM_UART_HW
-ZENOH_COMM_WIFI         = ZenohCommunicationMode.ZENOH_COMM_WIFI
-
-UART_STANDARD   = ZenohBaudRate.UART_STANDARD
-UART_HIGH_SPEED = ZenohBaudRate.UART_HIGH_SPEED
-USB_STANDARD    = ZenohBaudRate.USB_STANDARD
-USB_HIGH_SPEED  = ZenohBaudRate.USB_HIGH_SPEED
-
-SERIAL = "serial"
-WIFI   = "wifi" 
-
 
 def auto_detect_mcu_serial_port() -> str:
     """Auto-detect active MCU serial port on Linux or Windows."""
@@ -307,20 +266,46 @@ class ZenohClient:
 
 
 class ZenohConfig:
+    class CommunicationMode(str, Enum):
+        ZENOH_COMM_UART_DEFAULT = "serial"
+        ZENOH_COMM_UART_USB_CDC = "serial"
+        ZENOH_COMM_UART_HW      = "serial"
+        ZENOH_COMM_WIFI         = "wifi"
+
+    class BaudRate(IntEnum):
+        UART_STANDARD   = 115200
+        UART_HIGH_SPEED = 921600
+        USB_STANDARD    = 3000000
+        USB_HIGH_SPEED  = 12000000
+
+    ZENOH_COMM_WIFI         = CommunicationMode.ZENOH_COMM_WIFI
+    ZENOH_COMM_UART_DEFAULT = CommunicationMode.ZENOH_COMM_UART_DEFAULT
+    ZENOH_COMM_UART_USB_CDC = CommunicationMode.ZENOH_COMM_UART_USB_CDC
+    ZENOH_COMM_UART_HW      = CommunicationMode.ZENOH_COMM_UART_HW
+
+    MODE_WIFI   = "wifi"
+    MODE_SERIAL = "serial"
+
+    UART_STANDARD   = BaudRate.UART_STANDARD
+    UART_HIGH_SPEED = BaudRate.UART_HIGH_SPEED
+    USB_STANDARD    = BaudRate.USB_STANDARD
+    USB_HIGH_SPEED  = BaudRate.USB_HIGH_SPEED
+
     def __init__(
         self,
-        communication_mode: Union[str, ZenohCommunicationMode] = ZENOH_COMM_UART_DEFAULT,
+        communication_mode: Union[str, CommunicationMode] = CommunicationMode.ZENOH_COMM_WIFI,
         uart_port: str = "auto",
-        baudrate: int = UART_STANDARD,
+        baudrate: int = BaudRate.UART_STANDARD,
         host: str = "192.168.4.1",
         port: int = 7447,
         connect_endpoint: str = "",
+        mode: Optional[str] = None,
         transport: Optional[str] = None
     ) -> None:
-        if transport is not None:
-            communication_mode = transport
-        self.communication_mode = communication_mode
-        self.transport = communication_mode
+        selected_mode = mode or communication_mode or transport or "wifi"
+        self.communication_mode = str(selected_mode)
+        self.mode = self.communication_mode
+        self.transport = self.communication_mode
         self.uart_port = uart_port
         self.baudrate = baudrate
         self.host = host
@@ -330,24 +315,7 @@ class ZenohConfig:
 
 class ZenohNode:
     ZenohConfig = ZenohConfig
-    Config = ZenohConfig
-    ZenohCommunicationMode = ZenohCommunicationMode
-    CommunicationMode = ZenohCommunicationMode
-    ZenohBaudRate = ZenohBaudRate
-    BaudRate = ZenohBaudRate
 
-    ZENOH_COMM_UART_DEFAULT = ZenohCommunicationMode.ZENOH_COMM_UART_DEFAULT
-    ZENOH_COMM_UART_USB_CDC = ZenohCommunicationMode.ZENOH_COMM_UART_USB_CDC
-    ZENOH_COMM_UART_HW      = ZenohCommunicationMode.ZENOH_COMM_UART_HW
-    ZENOH_COMM_WIFI         = ZenohCommunicationMode.ZENOH_COMM_WIFI
-
-    UART_STANDARD   = ZenohBaudRate.UART_STANDARD
-    UART_HIGH_SPEED = ZenohBaudRate.UART_HIGH_SPEED
-    USB_STANDARD    = ZenohBaudRate.USB_STANDARD
-    USB_HIGH_SPEED  = ZenohBaudRate.USB_HIGH_SPEED
-
-    SERIAL = "serial"
-    WIFI   = "wifi"
     _session: ClassVar[Optional[zenoh.Session]] = None
     _session_refcount = 0
     _lock = threading.RLock()
