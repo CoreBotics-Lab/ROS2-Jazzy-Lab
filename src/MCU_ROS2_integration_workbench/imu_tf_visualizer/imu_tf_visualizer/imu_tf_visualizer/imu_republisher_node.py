@@ -81,7 +81,7 @@ def main(args=None) -> None:
 
     try:
         # 1. Connect to ESP32-S3 SoftAP and initialize Zenoh session
-        cfg = ZenohConfig(host="192.168.4.1", port=7447)
+        cfg = ZenohConfig(communication_mode=ZenohConfig.ZENOH_COMM_WIFI, host="192.168.4.1", port=7447)
         if not ZenohNode.init(cfg):
             return
 
