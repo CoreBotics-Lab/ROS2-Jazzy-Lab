@@ -102,6 +102,9 @@ class MPU6050TFSubscriberNode(ZenohNode):
         )
 
     def listener_callback(self, msg: z_Imu) -> None:
+        if msg is None:
+            return
+            
         # Forward directly to TF broadcaster
         self._tf_node.process_and_broadcast_tf(msg)
 

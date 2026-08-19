@@ -63,6 +63,9 @@ class MPU6050SubscriberNode(ZenohNode):
         )
 
     def listener_callback(self, msg: z_Imu) -> None:
+        if msg is None:
+            return
+
         self.get_logger().info(
             f"[IMU RECV] [stamp: {msg.header.stamp.sec}.{msg.header.stamp.nanosec:09d}] "
             f"Accel: ({msg.linear_acceleration.x:6.2f}, {msg.linear_acceleration.y:6.2f}, {msg.linear_acceleration.z:6.2f}) m/s² | "
