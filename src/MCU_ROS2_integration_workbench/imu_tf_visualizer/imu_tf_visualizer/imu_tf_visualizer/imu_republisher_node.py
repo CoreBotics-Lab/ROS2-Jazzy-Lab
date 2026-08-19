@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 import sys
-import os
+from pathlib import Path
 
-# Resolve symlinks first so this works both when run directly and when
-# installed via `colcon build --symlink-install` (where __file__ is a
-# symlink inside /install/lib/ that points back to the source tree).
-_this_dir = os.path.dirname(os.path.realpath(__file__))
-sys.path.insert(0, os.path.abspath(os.path.join(_this_dir, '../../../shared_libraries/python')))
+# Use Path.resolve() to follow symlinks so this works both when run directly
+# and when installed via `colcon build --symlink-install` (where __file__
+# is a symlink in the install tree pointing back to the source tree).
+sys.path.insert(0, str(Path(__file__).resolve().parents[3] / 'shared_libraries' / 'python'))
 
 import rclpy
 from rclpy.node import Node
