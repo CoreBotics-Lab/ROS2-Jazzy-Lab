@@ -393,3 +393,169 @@ As detailed in the Action section above, an Action Server doesn't use a special 
 *   **2 Topics:** To broadcast the continuous Feedback (`/feedback`) and the overall Status (`/status`) of all running goals. 
 
 > **Key Takeaway:** By mastering Topics and Services, you have fundamentally mastered the networking layer of the entire ROS 2 ecosystem!
+
+---
+
+## 4. Launch File: `arguments` vs `parameters` in `Node()`
+
+When using `launch_ros.actions.Node`, there are two ways to pass config to a node — and the choice depends on the **lifetime and reach** of the config value.
+
+### `arguments` — Static, one-time, set-and-forget
+Passed directly to the process as **raw command-line strings** (like typing flags in the terminal). The program itself reads them via `argv`. Works for any program — ROS node or not.
+
+```python
+arguments=['-d', rviz_file]   # equivalent to: rviz2 -d /path/to/file.rviz
+```
+
+**Use for:**
+- Config file paths (`-d rviz_file`)
+- Initial counter values (`--start-from 100`)
+- Log level flags (`--verbose`)
+- Anything a non-ROS program needs via CLI
+
+### `parameters` — Dynamic, inspectable, potentially changing
+Passed through the **ROS 2 parameter server** (middleware). The node reads them via `get_parameter()` / `declare_parameter()`. Only works for ROS 2 nodes.
+
+```python
+parameters=[{'robot_description': robot_description, 'use_sim_time': False}]
+```
+
+**Use for:**
+- Robot description / URDF (could be swapped at runtime)
+- PID gains (tunable mid-flight via `ros2 param set`)
+- Sensor calibration offsets
+- `use_sim_time` (toggleable between sim and real HW)
+
+### The key engineering judgment
+> **Ask:** *What is the lifetime and reach of this config value?*
+> - **Never changes, only this process needs it?** → `arguments`
+> - **Could change at runtime, or other nodes/tools need to inspect it?** → `parameters`
+
+### Bonus: Node name remapping — via `args` in rclpy/rclcpp, via `name=` in launch
+
+In **rclpy code**, `args` (captured from `sys.argv` via `rclpy.init(args=args)`) is exactly how CLI flags — including node name remaps — reach the node:
+
+```python
+# rclpy node entry point
+def main(args=None):
+    rclpy.init(args=args)   # args=sys.argv — this is where --ros-args gets parsed
+    node = MyNode()
+    rclpy.spin(node)
+    rclpy.shutdown()
+```
+
+So when you run `ros2 run my_pkg my_node --ros-args -r __node:=my_custom_name`, the `--ros-args` string flows through `sys.argv` into `rclpy.init(args=args)` and ROS 2 applies the remap. This is the "args for node name" you were remembering from core basics — it lives at the **rclpy/rclcpp level**, not the launch level.
+
+In a **launch file**, node name is a dedicated field: `Node(name='my_node_name', ...)` — the launch system handles the remap for you under the hood.
+
+---
+
+### Using `arguments` and `parameters` from the terminal (`ros2 run`)
+
+Everything in `Node(arguments=[...], parameters=[...])` has a direct terminal equivalent:
+
+#### Passing CLI arguments (before `--ros-args`)
+```bash
+# These go to the program's own argv — same as Node(arguments=[...])
+
+# rviz2 uses -d to load a config file — its own CLI flag, not a ROS param
+ros2 run rviz2 rviz2 -d /path/to/config.rviz
+
+# Positional args via sys.argv indexing — the simplest way to pass initial values
+# e.g. turtlebot3-style: set robot's initial position (x, y, theta) at launch
+ros2 run my_pkg spawn_robot 1.5 2.0 0.785
+#                           ^    ^    ^
+#                     sys.argv[1] [2] [3]   (x, y, theta in radians)
+```
+> **The rclpy pattern** — direct indexing, no argparse boilerplate:
+> ```python
+> def main(args=None):
+>     rclpy.init(args=args)
+>
+>     if len(sys.argv) != 4:
+>         get_logger("main").error("Usage: ros2 run <pkg> <node> x y theta")
+>         return
+>
+>     x, y, theta = sys.argv[1], sys.argv[2], sys.argv[3]
+>     node = SpawnRobotNode(x=float(x), y=float(y), theta=float(theta))
+> ```
+> You already used this exact pattern in your [`turtle_go_to_goal_action_client.py`](file:///root/ros2_ws/src/ros2_core/ros2_playground/ros2_playground/turtle_go_to_goal_action_client.py) — `send_goal(sys.argv[1], sys.argv[2], sys.argv[3])`.
+
+> **Alternatively — named flags with `argparse`** (more readable, optional defaults):
+> ```bash
+> # Named flags — order doesn't matter, and defaults can be set
+> ros2 run my_pkg spawn_robot --x 1.5 --y 2.0 --theta 0.785
+> ```
+> ```python
+> import argparse
+>
+> def main(args=None):
+>     parser = argparse.ArgumentParser()
+>     parser.add_argument('--x',     type=float, default=0.0)
+>     parser.add_argument('--y',     type=float, default=0.0)
+>     parser.add_argument('--theta', type=float, default=0.0)
+>     parsed, ros_args = parser.parse_known_args()  # splits program args from --ros-args
+>
+>     rclpy.init(args=ros_args)
+>     node = SpawnRobotNode(x=parsed.x, y=parsed.y, theta=parsed.theta)
+> ```
+> | | `sys.argv` indexing | `argparse` named flags |
+> |--|--|--|
+> | **Order** | Must be exact (`x y theta`) | Any order (`--theta 0 --x 1.5`) |
+> | **Defaults** | Manual check required | Built-in (`default=0.0`) |
+> | **Readability** | Low (`sys.argv[1]`) | High (`parsed.x`) |
+> | **`--help` support** | ❌ Manual (write it yourself) | ✅ Auto-generated by argparse |
+> | **Boilerplate** | None | A few lines |
+>
+> **Discovering flags before running:**
+> ```bash
+> ros2 run my_pkg spawn_robot --help
+> # usage: spawn_robot [-h] [--x X] [--y Y] [--theta THETA]
+> # options:
+> #   --x X          (default: 0.0)
+> #   --y Y          (default: 0.0)
+> #   --theta THETA  (default: 0.0)
+> ```
+> argparse generates this automatically — zero extra code needed.
+>
+> ⚠️ **Once the node is running, CLI args are gone.** `ros2 node info` and `ros2 param list` only show ROS-level info — they cannot show what CLI args were passed at startup. `--help` is the only way to discover them before launching.
+
+#### Passing ROS 2 parameters (`-p`)
+```bash
+# --ros-args separates ROS args from program args
+# -p sets a parameter — same as Node(parameters=[{'key': value}])
+ros2 run robot_state_publisher robot_state_publisher \
+  --ros-args -p use_sim_time:=true
+
+# Multiple parameters
+ros2 run my_pkg my_node --ros-args -p gain:=0.5 -p max_speed:=1.2
+```
+
+#### Remapping node name (`-r __node:=`)
+```bash
+# Rename the node at launch — this is what you did in core basics learning
+ros2 run my_pkg my_node --ros-args -r __node:=my_custom_name
+```
+
+#### Remapping topics (`-r`)
+```bash
+ros2 run my_pkg my_node --ros-args -r /old_topic:=/new_topic
+
+# The universally known example — connecting teleop to turtlesim
+ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r /cmd_vel:=/turtle1/cmd_vel
+```
+
+
+#### All together
+```bash
+ros2 run my_pkg my_node \
+  --my-flag value \                          # program CLI arg (before --ros-args)
+  --ros-args \                               # everything after this is ROS
+    -r __node:=custom_name \                 # node rename
+    -r /imu/raw:=/imu/data \                 # topic remap
+    -p use_sim_time:=false \                 # ROS parameter
+    -p calibration_offset:=0.03             # ROS parameter
+```
+
+> **Key:** `--ros-args` is the boundary — everything **before** it goes to the program's own `argv`; everything **after** it is parsed by the ROS 2 runtime.
+
