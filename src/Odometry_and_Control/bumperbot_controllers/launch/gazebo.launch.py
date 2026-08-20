@@ -33,6 +33,18 @@ def generate_launch_description():
     )
     controller_config = LaunchConfiguration('controller_config')
 
+    default_rviz_config = os.path.join(
+        get_package_share_directory('bumperbot_description'),
+        'rviz',
+        'display.rviz'
+    )
+    launch_arg_rviz_config = DeclareLaunchArgument(
+        'rviz_config',
+        default_value=default_rviz_config,
+        description='Full path to the RViz configuration file.'
+    )
+    rviz_config = LaunchConfiguration('rviz_config')
+
     bumperbot_package_dir = get_package_share_directory('bumperbot_description')
     ros_gz_package_dir = get_package_share_directory('ros_gz_sim')
     
@@ -71,7 +83,7 @@ def generate_launch_description():
         executable = 'rviz2',
         name = 'rviz2',
         output = 'screen',
-        arguments = ['-d', os.path.join(bumperbot_package_dir, 'rviz', 'display.rviz')]
+        arguments = ['-d', rviz_config]
     )
 
     bridge_config_file = os.path.join(
@@ -126,6 +138,7 @@ def generate_launch_description():
     return LaunchDescription([
         launch_arg_headless,
         launch_arg_controller_config,
+        launch_arg_rviz_config,
         env_gz_resource_path,
         gazebo_clock_bridge,
         gz_sim,

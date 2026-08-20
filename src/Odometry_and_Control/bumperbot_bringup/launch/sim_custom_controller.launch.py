@@ -20,6 +20,7 @@ from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from ament_index_python.packages import get_package_share_directory
 from launch.substitutions import LaunchConfiguration
+from launch_ros.actions import Node
 
 
 def generate_launch_description():
@@ -50,9 +51,14 @@ def generate_launch_description():
         description='Inject noise into odometry to simulate real-world imperfections.'
     )
 
+    # RViz2 config from bumperbot_bringup
+    rviz_config = os.path.join(
+        get_package_share_directory('bumperbot_bringup'), 'rviz', 'bumperbot.rviz'
+    )
+
     # ── 1. Gazebo simulation ──────────────────────────────────────────────────
     # Injects bumperbot_controllers.yaml so the controller_manager registers
-    # the simple_velocity_controller type at startup.
+    # the simple_velocity_controller type at startup, and passes bumperbot.rviz config to RViz2.
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(controllers_pkg, 'launch', 'gazebo.launch.py')
@@ -60,6 +66,7 @@ def generate_launch_description():
         launch_arguments={
             'headless':          LaunchConfiguration('headless'),
             'controller_config': controller_config,
+            'rviz_config':       rviz_config,
         }.items()
     )
 
