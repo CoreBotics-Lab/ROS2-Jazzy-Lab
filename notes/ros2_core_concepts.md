@@ -559,3 +559,49 @@ ros2 run my_pkg my_node \
 
 > **Key:** `--ros-args` is the boundary — everything **before** it goes to the program's own `argv`; everything **after** it is parsed by the ROS 2 runtime.
 
+---
+
+### Discovering available parameters (without running the node)
+
+Unlike CLI `arguments` where `--help` gives you a clean list of flags instantly, **ROS 2 parameters have no equivalent**. Parameters are declared *inside* the node's constructor at runtime — the framework can't know what they are until the code actually executes.
+
+**The normal (orthodox) way — requires the node to be running:**
+```bash
+ros2 run my_pkg my_node &        # start the node in background
+ros2 param list /my_node         # now you can see all declared parameters
+```
+
+**The unorthodox way — grep the source (no node needed):**
+
+`grep` (**G**lobal **R**egular **E**xpression **P**rint) searches for a text pattern inside files and prints every matching line.
+
+```bash
+# Search a single file — shows line numbers with -n
+grep -n "declare_parameter" /path/to/my_node.py
+
+# Search an entire package directory recursively with -r
+grep -rn "declare_parameter" /root/ros2_ws/src/my_package/
+```
+
+**Example — on your own parameter node:**
+```bash
+grep -n "declare_parameter" /root/ros2_ws/src/ros2_core/parameters/parameters/py_parameters_event_driven.py
+```
+Output:
+```
+16:         self.declare_parameter('robot_mode', 'autonomous')
+17:         self.declare_parameter('max_velocity', 1.2)
+18:         self.declare_parameter('publish_rate_ms', 500)
+```
+You get the **parameter name**, **default value**, and **type** (inferred from the default) — all without running anything.
+
+**Common grep flags:**
+| Flag | Meaning |
+|------|---------|
+| `-n` | Show **line numbers** |
+| `-r` | **Recursive** — search all files in a directory |
+| `-i` | **Case-insensitive** match |
+| `-l` | List **filenames only** (not the matching lines) |
+
+> **Why does this gap exist?** `declare_parameter()` is just a function call inside a constructor — it's not metadata. The ROS 2 middleware has no way to know what parameters will be declared without executing the code. This is a known design limitation; tools like [`generate_parameter_library`](https://github.com/PickNikRobotics/generate_parameter_library) (used in Nav2) are starting to close this gap by generating parameter code from a YAML schema.
+
