@@ -28,6 +28,7 @@ from launch.actions import DeclareLaunchArgument
 from ament_index_python.packages import get_package_share_directory
 from launch.conditions import IfCondition
 from launch.substitutions import LaunchConfiguration
+from launch.actions import DeclareLaunchArgument, TimerAction
 
 
 def generate_launch_description():
@@ -54,6 +55,7 @@ def generate_launch_description():
         arguments=[
             'joint_state_broadcaster',
             '--controller-manager', '/controller_manager',
+            "--controller-manager-timeout", "60",
         ],
     )
 
@@ -63,7 +65,18 @@ def generate_launch_description():
         arguments=[
             'bumperbot_controller',
             '--controller-manager', '/controller_manager',
+            "--controller-manager-timeout", "60",
         ],
+    )
+
+    # Delay spawner execution by 5 seconds so Gazebo Sim, Ogre2 render engine,
+    # and /clock bridge finish initializing before activating controllers.
+    delayed_spawners = TimerAction(
+        period=5.0,
+        actions=[
+            joint_state_broadcaster_spawner,
+            bumperbot_controller_spawner,
+        ]
     )
 
     # ── Twist Adapter ─────────────────────────────────────────────────────────
@@ -100,8 +113,7 @@ def generate_launch_description():
     return LaunchDescription([
         use_sim_time_arg,
         use_joy_arg,
-        joint_state_broadcaster_spawner,
-        bumperbot_controller_spawner,
+        delayed_spawners,
         twist_to_twist_stamped_node,
         joy_gui_node,
     ])
