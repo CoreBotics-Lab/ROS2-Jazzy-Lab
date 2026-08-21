@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <xacro:property name="lidar_radius" value="0.038" />
+    <xacro:property name="lidar_height" value="0.041" />
+    <xacro:property name="lidar_mass" value="0.1" />
+    <xacro:property name="lidar_joint_z" value="0.08299980" />
+    <xacro:property name="scan_frame_to_lidar_base_z" value="0.031" />
+
+    <link name="lidar_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://bumperbot_description/meshes/rplidar.gltf" />
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 ${lidar_height/2}" rpy="0 0 0" />
+            <geometry>
+                <cylinder radius="${lidar_radius}" length="${lidar_height}" />
+            </geometry>
+        </collision>
+        <xacro:cylinder_inertia m="${lidar_mass}" r="${lidar_radius}" h="${lidar_height}" o_xyz="0 0 ${lidar_height/2}" o_rpy="0 0 0" />
+    </link>
+
+    <joint name="lidar_joint" type="fixed">
+        <origin xyz="0 0 ${lidar_joint_z}" rpy="0 0 0" />
+        <parent link="base_link" />
+        <child link="lidar_link" />
+    </joint>
+
+    <link name="scan_optical_frame" />
+
+    <joint name="scan_optical_joint" type="fixed">
+        <origin xyz="0 0 ${scan_frame_to_lidar_base_z}" rpy="0 0 0" />
+        <parent link="lidar_link" />
+        <child link="scan_optical_frame" />
+    </joint>
+
+    <!-- refer https://sdformat.org/spec/1.12/sensor/ for sensors -->
+    <gazebo reference="scan_optical_frame">
+        <sensor name="gpu_lidar" type="gpu_lidar">
+            <pose relative_to='scan_optical_frame'>0 0 0 0 0 0</pose>
+            <topic>scan</topic>
+            <gz_frame_id>scan_optical_frame</gz_frame_id>
+            <update_rate>10</update_rate>
+            <ray>
+                <scan>
+                    <horizontal>
+                        <samples>720</samples>
+                        <resolution>1</resolution>
+                        <min_angle>-3.14159</min_angle>
+                        <max_angle>3.14159</max_angle>
+                    </horizontal>
+                    <vertical>
+                        <samples>1</samples>
+                        <resolution>0.01</resolution>
+                        <min_angle>0</min_angle>
+                        <max_angle>0</max_angle>
+                    </vertical>
+                </scan>
+                <range>
+                    <min>0.08</min>
+                    <max>10.0</max>
+                    <resolution>0.01</resolution>
+                </range>
+            </ray>
+            <always_on>1</always_on>
+            <visualize>true</visualize>
+        </sensor>
+    </gazebo>
+
+</robot>
