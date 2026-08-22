@@ -8,6 +8,7 @@
   <xacro:include filename="$(find bumperbot_description)/urdf/include/sensor_render_plugins.xacro" />
   <xacro:include filename="$(find bumperbot_description)/urdf/include/imu_bno055.xacro" />
   <xacro:include filename="$(find bumperbot_description)/urdf/include/lidar.xacro" />
+  <xacro:include filename="$(find bumperbot_description)/urdf/include/camera.xacro" />
 
   <xacro:include filename="$(find bumperbot_description)/urdf/include/bumperbot.gazebo.xacro" />
   <xacro:include filename="$(find bumperbot_description)/urdf/include/bumperbot_ros2control.xacro" />
