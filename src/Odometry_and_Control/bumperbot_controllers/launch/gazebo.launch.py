@@ -8,6 +8,8 @@ from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution, PythonExpression, Command
 
+from launch_ros.parameter_descriptions import ParameterValue
+
 def generate_launch_description():
 
     launch_arg_headless = DeclareLaunchArgument(
@@ -62,11 +64,14 @@ def generate_launch_description():
 
     xacro_file_path = os.path.join(bumperbot_package_dir, 'urdf', 'bumperbot.urdf.xacro')
 
-    robot_description = Command([
-        'xacro ',
-        xacro_file_path,
-        ' controller_config:=', controller_config
-    ])
+    robot_description = ParameterValue(
+        Command([
+            'xacro ',
+            xacro_file_path,
+            ' controller_config:=', controller_config
+        ]),
+        value_type=str
+    )
 
     robot_state_publisher = Node(
         package = 'robot_state_publisher',
