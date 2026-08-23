@@ -130,3 +130,37 @@ You might wonder: *"If it equals ROS 2, why not just use micro-ROS?"*
 Because standard DDS (which micro-ROS relies on) was designed for massive enterprise servers, not tiny microcontrollers. Forcing an ESP32 to act like a full ROS 2 node often leads to out-of-memory errors, dropped Wi-Fi packets, and massive headaches when trying to tune QoS (Quality of Service) settings.
 
 By building this custom stack, you get all the benefits of ROS 2 on your PC, while keeping your microcontroller fast, clean, and isolated. Your ESP32 just blasts raw MessagePack bytes over Zenoh, and your Python PC gateway acts as the "translation layer" that officially turns it into ROS 2 for the rest of your system!
+
+---
+
+## 🛠️ Practical Implementation: `zenoh-mcu-pc-bridge`
+
+To solve this entire dilemma and make this architecture ready to deploy on real hardware, check out the repository created for this exact purpose:
+
+👉 **[CoreBotics-Lab / zenoh-mcu-pc-bridge](https://github.com/CoreBotics-Lab/zenoh-mcu-pc-bridge)**
+
+### Why It Was Created
+While **micro-ROS** is great in theory, running full DDS middleware on resource-constrained microcontrollers (like ESP32 or STM32) often leads to heap memory exhaustion, high latency over Wi-Fi, and dropped packets due to heavy networking stacks. 
+
+### Multi-Transport Flexibility (Wi-Fi, UART, USB-CDC & Serial)
+One of the biggest strengths of **`zenoh-mcu-pc-bridge`** is its transport versatility across different hardware deployment scenarios:
+
+- **📡 Wi-Fi (Wireless Transport):** Ideal for tetherless mobile robots and multi-agent swarm platforms operating across local networks without needing physical cable runs.
+- **🔌 UART / Serial (Embedded Hardware Link):** Perfect for direct board-to-board wired links (e.g., MCU to an onboard Raspberry Pi or Jetson Nano) when maximum signal noise resistance and zero-drop transmission are needed.
+- **💻 USB / USB-CDC (Virtual COM Port Link):** Enables high-speed plug-and-play USB connection directly between your MCU and host PC for rapid development, testing, and debugging without needing an external FTDI adapter or Wi-Fi configuration.
+
+### ⚡ Proven Performance & Stress Testing
+Unlike standard micro-ROS solutions that frequently crash or experience buffer overflows under heavy load, **`zenoh-mcu-pc-bridge`** has been battle-tested in heavy multi-topic robotic setups:
+
+- **Single Main File Execution:** All **27+ active topics** and **4 concurrent services** were instantiated and executed within the **same single main MCU file**, proving incredible single-thread efficiency and memory management.
+- **27+ Active Topics Simultaneously:** Concurrently streams high-rate motor encoders, IMU telemetry, wheel speeds, battery diagnostics, and command topics without buffer overflow or memory leaks.
+- **4 Concurrent Services:** Handles simultaneous ROS 2 service call requests (e.g., parameter tuning, reset routines, mode switching) alongside continuous pub/sub data streams.
+- **Zero Lags or System Hangs:** Maintains smooth, real-time performance with rock-solid loop times and zero microcontroller crashes or freeze ups.
+
+### Why Use It
+- **Zero DDS Overhead on Microcontrollers:** The MCU runs lightweight `zenoh-pico` + MessagePack, consuming minimal RAM and CPU cycles.
+- **Multi-Transport Support:** Seamlessly switch between Wi-Fi, UART Serial, and USB-CDC depending on your robot's physical wiring and network topology.
+- **Single-Main File Efficiency:** Proven to handle **27+ topics** and **4 services** simultaneously inside a single main loop file with zero system hangs or latency spikes.
+- **Native ROS 2 Interoperability:** The PC bridge acts as a translation layer, automatically unpacking binary streams into native ROS 2 topics (`/cmd_vel`, `/odom`, `/joint_states`, sensor feeds, etc.).
+- **Modular Security:** Easily scales up over wireless networks to support mTLS encryption and WireGuard network tunnels for production deployments without modifying MCU core firmware.
+
