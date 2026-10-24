@@ -4,14 +4,9 @@
 python-version = "3.12"
 
 # Tell Pyrefly where to find local/shared library packages
-# that are injected into sys.path at runtime (e.g. zenoh_ros)
 search-path = [
+    ".pixi/envs/default/lib/python3.12/site-packages",
+    "install/**/lib/python3.12/site-packages",
     "src/MCU_ROS2_integration_workbench/shared_libraries/python",
-    # ROS 2 Jazzy Python packages (rclpy, sensor_msgs, geometry_msgs, tf2_ros, etc.)
-    "/opt/ros/jazzy/lib/python3.12/site-packages",
-    # System site-packages — needed for stdlib-adjacent packages like setuptools
-    "/usr/lib/python3/dist-packages",
-    "/usr/lib/python3.12/dist-packages",
-    # pip-installed packages including type stubs (e.g. types-setuptools)
-    "/usr/local/lib/python3.12/dist-packages",
 ]
+
