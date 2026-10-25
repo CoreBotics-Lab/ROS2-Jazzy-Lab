@@ -1,0 +1,39 @@
+# ROS 2 Build Artifacts
+build/
+install/
+log/
+_legacy_build/
+_legacy_install/
+_legacy_log/
+
+# Pixi environment
+.pixi/*
+!.pixi/config.toml
+
+# Python and Compiled Objects
+__pycache__/
+*.pyc
+*.o
+*.so
+.pio/
+.pio
+
+# Documentation (temporarily ignored)
+docs/
+
+# Workspace Tools and AI Metadata
+.vscode/*.db*
+GEMINI.md
+no_gpu_projects.md
+onshape_venv
+
+# OS and Temporary Files
+*.part
+*.lock
+.cache/
+.git-credentials
+.gitconfig
+
+#temprorary ros2 files
+telenex_description/
+MULTI_ROBOT_RESCUE_VISION.md
