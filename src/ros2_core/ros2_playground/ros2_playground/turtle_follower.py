@@ -50,7 +50,6 @@ class TurtleFollowerNode(Node):
             # Source Frame: 'turtle1' (The object we are tracking)
             t = self.tf_buffer.lookup_transform('turtle2', 'turtle1', Time(clock_type=ClockType.ROS_TIME))
         except TransformException as ex:
-            # If turtle2 hasn't spawned yet, or the broadcasters aren't running, just wait.
             return
 
         # Because we asked for the coordinates relative to turtle2, 
