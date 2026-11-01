@@ -7,13 +7,13 @@
     "python.REPL.enableREPLSmartSend": false,
     "python.analysis.diagnosticsSource": "Pylance + Pyrefly",
     "python.autoComplete.extraPaths": [
-        "${workspaceFolder}/install/**/lib/python3.12/site-packages",
-        "${workspaceFolder}/.pixi/envs/default/lib/python3.12/site-packages",
+        "${workspaceFolder}/install/**/lib/python3.*/site-packages",
+        "${workspaceFolder}/.pixi/envs/default/lib/python3.*/site-packages",
         "${workspaceFolder}/src/MCU_ROS2_integration_workbench/shared_libraries/python"
     ],
     "python.analysis.extraPaths": [
-        "${workspaceFolder}/install/**/lib/python3.12/site-packages",
-        "${workspaceFolder}/.pixi/envs/default/lib/python3.12/site-packages",
+        "${workspaceFolder}/install/**/lib/python3.*/site-packages",
+        "${workspaceFolder}/.pixi/envs/default/lib/python3.*/site-packages",
         "${workspaceFolder}/src/MCU_ROS2_integration_workbench/shared_libraries/python"
     ],
 
