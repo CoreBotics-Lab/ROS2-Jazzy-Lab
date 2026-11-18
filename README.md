@@ -36,7 +36,11 @@ This repository contains the practical code implementations and technical docume
 ### 6. Differential Drive Kinematics
 - **Forward Kinematics**: Deriving Cartesian linear and angular velocities ($\dot{x}, \dot{y}, \dot{\theta}$) from wheel angular velocities ($\omega_L, \omega_R$).
 - **Inverse Kinematics**: Decomposing commanded velocity inputs ($v, \omega$) into individual wheel angular speeds using algebraic and matrix formulations:
-  $$\begin{bmatrix} \omega_R \\ \omega_L \end{bmatrix} = \frac{1}{r} \begin{bmatrix} 1 & \frac{b}{2} \\ 1 & -\frac{b}{2} \end{bmatrix} \begin{bmatrix} v \\ \omega \end{bmatrix}$$
+
+  ```math
+  \begin{bmatrix} \omega_R \\ \omega_L \end{bmatrix} = \frac{1}{r} \begin{bmatrix} 1 & \frac{b}{2} \\ 1 & -\frac{b}{2} \end{bmatrix} \begin{bmatrix} v \\ \omega \end{bmatrix}
+  ```
+
   where $r$ represents wheel radius and $b$ denotes the track baseline.
 - **Wheel Odometry**: Dead-reckoning integration of wheel encoder telemetry to compute continuous robot pose estimates over time.
 
